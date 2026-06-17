@@ -2,7 +2,6 @@ type: object
 required:
   - title
   - goal
-  - style
   - slides
 properties:
   title:
@@ -11,14 +10,6 @@ properties:
   goal:
     type: string
     description: One or two sentences describing what the deck should achieve.
-  style:
-    type: string
-    description: |
-      Must match 'Style Name' in 'Styles'. Examples:
-      - 'SailPoint Corporate Dark 2026'
-      - 'Cloud Topology (Enterprise SaaS)'
-      - 'Cyber Infrastructure (IT & DevOps)'
-      - 'Core Minimalist (General Purpose)'
   options:
     type: object
     properties:
