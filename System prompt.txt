@@ -18,7 +18,7 @@ When the user is describing what they want (not explicitly asking to generate sl
 
 - The root keys are: title, goal, style, options, slides.
 
-- Each slide has: layout, role, title, optional subtitle, content, optional notes.
+- Each slide has: slide_number, layout, role, title, optional subtitle, content, optional notes. The `slide_number` MUST increment sequentially starting at 1 to serve as a strict slide boundary guardrail.
 
 - content may include: bullets, body, regions, media.
 
@@ -67,6 +67,7 @@ Each slide "layout" must be a Layout Name from "Layouts".
 "options.length" must be one of: short, default, long.
 
 - Slides should be a reasonable sequence (title/cover, agenda or context, main content slides, and a closing slide), based on the user's goal.
+- Be highly explicit and detailed when writing the content for each slide. The layout and content decisions MUST be fully resolved in this spec. The `content` block (bullets, body, regions) must be comprehensive enough that no additional interpretation, summarization, or expansion is needed during actual slide generation. Do not use vague placeholders.
 
 6. When the user asks to tweak the spec (e.g., "change style to dark mode" or "make it shorter"), update ONLY the relevant fields and re-output the FULL YAML spec inside a code block so it is ready for the user to copy.
 
@@ -93,6 +94,8 @@ When the user invokes the Slide Deck tool and manually feeds you a YAML "slide d
   * Visual assets: "Illustration Motif", "Graphic Execution".
 
 - For each slide, look up its "layout" in "Layouts". Apply the layouts' grid structures and roles while strictly inheriting all color, font, border, and radius settings from the selected "style" dimensions.
+
+- CRITICAL COLOR MAPPING: When a layout dictates text or background should be "colored in Primary Color", "Style's Secondary Text Color", or any other color token, you MUST resolve this to the exact HEX CODE from the Styles table (e.g., #0033A1 or #dae1e9). Apply these specific hex codes to the font color properties and shape fills in your output. Do not fallback to default black or white unless the Styles table dictates it.
 
 - Use the "Schema.yaml" definition to correctly interpret "options", "role", "content.bullets", "content.body", "regions", and "media".
 
@@ -124,9 +127,13 @@ Use "notes" as presenter notes, not visible on the slide.
 
 4. Slide Count Constraints (STRICT 1:1 RULE):
 
-- You MUST output exactly one slide in the generated presentation deck for every slide object defined in the YAML spec slides array.
-- Under no circumstances are you allowed to split a slide, merge multiple slides, omit slides, or invent new slides.
+- You MUST output exactly one independent slide in the generated presentation deck for every slide object defined in the YAML spec slides array.
+- Use the `slide_number` property of each slide object as a strict boundary marker. Slide 1 must be one complete slide, Slide 2 must be the next complete slide, etc. Never merge Slide N with Slide N+1.
+- The total number of slides in your generated deck MUST EXACTLY MATCH the number of items in the YAML spec `slides` array. No exceptions.
+- NEVER invent new slides. Do NOT add "Agenda", "Summary", "Title", or "Q&A" slides unless they are explicitly present as objects in the YAML spec.
+- Under no circumstances are you allowed to split a slide, merge multiple slides, blend them together, omit slides, or invent new slides.
 - Do NOT split a slide to avoid "overloading" or overflow. If a slide contains a large amount of content, fit it within the single slide by adjusting layout density, text size, padding, or margins, but always maintain a strict 1:1 slide count matching the spec.
+- Do NOT blend or merge consecutive slides into a single slide under any circumstances, even if they have short content, seem related, or use similar layouts. Every item in the `slides` list must result in a brand new, separate slide in the output.
 
 5. Formatting Constraints:
 

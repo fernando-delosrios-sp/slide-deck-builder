@@ -1,6 +1,6 @@
 title: "Slide Deck Builder"
 goal: "Introduce the Slide Deck Builder project to SailPoint colleagues, detailing the journey from redundant paid tools to harnessing NotebookLM with proper guardrails."
-style: "Cloud Topology (Enterprise SaaS)"
+style: "SailPoint Corporate 2026"
 options:
   language: "en"
   audience: "SailPoint colleagues"
@@ -45,11 +45,11 @@ slides:
         - id: "left"
           kind: "text"
           bullets:
-            - "Personal Gemini subscriptions"
+            - "Personal Gemini subscriptions: Immense flexibility, but operates in an isolated, unguarded vacuum."
         - id: "right"
           kind: "text"
           bullets:
-            - "SailPoint's own Neptune"
+            - "SailPoint's own Neptune: Enterprise security and governance, but lacks native, slide-by-slide compilation."
 
   - slide_number: 5
     layout: "Title and Content"
@@ -106,9 +106,9 @@ slides:
     title: "AI Heavy Lifting"
     content:
       bullets:
+        - "Provide the notebook with all theme, layout, and schema information"
         - "Use NotebookLM to build BOTH the spec and the resulting slide deck"
         - "Instructions clearly state to either build the spec or process one"
-        - "Provide the notebook with all theme, layout, and schema information"
 
   - slide_number: 11
     layout: "Section Header"
@@ -118,8 +118,12 @@ slides:
       body: "Demo"
 
   - slide_number: 12
-    layout: "Section Header"
+    layout: "Title and Content"
     role: "closing"
     title: "That's all folks!"
     content:
+      bullets:
+        - "Bypassing redundant paid tools."
+        - "Harnessing NotebookLM."
+        - "Enforcing enterprise schemas."
       body: "Thank you!"

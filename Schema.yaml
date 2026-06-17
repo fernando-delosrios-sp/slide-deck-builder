@@ -47,11 +47,15 @@ properties:
     items:
       type: object
       required:
+        - slide_number
         - layout
         - role
         - title
         - content
       properties:
+        slide_number:
+          type: integer
+          description: A unique, sequential index for this slide starting at 1. Acts as a strict boundary guardrail between slides.
         layout:
           type: string
           description: |
