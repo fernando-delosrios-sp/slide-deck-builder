@@ -1,6 +1,6 @@
 title: "Slide Deck Builder"
 goal: "Introduce the Slide Deck Builder project to SailPoint colleagues, detailing the journey from redundant paid tools to harnessing NotebookLM with proper guardrails."
-style: "Cloud Topology (Enterprise SaaS)"
+style: "SailPoint Corporate Dark 2026"
 options:
   language: "en"
   audience: "SailPoint colleagues"
@@ -111,4 +111,3 @@ slides:
     title: "That's all folks!"
     content:
       body: "Thank you!"
-
