@@ -98,6 +98,8 @@ When the user invokes the Slide Deck tool and manually feeds you a YAML "slide d
 
 - CRITICAL COLOR MAPPING: When a layout dictates text or background should be "colored in Primary Color", "Secondary Text Color", or any other color token, you MUST resolve this to the exact HEX CODE from the `*-design.md` file's `colors` block (e.g., #0033A1 or #dae1e9). Apply these specific hex codes to the font color properties and shape fills in your output. Do not fallback to default black or white unless the design file dictates it.
 
+- CRITICAL TYPOGRAPHY MAPPING: When a layout dictates text should use "Heading Font" or "Body Font" (e.g., for title styling or content placeholders), you MUST resolve this to the exact typography object from the `*-design.md` file's `typography` block. For "Heading Font" on cover or section slides, use `typography.title-slide`. For "Heading Font" on content slides, use `typography.title-content`. For "Body Font", use `typography.body-lg`, `typography.body-md`, or `typography.bullets`. Always apply the full set of properties (`fontFamily`, `fontSize`, `fontWeight`, `lineHeight`) from the design file. The typography definitions in the design file OVERRIDE any generic weight or size suggestions (like "size heading-2xl") mentioned in Layouts.csv. Do NOT fallback to the generic font names in Styles.csv.
+
 - Use the "Schema.yaml" definition to correctly interpret "options", "role", "content.bullets", "content.body", "regions", and "media".
 
 - Image/Graphic Generation: Adhere strictly to the selected Style's "Illustration Motif" and "Graphic Execution". Use ONLY the style's defined colors (Primary, Accent, background/border tints). Never introduce foreign colors.
