@@ -1,2 +1,3 @@
 *.pptx
 venv/
+.DS_Store

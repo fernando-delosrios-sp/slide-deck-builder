@@ -106,4 +106,6 @@ Shifts the default visual hierarchy to the approved dark mode palette, correctin
 
 **Execution:** Deep gradient background (#000000 to #011C48 to #0033A1). Text in white (#FFFFFF) for headers, light gray (#DAE1E9) for body. Clean, monoline tech iconography in white/aqua. High-contrast cards use background #0B111E with #415364 borders. Glowing highlights (underlines, active states, metrics) in hot pink (#D60EB5) or aqua (#54C0E8).
 
+**Constraint:** Never create dark slides that only combine black and grey tones. Always combine black with other style colors for backgrounds to avoid slides that are too dark.
+
 **Mode:** dark
