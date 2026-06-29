@@ -29,8 +29,32 @@ This directory contains individual markdown files (`*-design.md`) defining the a
 Each design file includes a YAML frontmatter detailing the precise color palette, comprehensive typographic scale (sizes, weights, and letter spacings), granular spacing and border-radius rules, and specific component bindings. The body of the file explains the illustration motif and the overall design rationale.
 *Examples include:* `sailpoint-corporate-2026-design.md`, `cloud-topology-enterprise-saas-design.md`, `core-minimalist-general-purpose-design.md`.
 
+## NoteBookLM Configuration
+
+The project contains all the necessary artefacts to build it. To configure NoteBookLM for slide deck generation, follow these steps:
+
+1. **Add Styles**: Add all the styles you'd like to use to sources. You must select just one when generating a slide.
+   ![Add Styles](images/1-add-styles.png)
+
+2. **System Prompt**: Add `System prompt.txt` to the chat configuration.
+   ![Add System Prompt](images/2-add-system-prompt.png)
+
+3. **Schema Note**: Set a new "Schema.yaml" note with `Schema.yaml` contents in a code block and promote it to a source.
+   ![Set Schema Note](images/3-add-schema.png)
+
+4. **Layouts Source**: Create a "Layouts" Google sheet with `Layouts.csv` contents and add it to sources.
+   ![Add Layouts](images/4-add-layouts.png)
+   ![Add Layouts via Drive](images/4-add-layouts-drive.png)
+   ![Layouts in NoteBookLM](images/4-add-layouts-notebooklm.png)
+
 ## Workflow
 
 1. **Input**: Provide NotebookLM with your source documents (e.g., research notes, articles, or outlines) along with the Schema, Layouts, and the Design System definitions.
 2. **Spec Generation**: Ask NotebookLM to generate a slide deck specification. It will produce a YAML file adhering to `Schema.yaml`, utilizing appropriate layouts from `Layouts.csv` for each slide.
-3. **Compilation**: The resulting YAML spec is parsed and compiled into the final presentation. During compilation, the selected Design System rules (colors, typography scales, components) are applied to guarantee a predictable and professionally designed slide deck.
+   > **Note**: When creating the spec, make sure your knowledge sources, Layouts, and Schema.yaml are enabled. Disable the styles sources for this step.
+   > 
+   > ![Spec Generation Sources](images/5-spec-generation.png)
+3. **Slide Deck Generation**: Once you've got the slide spec deck file ready, copy and paste it into the Slide deck tool configuration. Make sure Layouts, Schema.yaml and the ONLY ONE style you want to use are selected sources. Add other knowledge sources you may need.
+   > 
+   > ![Slide Deck Generation](images/6-slide-deck-generation.png)
+4. **Compilation**: The resulting YAML spec is parsed and compiled into the final presentation. During compilation, the selected Design System rules (colors, typography scales, components) are applied to guarantee a predictable and professionally designed slide deck.
