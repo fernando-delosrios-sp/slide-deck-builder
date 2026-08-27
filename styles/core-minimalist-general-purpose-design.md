@@ -106,4 +106,6 @@ Provides a neutral, distraction-free baseline for any topic, focusing entirely o
 
 **Execution:** Ultra-clean wireframe art, highly simplified 2D flat vectors, zero decorative background elements, vast white space.
 
+**Diagram:** Hairline strokes, straight orthogonal connectors, plain geometric nodes, no depth, wide whitespace between groups. The accent appears once, on the emphasised element.
+
 **Mode:** light

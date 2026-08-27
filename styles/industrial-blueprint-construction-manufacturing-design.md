@@ -106,4 +106,6 @@ Uses isometric architectural block structures to visualize identity governance a
 
 **Execution:** Isometric 3D designs, sharp bento-box grid layouts, blueprint wireframe lines on stark white backgrounds, zero soft drop shadows.
 
+**Diagram:** Isometric blocks on a bento grid, wireframe blueprint lines, right-angled connectors, dimension-style labels, zero soft shadows.
+
 **Mode:** light

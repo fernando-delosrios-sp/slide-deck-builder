@@ -106,4 +106,6 @@ Softens the technical edge into a sterile but friendly rounded 'clay' 3D style s
 
 **Execution:** Claymorphism (soft rounded 3D UI), smooth drop shadows, clean white layouts, avoiding sharp/aggressive angles.
 
+**Diagram:** Soft rounded strokes and curved connectors, organic node shapes, gentle claymorphic depth with smooth shadows, rounded pill labels.
+
 **Mode:** light

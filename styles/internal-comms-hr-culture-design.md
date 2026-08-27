@@ -106,4 +106,6 @@ Strips away the technical rigidity of standard tech branding, opting for a soft,
 
 **Execution:** Hand-drawn or highly stylized vector illustrations, friendly thick welcoming strokes, warm accent colors, rounded organic borders.
 
+**Diagram:** Thick strokes with rounded joins, hand-drawn feel, avatar and speech-bubble nodes, no depth, rounded organic containers.
+
 **Mode:** light

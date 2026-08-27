@@ -106,4 +106,6 @@ Adapts the core identity brand into a strict 2D vector format, ideal for general
 
 **Execution:** Flat 2D vector illustrations, crisp geometric shapes, monochromatic cobalt palette with glowing accent blue highlights. No 3D objects.
 
+**Diagram:** Crisp thin strokes, straight connectors between floating nodes, flat 2D vector icons, no depth. The accent blue highlights the secured perimeter.
+
 **Mode:** light

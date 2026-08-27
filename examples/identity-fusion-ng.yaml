@@ -1,0 +1,371 @@
+title: "Identity Fusion NG"
+goal: "Give newcomers the value and mental model of Identity Fusion NG: why it exists, how Map-Define-Match works, who participates, and how to run it."
+options:
+  language: "en"
+  audience: "New to the product; an SME presents from the notes"
+  tone: "Technical and educational"
+  length: "long"
+slides:
+  - slide_number: 1
+    layout: "Title Slide"
+    role: "cover"
+    title: "Identity Fusion NG"
+    subtitle: "Map, Define, Match: messy multi-source accounts into one identity story"
+    content:
+      body: "Consolidate accounts, compute attributes, and match identities without relying on brittle exact-match correlation."
+    notes: "Slides carry the mental model; these notes and the docs carry the manual. Identity Fusion NG supersedes the deprecated v1.x line."
+
+  - slide_number: 2
+    layout: "Title and Content"
+    role: "problem_statement"
+    title: "Why Identity Fusion NG?"
+    subtitle: "The jobs that correlation rules alone cannot do cleanly"
+    content:
+      bullets:
+        - "One person in HR and AD becomes two identities when exact-match rules find nothing."
+        - "Map aligns different source schemas and keeps multi-persona values side by side."
+        - "Define mints unique identifiers and normalises values before anything is compared."
+        - "Match finds near-duplicates and sends the grey zone to a reviewer, not to a guess."
+      diagram:
+        kind: "comparison"
+        elements:
+          - "Without Fusion: HR account and AD account for one person"
+          - "Without Fusion: two separate identities"
+          - "With Fusion: Map"
+          - "With Fusion: Define"
+          - "With Fusion: Match"
+        connections:
+          - "HR account -> identity one"
+          - "AD account -> identity two"
+          - "Map -> Define -> Match -> one identity"
+        emphasis: "Two identities for one person on the left; one identity on the right."
+    notes: "Map and Define carry value even with Match off. Records and Orphan source types are teased here, explained on slide 4. Match is not correlation - that lands on slide 11."
+
+  - slide_number: 3
+    layout: "Title and Content"
+    role: "framework"
+    title: "What is the Map, Define, Match framework?"
+    subtitle: "One pipeline, three steps, four exits"
+    content:
+      bullets:
+        - "Inputs: accounts from managed sources, plus ISC identities when identity scope is on."
+        - "Order is always Map, then Define, then Match; each step can be enabled on its own."
+        - "Exits: Fusion account, review form, automatic merge, or a drop for Records and Orphan."
+        - "Timing: normal definitions feed scoring, unique values are minted after Match decides."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Managed sources"
+          - "ISC identities (scope on)"
+          - "Map"
+          - "Define"
+          - "Match"
+          - "Exit: Fusion account"
+          - "Exit: review form"
+          - "Exit: automatic merge"
+          - "Exit: drop (Records and Orphan)"
+        connections:
+          - "Managed sources -> Map"
+          - "ISC identities -> Map"
+          - "Map -> Define -> Match"
+          - "Match -> each of the four exits"
+        emphasis: "One pipeline whose exits vary by source type."
+    notes: "Source types change only the exits, never the order of steps."
+
+  - slide_number: 4
+    layout: "Title and Content"
+    role: "framework"
+    title: "Who participates, and in which step?"
+    subtitle: "Seeding, scoring, and contributing are three different permissions"
+    content:
+      bullets:
+        - "Seeds a Fusion account: an identity in scope, an authoritative managed account, or a Records or Orphan row that matches."
+        - "Contributes attributes: any participating identity or managed account, correlated or not."
+        - "Enters Match: only uncorrelated managed accounts."
+        - "Baseline: identities in scope, existing Fusion identities, and already-correlated accounts."
+      diagram:
+        kind: "matrix"
+        elements:
+          - "Row: identity in scope"
+          - "Row: correlated account"
+          - "Row: uncorrelated Authoritative account"
+          - "Row: uncorrelated Records row"
+          - "Row: uncorrelated Orphan row"
+          - "Column: seed"
+          - "Column: enter Match"
+          - "Column: contribute attributes"
+          - "Column: create identity on non-match"
+        emphasis: "Only uncorrelated managed accounts enter Match."
+    notes: "This is the deck's cheat sheet. Warn about the two meanings of orphan: the source type versus the orphan status on a Fusion account with no contributing accounts left."
+
+  - slide_number: 5
+    layout: "Two Content"
+    role: "architecture"
+    title: "Umbrella or side-car?"
+    subtitle: "The Fusion source's authority, not whether matching runs"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Umbrella: the Fusion source is authoritative and owns create-versus-correlate decisions."
+            - "Choose it for similarity matching with review forms and Fusion-driven identity creation."
+        - id: "right"
+          kind: "text"
+          bullets:
+            - "Side-car: the Fusion source is not authoritative; managed sources still create identities."
+            - "Choose it for generated usernames, merged attributes, or match-only supplemental directories."
+      diagram:
+        kind: "comparison"
+        elements:
+          - "Umbrella: managed sources, Fusion source, identity creation"
+          - "Side-car: managed sources, Fusion source, identity creation"
+        connections:
+          - "Umbrella: managed sources -> Fusion source -> identity creation"
+          - "Side-car: managed sources -> identity creation, Fusion source contributes attributes"
+        emphasis: "Which box owns identity creation."
+    notes: "Matching can run in both modes; authoritative is what makes Fusion own identity creation. Umbrella and side-car describe the Fusion source; Authoritative, Records and Orphan describe each managed source. One connector can mix source types."
+
+  - slide_number: 6
+    layout: "Title and Content"
+    role: "deep_dive"
+    title: "How does Map resolve conflicting attributes?"
+    subtitle: "Schema alignment first, then multi-source personality"
+    content:
+      bullets:
+        - "Many source names, one Fusion attribute: title, jobTitle and position become jobTitle."
+        - "First found walks configured source order; main and origin pin to one snapshot and never fall through."
+        - "Keep a list or concatenate when a person legitimately has several values."
+        - "Source name forces one source to win for a specific attribute."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Workday: title = Senior Engineer"
+          - "Active Directory: title = Engineer"
+          - "Merge strategy"
+          - "Fusion attribute: jobTitle"
+        connections:
+          - "Workday -> merge strategy"
+          - "Active Directory -> merge strategy"
+          - "merge strategy -> jobTitle"
+        emphasis: "The configured source order decides which value wins."
+    notes: "Concatenate produces distinct values in brackets, space separated, not an alphabetical string. When identity scope is on, identities are just another contributing snapshot."
+
+  - slide_number: 7
+    layout: "Title and Content"
+    role: "deep_dive"
+    title: "What does Define compute, and when?"
+    subtitle: "Normal attributes before scoring, unique values after"
+    content:
+      bullets:
+        - "Velocity expressions read mapped values, identity fields, source snapshots and prior state."
+        - "Normal definitions run before Match, so normalised names and dates improve scoring."
+        - "Unique definitions run after Match: usernames, employee numbers, counters and UUIDs."
+        - "Collisions retry with a disambiguating counter up to the configured maximum attempts."
+      diagram:
+        kind: "timeline"
+        elements:
+          - "Map"
+          - "Normal Define: normalised names and dates"
+          - "Match: scoring"
+          - "Unique Define: usernames, employee numbers, counters, UUIDs"
+        connections:
+          - "Map -> Normal Define -> Match -> Unique Define"
+        emphasis: "Unique values are minted only after Match decides."
+    notes: "Normal attributes honour static versus always-recalculate, and empty or failed output clears the stored value. Records sources can register unique values without emitting a Fusion account."
+
+  - slide_number: 8
+    layout: "Title and Content"
+    role: "deep_dive"
+    title: "What can happen to an account in Match?"
+    subtitle: "Four exits, decided against the baseline"
+    content:
+      bullets:
+        - "Only uncorrelated managed accounts are scored, against the baseline of known identities."
+        - "Automatic merge when the combined score clears the configured auto-merge threshold."
+        - "Review form when the score clears the review floor but not the auto-merge threshold."
+        - "Non-match exits by source type: create an identity, register a value, or drop the row."
+      diagram:
+        kind: "funnel"
+        elements:
+          - "Uncorrelated managed accounts"
+          - "Above auto-merge threshold: automatic merge"
+          - "Between review floor and auto-merge threshold: review form"
+          - "Below review floor: non-match"
+          - "Non-match by source type: create identity, register value, drop row"
+        connections:
+          - "Uncorrelated managed accounts -> scored against baseline"
+          - "score -> automatic merge, review form or non-match"
+        emphasis: "Two thresholds split the score range into three outcomes."
+    notes: "Mention deferred candidates: the best match may be another new account from the same source in the same run, so identity creation waits for the next aggregation."
+
+  - slide_number: 9
+    layout: "Title and Content"
+    role: "deep_dive"
+    title: "How is a match score built?"
+    subtitle: "Weighted similarity with mandatory rules as vetoes"
+    content:
+      bullets:
+        - "Each rule compares one attribute with a chosen algorithm and a minimum similarity."
+        - "The minimum similarity is also the rule's weight in the combined score."
+        - "A failed mandatory rule rejects the candidate whatever the combined score says."
+        - "Skip if missing keeps empty attributes from dragging a score down."
+      diagram:
+        kind: "matrix"
+        elements:
+          - "Row: given name, Enhanced Name Matcher"
+          - "Row: employee ID, Binary"
+          - "Row: department, skip if missing"
+          - "Row: clearance status, mandatory rule"
+          - "Column: target identity value"
+          - "Column: candidate account value"
+          - "Column: similarity"
+          - "Combined score against the review floor"
+        emphasis: "A failed mandatory rule rejects a candidate that clears the combined score."
+    notes: "Algorithm picker: Enhanced Name Matcher for names, Binary for exact identifiers; Jaro-Winkler, LIG3, Dice, Double Metaphone and custom Velocity stay in the notes. Start with the review floor around 80 and enable automatic merge only after tuning."
+
+  - slide_number: 10
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Where do humans fit in?"
+    subtitle: "Reviews are decisions, reports are analysis"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "A review form shows the top candidates and their attributes to assigned reviewers."
+            - "Reviewers link to an existing identity or create a new one; the decision applies on the next aggregation."
+        - id: "right"
+          kind: "text"
+          bullets:
+            - "Reviewers are source owners acting globally or per-source reviewer entitlements."
+            - "Fusion reports preview outcomes for analysis and never decide anything."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Review form"
+          - "Assigned reviewer"
+          - "Decision: link or create"
+          - "Next aggregation"
+        connections:
+          - "Review form -> assigned reviewer -> decision -> next aggregation"
+        emphasis: "The decision takes effect on the next aggregation, not immediately."
+    notes: "Statuses this leaves behind: activeReviews, candidate, authorized, manual, auto. Matching only runs when automatic merge is on, or manual review is on with valid reviewers; otherwise borderline scores register as non-matched."
+
+  - slide_number: 11
+    layout: "Title and Content"
+    role: "deep_dive"
+    title: "How is correlation different from matching?"
+    subtitle: "Matching asks who this is; correlation is the ISC link"
+    content:
+      bullets:
+        - "You cannot link an account to an identity that does not exist yet, so Fusion creates it first."
+        - "Correlate on aggregation: Fusion links missing accounts directly during the run."
+        - "Reverse correlation: Fusion writes an attribute that native ISC rules consume instead."
+        - "Do not correlate: stage the linking work; matching keeps working without it."
+      diagram:
+        kind: "comparison"
+        elements:
+          - "Matching: decides who this account is"
+          - "Correlation: links the account to an ISC identity"
+          - "Mode: correlate on aggregation"
+          - "Mode: reverse correlation"
+          - "Mode: do not correlate"
+        connections:
+          - "Matching -> identity exists -> correlation"
+        emphasis: "Matching decides, correlation links."
+    notes: "Correlation calls are expensive, so many projects stage them during initial load. Reverse correlation needs optimised aggregation switched off. An enforced correlation role can do the linking later."
+
+  - slide_number: 12
+    layout: "Two Content"
+    role: "architecture"
+    title: "What does a Fusion account give an operator?"
+    subtitle: "Standard attributes, entitlements, and fresh source data"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Standard attributes trace provenance: contributing accounts, sources, origin, and history."
+            - "Native identity and account name are set at creation and never rewritten."
+        - id: "right"
+          kind: "text"
+          bullets:
+            - "Status entitlements are calculated by the connector; action entitlements are requestable in ISC."
+            - "Source data can be aggregated before processing, after a delay, or not at all."
+      diagram:
+        kind: "hierarchy"
+        elements:
+          - "Fusion account"
+          - "Provenance: contributing accounts, sources, origin, history"
+          - "Status entitlements: calculated"
+          - "Action entitlements: requestable"
+        emphasis: "One account record carries provenance and both entitlement families."
+    notes: "Status entitlements make tenant-wide searches easy: what was created this run, what is in review, who the reviewers are, what stayed non-matched. Use a UUID when you need a truly immutable identifier."
+
+  - slide_number: 13
+    layout: "Title and Content"
+    role: "architecture"
+    title: "What is external processing for?"
+    subtitle: "One gateway, four capabilities"
+    content:
+      bullets:
+        - "Proxy mode runs the connector logic on your infrastructure and streams results back to ISC."
+        - "Scenario recording captures live API traffic for offline replay and regression tests."
+        - "External logging posts from ISC, or writes to disk when proxy mode is on."
+        - "Dry-run runs the whole pipeline with writes suppressed, so nothing touches the tenant."
+      diagram:
+        kind: "hierarchy"
+        elements:
+          - "External settings gateway"
+          - "Proxy mode"
+          - "Scenario recording"
+          - "External logging"
+          - "Dry-run"
+        connections:
+          - "External settings gateway -> each of the four capabilities"
+        emphasis: "One gateway is the entry point for all four."
+    notes: "Recording requires proxy mode because it needs filesystem access. Scheduled ISC aggregations never send dry-run input, so use spcx or the proxy host. This is how you scale, observe and rehearse - it is not a different product."
+
+  - slide_number: 14
+    layout: "Title and Content"
+    role: "architecture"
+    title: "How far can you extend it?"
+    subtitle: "Configuration first, customizers when you truly need them"
+    content:
+      bullets:
+        - "Most requirements are met with attribute mappings, Velocity expressions and match rules."
+        - "Services are modular, so a customizer can replace mapping, definition or matching behaviour."
+        - "Each operation runs with its own isolated service context, so overrides stay contained."
+        - "Reach for a customizer only for logic that configuration genuinely cannot express."
+      diagram:
+        kind: "hierarchy"
+        elements:
+          - "Identity Security Cloud"
+          - "Identity Fusion connector"
+          - "Optional customizer wrapping one service"
+          - "ISC APIs"
+        emphasis: "The customizer wraps a single service and nothing else."
+    notes: "Keep this slide short unless the room is implementers. A custom Velocity algorithm covers many bespoke matching needs without any customizer package at all."
+
+  - slide_number: 15
+    layout: "Title and Content"
+    role: "closing"
+    title: "Which path is yours?"
+    subtitle: "Four starting points, each with a short reading list"
+    content:
+      bullets:
+        - "HR and AD deduplication: umbrella mode, sources and scope, then matching identities."
+        - "Username or employee-ID pool: Records source type, then defining attributes."
+        - "Contractor cleanup: Orphan source type, then matching identities."
+        - "Attribute consolidation only: side-car mode, then mapping attributes."
+      diagram:
+        kind: "cards"
+        elements:
+          - "HR and AD deduplication"
+          - "Username or employee-ID pool"
+          - "Contractor cleanup"
+          - "Attribute consolidation only"
+        emphasis: "Four peer starting points, no ranking between them."
+    notes: "These four paths are the recap, so no separate summary slide is needed. Everyone starts the same way: create the source, test the connection, discover schema, aggregate entitlements, then run account aggregation."

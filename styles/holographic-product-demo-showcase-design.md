@@ -106,4 +106,6 @@ Adopts a futuristic glowing UI execution to clearly differentiate active product
 
 **Execution:** Holographic graphic style, high-fidelity SaaS UI mockups glowing over dark layers, neon aqua indicators for interactive points.
 
+**Diagram:** Glowing thin strokes over dark layers, curved connectors, UI wireframe nodes, shallow floating depth. Aqua marks the interactive point and nothing else.
+
 **Mode:** dark

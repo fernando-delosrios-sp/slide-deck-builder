@@ -1,0 +1,81 @@
+title: "Identity Fusion NG"
+goal: "Give newcomers the value and mental model of Identity Fusion NG: why it exists, how Map-Define-Match works, who participates, and how to run it."
+options:
+  language: "en"
+  audience: "New to the product; an SME presents from the notes"
+  tone: "Technical and educational"
+  length: "long"
+slides:
+  - slide_number: 7
+    layout: "Title and Content"
+    role: "deep_dive"
+    title: "What does Define compute, and when?"
+    subtitle: "Normal attributes before scoring, unique values after"
+    content:
+      bullets:
+        - "Velocity expressions read mapped values, identity fields, source snapshots and prior state."
+        - "Normal definitions run before Match, so normalised names and dates improve scoring."
+        - "Unique definitions run after Match: usernames, employee numbers, counters and UUIDs."
+        - "Collisions retry with a disambiguating counter up to the configured maximum attempts."
+      diagram:
+        kind: "timeline"
+        elements:
+          - "Map"
+          - "Normal Define: normalised names and dates"
+          - "Match: scoring"
+          - "Unique Define: usernames, employee numbers, counters, UUIDs"
+        connections:
+          - "Map -> Normal Define -> Match -> Unique Define"
+        emphasis: "Unique values are minted only after Match decides."
+    notes: "Normal attributes honour static versus always-recalculate, and empty or failed output clears the stored value. Records sources can register unique values without emitting a Fusion account."
+
+  - slide_number: 8
+    layout: "Title and Content"
+    role: "deep_dive"
+    title: "What can happen to an account in Match?"
+    subtitle: "Four exits, decided against the baseline"
+    content:
+      bullets:
+        - "Only uncorrelated managed accounts are scored, against the baseline of known identities."
+        - "Automatic merge when the combined score clears the configured auto-merge threshold."
+        - "Review form when the score clears the review floor but not the auto-merge threshold."
+        - "Non-match exits by source type: create an identity, register a value, or drop the row."
+      diagram:
+        kind: "funnel"
+        elements:
+          - "Uncorrelated managed accounts"
+          - "Above auto-merge threshold: automatic merge"
+          - "Between review floor and auto-merge threshold: review form"
+          - "Below review floor: non-match"
+          - "Non-match by source type: create identity, register value, drop row"
+        connections:
+          - "Uncorrelated managed accounts -> scored against baseline"
+          - "score -> automatic merge, review form or non-match"
+        emphasis: "Two thresholds split the score range into three outcomes."
+    notes: "Mention deferred candidates: the best match may be another new account from the same source in the same run, so identity creation waits for the next aggregation."
+
+  - slide_number: 9
+    layout: "Title and Content"
+    role: "deep_dive"
+    title: "How is a match score built?"
+    subtitle: "Weighted similarity with mandatory rules as vetoes"
+    content:
+      bullets:
+        - "Each rule compares one attribute with a chosen algorithm and a minimum similarity."
+        - "The minimum similarity is also the rule's weight in the combined score."
+        - "A failed mandatory rule rejects the candidate whatever the combined score says."
+        - "Skip if missing keeps empty attributes from dragging a score down."
+      diagram:
+        kind: "matrix"
+        elements:
+          - "Row: given name, Enhanced Name Matcher"
+          - "Row: employee ID, Binary"
+          - "Row: department, skip if missing"
+          - "Row: clearance status, mandatory rule"
+          - "Column: target identity value"
+          - "Column: candidate account value"
+          - "Column: similarity"
+          - "Combined score against the review floor"
+        emphasis: "A failed mandatory rule rejects a candidate that clears the combined score."
+    notes: "Algorithm picker: Enhanced Name Matcher for names, Binary for exact identifiers; Jaro-Winkler, LIG3, Dice, Double Metaphone and custom Velocity stay in the notes. Start with the review floor around 80 and enable automatic merge only after tuning."
+

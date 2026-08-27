@@ -106,4 +106,6 @@ Replaces abstract vectors with premium photography and dramatic lighting to focu
 
 **Execution:** Premium high-impact photography combined with sleek UI overlays, dramatic spotlighting, expansive negative space.
 
+**Diagram:** Few large nodes in open space, thin connectors, no depth, sparse labelling. Oversized numeric readouts carry the emphasis.
+
 **Mode:** light

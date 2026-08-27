@@ -106,4 +106,6 @@ Strips all decorative fluff to create a highly academic, wireframe-style bluepri
 
 **Execution:** Strict neo-brutalist 2D, severe high-contrast shapes, distinct black outlines, vast negative space, stark architectural grids.
 
+**Diagram:** Black outlines of even weight, right-angled connectors, plain rectangular nodes, no depth, fills limited to the card token. Branching structures read top to bottom.
+
 **Mode:** light

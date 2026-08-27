@@ -1,0 +1,74 @@
+title: "Identity Fusion NG"
+goal: "Give newcomers the value and mental model of Identity Fusion NG: why it exists, how Map-Define-Match works, who participates, and how to run it."
+options:
+  language: "en"
+  audience: "New to the product; an SME presents from the notes"
+  tone: "Technical and educational"
+  length: "long"
+slides:
+  - slide_number: 1
+    layout: "Title Slide"
+    role: "cover"
+    title: "Identity Fusion NG"
+    subtitle: "Map, Define, Match: messy multi-source accounts into one identity story"
+    content:
+      body: "Consolidate accounts, compute attributes, and match identities without relying on brittle exact-match correlation."
+    notes: "Slides carry the mental model; these notes and the docs carry the manual. Identity Fusion NG supersedes the deprecated v1.x line."
+
+  - slide_number: 2
+    layout: "Title and Content"
+    role: "problem_statement"
+    title: "Why Identity Fusion NG?"
+    subtitle: "The jobs that correlation rules alone cannot do cleanly"
+    content:
+      bullets:
+        - "One person in HR and AD becomes two identities when exact-match rules find nothing."
+        - "Map aligns different source schemas and keeps multi-persona values side by side."
+        - "Define mints unique identifiers and normalises values before anything is compared."
+        - "Match finds near-duplicates and sends the grey zone to a reviewer, not to a guess."
+      diagram:
+        kind: "comparison"
+        elements:
+          - "Without Fusion: HR account and AD account for one person"
+          - "Without Fusion: two separate identities"
+          - "With Fusion: Map"
+          - "With Fusion: Define"
+          - "With Fusion: Match"
+        connections:
+          - "HR account -> identity one"
+          - "AD account -> identity two"
+          - "Map -> Define -> Match -> one identity"
+        emphasis: "Two identities for one person on the left; one identity on the right."
+    notes: "Map and Define carry value even with Match off. Records and Orphan source types are teased here, explained on slide 4. Match is not correlation - that lands on slide 11."
+
+  - slide_number: 3
+    layout: "Title and Content"
+    role: "framework"
+    title: "What is the Map, Define, Match framework?"
+    subtitle: "One pipeline, three steps, four exits"
+    content:
+      bullets:
+        - "Inputs: accounts from managed sources, plus ISC identities when identity scope is on."
+        - "Order is always Map, then Define, then Match; each step can be enabled on its own."
+        - "Exits: Fusion account, review form, automatic merge, or a drop for Records and Orphan."
+        - "Timing: normal definitions feed scoring, unique values are minted after Match decides."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Managed sources"
+          - "ISC identities (scope on)"
+          - "Map"
+          - "Define"
+          - "Match"
+          - "Exit: Fusion account"
+          - "Exit: review form"
+          - "Exit: automatic merge"
+          - "Exit: drop (Records and Orphan)"
+        connections:
+          - "Managed sources -> Map"
+          - "ISC identities -> Map"
+          - "Map -> Define -> Match"
+          - "Match -> each of the four exits"
+        emphasis: "One pipeline whose exits vary by source type."
+    notes: "Source types change only the exits, never the order of steps."
+

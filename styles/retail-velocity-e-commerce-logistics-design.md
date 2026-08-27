@@ -106,4 +106,6 @@ Uses translucent glass and vibrant underlying mesh gradients to represent the sp
 
 **Execution:** Dynamic glassmorphism, translucent overlapping glass panels, blurred mesh backgrounds, speed trails implying fast parallax motion.
 
+**Diagram:** Translucent glass panels as nodes, flowing connectors with speed trails and directional arrows, shallow layered depth over the blurred background.
+
 **Mode:** light

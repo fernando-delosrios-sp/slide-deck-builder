@@ -106,4 +106,6 @@ Zooms in on the physical hardware components, using rigid flat design to represe
 
 **Execution:** Crisp pixel-perfect 2D flat design, macro close-ups of mechanical UI interfaces, rigid geometric layouts, subtle inner shadows.
 
+**Diagram:** Pixel-crisp strokes on a rigid grid, right-angled traces ending in pins, component-style rectangular nodes, depth limited to subtle inner shadows.
+
 **Mode:** light

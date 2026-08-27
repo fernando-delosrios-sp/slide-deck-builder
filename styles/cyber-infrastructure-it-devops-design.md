@@ -106,4 +106,6 @@ Tailored for technical engineering and DevOps audiences by executing the brand i
 
 **Execution:** Cybernetic monoline vectors, deep black backgrounds, glowing neon green accents, HUD (Head-Up Display) data charts.
 
+**Diagram:** Thin monoline strokes on deep black, right-angled connectors, terminal and server nodes, no depth. The neon accent traces the live path; every other path stays hairline.
+
 **Mode:** dark

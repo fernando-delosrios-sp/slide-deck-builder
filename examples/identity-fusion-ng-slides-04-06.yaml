@@ -1,0 +1,86 @@
+title: "Identity Fusion NG"
+goal: "Give newcomers the value and mental model of Identity Fusion NG: why it exists, how Map-Define-Match works, who participates, and how to run it."
+options:
+  language: "en"
+  audience: "New to the product; an SME presents from the notes"
+  tone: "Technical and educational"
+  length: "long"
+slides:
+  - slide_number: 4
+    layout: "Title and Content"
+    role: "framework"
+    title: "Who participates, and in which step?"
+    subtitle: "Seeding, scoring, and contributing are three different permissions"
+    content:
+      bullets:
+        - "Seeds a Fusion account: an identity in scope, an authoritative managed account, or a Records or Orphan row that matches."
+        - "Contributes attributes: any participating identity or managed account, correlated or not."
+        - "Enters Match: only uncorrelated managed accounts."
+        - "Baseline: identities in scope, existing Fusion accounts, and already-correlated accounts."
+      diagram:
+        kind: "matrix"
+        elements:
+          - "Row: identity in scope"
+          - "Row: correlated Authoritative account"
+          - "Row: uncorrelated Authoritative account"
+          - "Row: uncorrelated Records"
+          - "Row: uncorrelated Orphan"
+          - "Column: seed"
+          - "Column: enter Match"
+          - "Column: contribute attributes"
+          - "Column: create identity on non-match"
+        emphasis: "Only uncorrelated managed accounts enter Match."
+    notes: "This is the deck's cheat sheet. Warn about the two meanings of orphan: the source type versus the orphan status on a Fusion account with no contributing accounts left."
+
+  - slide_number: 5
+    layout: "Two Content"
+    role: "architecture"
+    title: "Umbrella or side-car?"
+    subtitle: "The Fusion source's authority, not whether matching runs"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Umbrella: the Fusion source is authoritative and owns create-versus-correlate decisions."
+            - "Choose it for similarity matching with review forms and Fusion-driven identity creation."
+        - id: "right"
+          kind: "text"
+          bullets:
+            - "Side-car: the Fusion source is not authoritative; managed sources still create identities."
+            - "Choose it for generated usernames, merged attributes, or match-only supplemental directories."
+      diagram:
+        kind: "comparison"
+        elements:
+          - "Umbrella: managed sources, Fusion source, identity creation"
+          - "Side-car: managed sources, Fusion source, identity creation"
+        connections:
+          - "Umbrella: managed sources -> Fusion source -> identity creation"
+          - "Side-car: managed sources -> identity creation, Fusion source contributes attributes"
+        emphasis: "Which box owns identity creation."
+    notes: "Matching can run in both modes; authoritative is what makes Fusion own identity creation. Umbrella and side-car describe the Fusion source; Authoritative, Records and Orphan describe each managed source. One connector can mix source types."
+
+  - slide_number: 6
+    layout: "Title and Content"
+    role: "deep_dive"
+    title: "How does Map resolve conflicting attributes?"
+    subtitle: "Schema alignment first, then multi-source personality"
+    content:
+      bullets:
+        - "Many source names, one Fusion attribute: title, jobTitle and position become jobTitle."
+        - "First found walks configured source order; main and origin pin to one snapshot and never fall through."
+        - "Keep a list or concatenate when a person legitimately has several values."
+        - "Source name forces one source to win for a specific attribute."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Workday: title = Senior Engineer"
+          - "Active Directory: title = Engineer"
+          - "Merge strategy"
+          - "Fusion attribute: jobTitle"
+        connections:
+          - "Workday -> merge strategy"
+          - "Active Directory -> merge strategy"
+          - "merge strategy -> jobTitle"
+        emphasis: "The configured source order decides which value wins."
+    notes: "Concatenate produces distinct values in brackets, space separated, not an alphabetical string. When identity scope is on, identities are just another contributing snapshot."

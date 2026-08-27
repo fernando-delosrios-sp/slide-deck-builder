@@ -106,4 +106,6 @@ Highly focused visual layout employing literal funnel and target iconography wit
 
 **Execution:** High-contrast flat design forcing attention to focal points using the accent orange, stark directional visual cues, minimal background distraction.
 
+**Diagram:** Bold flat shapes, thick directional arrows, no depth, minimal supporting detail. The accent orange lands on the one focal point.
+
 **Mode:** light

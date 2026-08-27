@@ -106,4 +106,6 @@ Uses sweeping gradients and motion-implied shapes to create an energetic backdro
 
 **Execution:** Smooth mesh gradients, implied motion graphics, sweeping translucent shapes with soft overlapping color blends.
 
+**Diagram:** Sweeping curved connectors with directional arrowheads, translucent overlapping shapes, gradient fills, no hard outlines. Movement always reads left to right.
+
 **Mode:** light

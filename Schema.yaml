@@ -1,4 +1,9 @@
 type: object
+description: |
+  A deck spec carries structure and content only. Visual appearance comes from the
+  single enabled '*-design.md' style source at generation time, so this schema has no
+  style, theme, colour or font field, and no field may describe an appearance.
+additionalProperties: false
 required:
   - title
   - goal
@@ -102,6 +107,47 @@ properties:
                   media_ref:
                     type: string
                     description: name of a media item, for 'media' regions.
+            diagram:
+              type: object
+              description: |
+                Structural intent for one drawing on this slide. Says what the picture
+                shows; the enabled style decides strokes, colours, icons and depth.
+              required:
+                - kind
+                - elements
+              properties:
+                kind:
+                  type: string
+                  enum:
+                    - flow
+                    - comparison
+                    - matrix
+                    - funnel
+                    - timeline
+                    - hierarchy
+                    - cards
+                  description: |
+                    one of:
+                    - 'flow' - ordered steps with inputs and exits
+                    - 'comparison' - two alternatives side by side
+                    - 'matrix' - rows scored against columns
+                    - 'funnel' - candidates narrowing to outcomes
+                    - 'timeline' - events or phases along an axis
+                    - 'hierarchy' - layers or containment
+                    - 'cards' - a grid of peer items
+                elements:
+                  type: array
+                  items:
+                    type: string
+                  description: Labelled nodes, columns, rows or cards, in reading order.
+                connections:
+                  type: array
+                  items:
+                    type: string
+                  description: Relationships between elements, e.g. 'Map -> Define'.
+                emphasis:
+                  type: string
+                  description: The single element or relationship the slide argues for.
             media:
               type: array
               items:
@@ -121,4 +167,6 @@ properties:
                     description: alt text.
         notes:
           type: string
-          description: Presenter notes or implementation hints.
+          description: |
+            What the presenter says while this slide is up: background, caveats, links.
+            Diagram intent belongs in 'content.diagram'; appearance belongs to the style.

@@ -24,9 +24,9 @@ This file defines the available per-slide structural layouts. When NotebookLM ge
 Layouts dictate the grid structure, placeholder styling, background behavior, and spacing.
 *Examples include:* Title Slide, Title and Content, Two Content, Comparison, and Picture with Caption.
 
-### 3. Design System (`designs/` directory)
+### 3. Design System (`styles/` directory)
 This directory contains individual markdown files (`*-design.md`) defining the available visual themes with high precision.
-Each design file includes a YAML frontmatter detailing the precise color palette, comprehensive typographic scale (sizes, weights, and letter spacings), granular spacing and border-radius rules, and specific component bindings. The body of the file explains the illustration motif and the overall design rationale.
+Each design file includes a YAML frontmatter detailing the precise color palette, comprehensive typographic scale (sizes, weights, and letter spacings), granular spacing and border-radius rules, and specific component bindings. The body of the file explains the illustration motif, the diagram grammar, and the overall design rationale.
 *Examples include:* `sailpoint-corporate-2026-design.md`, `cloud-topology-enterprise-saas-design.md`, `core-minimalist-general-purpose-design.md`.
 
 ## NoteBookLM Configuration
@@ -58,3 +58,22 @@ The project contains all the necessary artefacts to build it. To configure NoteB
    > 
    > ![Slide Deck Generation](images/6-slide-deck-generation.png)
 4. **Compilation**: The resulting YAML spec is parsed and compiled into the final presentation. During compilation, the selected Design System rules (colors, typography scales, components) are applied to guarantee a predictable and professionally designed slide deck.
+
+## Keeping One Style Across the Deck
+
+The spec describes structure and content; the enabled style source decides how it looks. Two rules keep that separation intact:
+
+- **The spec names no style.** No `style` key, no colours, no fonts, no visual language in `notes`. A spec that reads correctly under Civic Standard reads correctly under SailPoint Corporate 2026. When a slide needs a drawing, describe it with `content.diagram` (`kind`, `elements`, `connections`, `emphasis`) so the style decides strokes, icons and depth.
+- **Exactly one `*-design.md` source is enabled** during generation. Enabling several, or none, is what makes the model invent a look.
+
+### Generating a long deck
+
+Generate the whole deck in one pass whenever it fits. NotebookLM draws each slide as an image, so a deck built in batches tends to re-invent its visual language at every batch boundary: a deck generated as slides 1-4, 5-8, 9-12 and 13-15 comes back as four different-looking decks.
+
+When a deck is too long for one pass, keep every pass anchored to the same reference:
+
+1. Keep one spec with continuous `slide_number` values, and paste the whole spec each time.
+2. Say which slides to generate in this pass, for example "generate slides 5 to 8 of this spec".
+3. Keep the same single style source enabled for every pass.
+4. Attach the slides generated so far, and ask for the same background, type pairing, accent, card chrome and icon family.
+5. Regenerate the whole deck once the content settles, so the final deck comes from a single pass.

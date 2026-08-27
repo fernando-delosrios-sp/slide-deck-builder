@@ -1,0 +1,73 @@
+title: "Identity Fusion NG"
+goal: "Give newcomers the value and mental model of Identity Fusion NG: why it exists, how Map-Define-Match works, who participates, and how to run it."
+options:
+  language: "en"
+  audience: "New to the product; an SME presents from the notes"
+  tone: "Technical and educational"
+  length: "long"
+slides:
+  - slide_number: 13
+    layout: "Title and Content"
+    role: "architecture"
+    title: "What is external processing for?"
+    subtitle: "One gateway, four capabilities"
+    content:
+      bullets:
+        - "Proxy mode runs the connector logic on your infrastructure and streams results back to ISC."
+        - "Scenario recording captures live API traffic for offline replay and regression tests."
+        - "External logging posts from ISC, or writes to disk when proxy mode is on."
+        - "Dry-run runs the whole pipeline with writes suppressed, so nothing touches the tenant."
+      diagram:
+        kind: "hierarchy"
+        elements:
+          - "External settings gateway"
+          - "Proxy mode"
+          - "Scenario recording"
+          - "External logging"
+          - "Dry-run"
+        connections:
+          - "External settings gateway -> each of the four capabilities"
+        emphasis: "One gateway is the entry point for all four."
+    notes: "Recording requires proxy mode because it needs filesystem access. Scheduled ISC aggregations never send dry-run input, so use spcx or the proxy host. This is how you scale, observe and rehearse - it is not a different product."
+
+  - slide_number: 14
+    layout: "Title and Content"
+    role: "architecture"
+    title: "How far can you extend it?"
+    subtitle: "Configuration first, customizers when you truly need them"
+    content:
+      bullets:
+        - "Most requirements are met with attribute mappings, Velocity expressions and match rules."
+        - "Services are modular, so a customizer can replace mapping, definition or matching behaviour."
+        - "Each operation runs with its own isolated service context, so overrides stay contained."
+        - "Reach for a customizer only for logic that configuration genuinely cannot express."
+      diagram:
+        kind: "hierarchy"
+        elements:
+          - "Identity Security Cloud"
+          - "Identity Fusion connector"
+          - "Optional customizer wrapping one service"
+          - "ISC APIs"
+        emphasis: "The customizer wraps a single service and nothing else."
+    notes: "Keep this slide short unless the room is implementers. A custom Velocity algorithm covers many bespoke matching needs without any customizer package at all."
+
+  - slide_number: 15
+    layout: "Title and Content"
+    role: "closing"
+    title: "Which path is yours?"
+    subtitle: "Four starting points, each with a short reading list"
+    content:
+      bullets:
+        - "HR and AD deduplication: umbrella mode, sources and scope, then matching identities."
+        - "Username or employee-ID pool: Records source type, then defining attributes."
+        - "Contractor cleanup: Orphan source type, then matching identities."
+        - "Attribute consolidation only: side-car mode, then mapping attributes."
+      diagram:
+        kind: "cards"
+        elements:
+          - "HR and AD deduplication"
+          - "Username or employee-ID pool"
+          - "Contractor cleanup"
+          - "Attribute consolidation only"
+        emphasis: "Four peer starting points, no ranking between them."
+    notes: "These four paths are the recap, so no separate summary slide is needed. Everyone starts the same way: create the source, test the connection, discover schema, aggregate entitlements, then run account aggregation."

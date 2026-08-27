@@ -106,4 +106,6 @@ Pivots the identity theme to physical security metaphors using weighty 3D elemen
 
 **Execution:** Heavy solid 3D geometry, subtle metallic silver/gold gradients, clean symmetrical layouts, photorealistic security elements.
 
+**Diagram:** Heavy solid strokes on a symmetrical axis, right-angled connectors, solid 3D geometry with subtle metallic gradients, vault and shield nodes.
+
 **Mode:** light

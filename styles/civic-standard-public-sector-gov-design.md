@@ -106,4 +106,6 @@ Translates identity security into a highly accessible, flat, human-centric carto
 
 **Execution:** Thick high-contrast 2D line strokes, stylized cartoonish illustrations of diverse humans, extensive use of patterns over color-coding.
 
+**Diagram:** Thick uniform strokes, orthogonal connectors with square joins, flat cartoon human and document icons, no depth. Separate series with patterns and labels rather than extra colours.
+
 **Mode:** light
