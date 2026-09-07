@@ -2,7 +2,7 @@ title: "Identity Fusion NG"
 goal: "Give newcomers the value and mental model of Identity Fusion NG: why it exists, how Map-Define-Match works, who participates, and how to run it."
 options:
   language: "en"
-  audience: "New to the product; an SME presents from the notes"
+  audience: "New to the product; an SME presents from identity-fusion-ng-speaker-notes.md"
   tone: "Technical and educational"
   length: "long"
 slides:
@@ -28,28 +28,32 @@ slides:
         connections:
           - "External settings gateway -> each of the four capabilities"
         emphasis: "One gateway is the entry point for all four."
-    notes: "Recording requires proxy mode because it needs filesystem access. Scheduled ISC aggregations never send dry-run input, so use spcx or the proxy host. This is how you scale, observe and rehearse - it is not a different product."
 
   - slide_number: 14
     layout: "Title and Content"
     role: "architecture"
-    title: "How far can you extend it?"
-    subtitle: "Configuration first, customizers when you truly need them"
+    title: "Where can you plug in your own code?"
+    subtitle: "Configuration first, then two override seams: services and operations"
     content:
       bullets:
-        - "Most requirements are met with attribute mappings, Velocity expressions and match rules."
-        - "Services are modular, so a customizer can replace mapping, definition or matching behaviour."
-        - "Each operation runs with its own isolated service context, so overrides stay contained."
-        - "Reach for a customizer only for logic that configuration genuinely cannot express."
+        - "Configuration covers most needs: attribute mappings, Velocity expressions, match rules and custom Velocity algorithms."
+        - "Override a service: ship your own mapping, definition or matching service and the registry wires the rest unchanged."
+        - "Override an operation: replace accountList or any other operation and still receive every service already built."
+        - "Both seams resolve per operation run, so an override stays scoped to that run and never leaks into another."
       diagram:
-        kind: "hierarchy"
+        kind: "flow"
         elements:
-          - "Identity Security Cloud"
-          - "Identity Fusion connector"
-          - "Optional customizer wrapping one service"
-          - "ISC APIs"
-        emphasis: "The customizer wraps a single service and nothing else."
-    notes: "Keep this slide short unless the room is implementers. A custom Velocity algorithm covers many bespoke matching needs without any customizer package at all."
+          - "ISC calls a standard operation: accountList, accountRead, accountCreate"
+          - "Operation handler picks the route: built-in, your operation override, or proxy"
+          - "Service registry builds this run's services, your service override included"
+          - "Mapping, definition, matching and the supporting services"
+          - "Exit: accounts, entitlements and schema back to ISC"
+        connections:
+          - "ISC operation -> operation handler"
+          - "operation handler -> service registry"
+          - "service registry -> mapping, definition, matching and supporting services"
+          - "services -> Exit"
+        emphasis: "Your code enters at two points only: the operation handler and the service registry."
 
   - slide_number: 15
     layout: "Title and Content"
@@ -70,4 +74,3 @@ slides:
           - "Contractor cleanup"
           - "Attribute consolidation only"
         emphasis: "Four peer starting points, no ranking between them."
-    notes: "These four paths are the recap, so no separate summary slide is needed. Everyone starts the same way: create the source, test the connection, discover schema, aggregate entitlements, then run account aggregation."

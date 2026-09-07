@@ -1,0 +1,106 @@
+title: "SailPoint Utilities Portfolio"
+goal: "Present the reusable patterns in the sailpoint-utils repository, with the PowerShell Rule Template as the foundation of a growing rule catalogue. Draw detail from the repository sources."
+options:
+  language: "en"
+  audience: "SailPoint colleagues"
+  tone: "Engaging and professional"
+  length: "long"
+slides:
+  - slide_number: 9
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "Dynamic Forms & Data Collection"
+    subtitle: "Cascading choices over changing data"
+    content:
+      bullets:
+        - "Challenge: Conditional requirements and fast-changing reference data outgrow static forms."
+        - "Solution: Cascading dropdowns fed by any source that supplies key and name fields."
+        - "Value: Current, guided choices in any process with interdependent selections."
+
+  - slide_number: 10
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Key and Name Data Contract"
+    subtitle: "Hierarchical keys make dependent lookups simple"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Name is the friendly label shown in the form."
+            - "Keys are globally unique and encode ancestry: AXXX, then AXXX-BYYY."
+            - "Searching the selected parent key returns its valid child options."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Parent AXXX"
+          - "Child AXXX-BYYY"
+          - "Search by Parent Key"
+          - "Matching Options"
+        emphasis: "Reference data changes without touching form logic."
+
+  - slide_number: 11
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "Generic Manager Correlation"
+    subtitle: "Ordered identifiers, one reusable rule"
+    content:
+      bullets:
+        - "Challenge: Manager identifiers differ per source, and tenants cannot upload ad-hoc rules."
+        - "Solution: A firstValid transform ranks candidates and emits attributeName|attributeValue."
+        - "Value: Rank identifiers or set a default per source without a new rule."
+
+  - slide_number: 12
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Transform Chooses, Rule Resolves"
+    subtitle: "Identifier logic stays in configuration"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "firstValid tries email, username, or employee number in priority order."
+            - "An optional fallback default closes the chain."
+            - "The source rule parses the token and searches identities on that attribute."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Ordered Options"
+          - "Optional Default"
+          - "attributeName|attributeValue"
+          - "Manager Linked"
+        emphasis: "Changing priority is a transform edit, not a rule change."
+
+  - slide_number: 13
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "JDBC SaaS Driver Downloader"
+    subtitle: "Automating driver collection"
+    content:
+      bullets:
+        - "Challenge: Finding compatible JDBC drivers for SaaS connectors is tedious."
+        - "Solution: Node.js automation queries Maven Central and bundles the result."
+        - "Value: Saves manual searching and packages assets correctly for upload."
+
+  - slide_number: 14
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Driver Package Toolchain"
+    subtitle: "From Maven Central to an upload-ready bundle"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Resolve stable, verified driver versions."
+            - "Bundle drivers into a standard ZIP package."
+            - "Format output for SaaS connector upload."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Maven Central Query"
+          - "Fetch Binary"
+          - "ZIP Bundle"
+          - "Cloud JDBC Source"
+        emphasis: "Verified sources beat unofficial mirrors."

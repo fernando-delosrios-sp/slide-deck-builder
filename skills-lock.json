@@ -11,25 +11,25 @@
       "source": "fernando-delosrios-sp/skills",
       "sourceType": "github",
       "skillPath": "skills/productivity/grilling/SKILL.md",
-      "computedHash": "c1d33dd0af7cc732f6e52647fe7ef7352fbca95644098620051cbcf372dfdd42"
+      "computedHash": "b1b6ef414bf6ea61e46e450ac8e651ac7416a0d0f8f02b47563a535576ce72b5"
     },
     "search": {
       "source": "fernando-delosrios-sp/skills",
       "sourceType": "github",
       "skillPath": "skills/productivity/search/SKILL.md",
-      "computedHash": "1f938c565e15baa94d6c3d3633d2d22c852698b1f9d63198941201f7b041904a"
+      "computedHash": "58e977fd68d5f9ec7cc67d82910ca8ecd66db65c5178b3e9e8346ffceac12a95"
     },
     "structured-choices": {
       "source": "fernando-delosrios-sp/skills",
       "sourceType": "github",
       "skillPath": "skills/productivity/structured-choices/SKILL.md",
-      "computedHash": "a83338e0ee6d70ae0d527df63a20b3c3b29d9e905cbbb67b10d68c2f07fe0f65"
+      "computedHash": "0a2dbc7bba8edec968f62132b5557a01bfe7ad84c1d6090b95bb836d647fa46a"
     },
     "writing-for-agents": {
       "source": "fernando-delosrios-sp/skills",
       "sourceType": "github",
       "skillPath": "skills/productivity/writing-for-agents/SKILL.md",
-      "computedHash": "dc406258206af371afb02a449f6b02861d1f3a14f0dd5b0f718cd14974913633"
+      "computedHash": "1897da820d787fc06b57d759df168c4dfb4ff9720c9eb8e23167435323cbe10a"
     }
   }
 }

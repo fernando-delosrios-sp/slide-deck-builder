@@ -1,0 +1,122 @@
+title: "SailPoint Utilities Portfolio"
+goal: "Present the reusable patterns in the sailpoint-utils repository, with the PowerShell Rule Template as the foundation of a growing rule catalogue. Draw detail from the repository sources."
+options:
+  language: "en"
+  audience: "SailPoint colleagues"
+  tone: "Engaging and professional"
+  length: "long"
+slides:
+  - slide_number: 1
+    layout: "Title Slide"
+    role: "cover"
+    title: "SailPoint Utilities Portfolio"
+    subtitle: "Reusable patterns for ISC, SaaS Connectivity, and third-party integrations"
+    content:
+      body: "Field-proven utilities you can clone, configure, and extend."
+
+  - slide_number: 2
+    layout: "Section Header"
+    role: "transition"
+    title: "ISC Utilities"
+    subtitle: "A standard foundation, then practical implementations"
+    content:
+      body: "Rules, transforms, and configurations that stay reusable across sources and tenants."
+
+  - slide_number: 3
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "PowerShell Rule Template"
+    subtitle: "Copy-ready foundation for IQService rules"
+    content:
+      bullets:
+        - "Challenge: IQService hides script output, so failures are hard to see and reproduce."
+        - "Solution: A bootstrap that owns logging, context, redaction, exit codes, and replay."
+        - "Strategy: Write only rule-specific code; every catalogue rule inherits the same controls."
+
+  - slide_number: 4
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Bootstrap Architecture"
+    subtitle: "One execution contract for every rule"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Context: $ctx exposes request and application values without parsing XML."
+            - "Artifacts: Per-run log plus a verified dump of the script that ran."
+            - "Recovery: Secrets redacted by default; replay reruns the same invocation."
+      diagram:
+        kind: "flow"
+        elements:
+          - "IQService Invocation"
+          - "Build $ctx & Options"
+          - "Log, Dump, Replay"
+          - "Custom Code, Exit 0/1"
+        emphasis: "Developers replace only the custom process section."
+
+  - slide_number: 5
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "Active Directory Home Folders"
+    subtitle: "First practical implementation of the template"
+    content:
+      bullets:
+        - "Challenge: Creating home directories and NTFS ACLs by hand is slow and error-prone."
+        - "Solution: A rule creates the folder and applies configured permissions after account creation."
+        - "Value: Business outcome plus the template's logging, error control, and replay."
+
+  - slide_number: 6
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Settings-Driven Folder Creation"
+    subtitle: "Paths and permission groups live in application settings"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Configure base path, naming inputs, and permission groups per source."
+            - "Build the user path and create the directory when missing."
+            - "Apply the configured user and group NTFS permissions."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Account Created"
+          - "Read Settings"
+          - "Create Folder"
+          - "Apply Permissions"
+        emphasis: "Reuse across environments without touching rule code."
+
+  - slide_number: 7
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "Active Directory OU Management"
+    subtitle: "Preventing provisioning blocks"
+    content:
+      bullets:
+        - "Challenge: AD provisioning fails when the target or parent OU does not exist."
+        - "Solution: BeforeScripts check the path and create missing containers on the fly."
+        - "Value: No ad-hoc requests to build directory structures ahead of time."
+
+  - slide_number: 8
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "On-the-Fly Directory Creation"
+    subtitle: "Inspect the plan, then prepare the path"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Intercept the provisioning plan before execution."
+            - "Detect missing container nodes in the target path."
+            - "Create parent OUs and, optionally, AD groups."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Provisioning Plan"
+          - "Check AD Path"
+          - "Create OUs & Groups"
+          - "Account Created"
+        emphasis: "The path is ready before provisioning runs."

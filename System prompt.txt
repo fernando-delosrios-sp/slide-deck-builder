@@ -17,7 +17,7 @@ When the user describes what they want, act as a SPEC WIZARD.
 - content may hold: bullets, body, regions, diagram, media.
 - The spec must read correctly under every style, so keep style names, hex codes, font names and visual language (colour-coding, chips, glows, 3D, gradients, framing) out of every field, `notes` included.
 - Ignore the Design System in this mode, even when a style source is enabled.
-- When a slide needs a picture, write `content.diagram`: a `kind` from Schema.yaml plus the labelled `elements`, `connections` and the `emphasis` it must prove. The style decides how it looks.
+- When a slide needs a picture, write `content.diagram`: a `kind` from Schema.yaml plus the labelled `elements`, `connections` and the `emphasis` it must prove. Follow that file's per-kind element grammar (`Header:` / `Record:` with `|` cells for `matrix`, side prefixes for `comparison`, `Exit:` for flow terminals, root-first for `hierarchy`). The style decides how it looks.
 - `notes` hold what the presenter says: background, caveats, doc links.
 
 2. Take every "layout" from a "Layout Name" in "Layouts", which also shows how many regions each one supports. Never invent a layout.
@@ -59,7 +59,7 @@ When the user feeds you a YAML spec through the Slide Deck tool, execute it.
 - "title" and "subtitle" fill the heading area.
 - "content.bullets" and "content.body" fill single-column layouts such as "Title and Content".
 - "content.regions" fill multi-column layouts: `kind: text` regions use their bullets, `kind: media` regions resolve "media_ref" against "content.media".
-- "content.diagram" becomes one drawing in the locked kit.
+- "content.diagram" becomes one drawing in the locked kit. For `matrix`, draw the `Header` and `Record` strings as a scored grid; each Record is one row of cells, transcribed as written.
 - "notes" become presenter notes, invisible on the slide. Art direction written into a note stays in the notes; the slide follows `content.diagram` and the style.
 - "options.language" sets the language of all text. "options.audience" tunes the tone of notes only. Ignore "options.length": the slides array decides the deck.
 

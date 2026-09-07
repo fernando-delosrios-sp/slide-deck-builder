@@ -2,7 +2,7 @@ title: "Identity Fusion NG"
 goal: "Give newcomers the value and mental model of Identity Fusion NG: why it exists, how Map-Define-Match works, who participates, and how to run it."
 options:
   language: "en"
-  audience: "New to the product; an SME presents from the notes"
+  audience: "New to the product; an SME presents from identity-fusion-ng-speaker-notes.md"
   tone: "Technical and educational"
   length: "long"
 slides:
@@ -13,7 +13,6 @@ slides:
     subtitle: "Map, Define, Match: messy multi-source accounts into one identity story"
     content:
       body: "Consolidate accounts, compute attributes, and match identities without relying on brittle exact-match correlation."
-    notes: "Slides carry the mental model; these notes and the docs carry the manual. Identity Fusion NG supersedes the deprecated v1.x line."
 
   - slide_number: 2
     layout: "Title and Content"
@@ -39,7 +38,6 @@ slides:
           - "AD account -> identity two"
           - "Map -> Define -> Match -> one identity"
         emphasis: "Two identities for one person on the left; one identity on the right."
-    notes: "Map and Define carry value even with Match off. Records and Orphan source types are teased here, explained on slide 4. Match is not correlation - that lands on slide 11."
 
   - slide_number: 3
     layout: "Title and Content"
@@ -70,5 +68,4 @@ slides:
           - "Map -> Define -> Match"
           - "Match -> each of the four exits"
         emphasis: "One pipeline whose exits vary by source type."
-    notes: "Source types change only the exits, never the order of steps."
 

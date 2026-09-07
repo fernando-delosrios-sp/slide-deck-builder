@@ -2,7 +2,7 @@ title: "Identity Fusion NG"
 goal: "Give newcomers the value and mental model of Identity Fusion NG: why it exists, how Map-Define-Match works, who participates, and how to run it."
 options:
   language: "en"
-  audience: "New to the product; an SME presents from the notes"
+  audience: "New to the product; an SME presents from identity-fusion-ng-speaker-notes.md"
   tone: "Technical and educational"
   length: "long"
 slides:
@@ -21,8 +21,8 @@ slides:
         - id: "right"
           kind: "text"
           bullets:
-            - "Reviewers are source owners acting globally or per-source reviewer entitlements."
-            - "Fusion reports preview outcomes for analysis and never decide anything."
+            - "Reviewers are source owners acting globally or per-source reviewer entitlement holders."
+            - "Fusion reports preview outcomes for analysis without introducing changes."
       diagram:
         kind: "flow"
         elements:
@@ -33,7 +33,6 @@ slides:
         connections:
           - "Review form -> assigned reviewer -> decision -> next aggregation"
         emphasis: "The decision takes effect on the next aggregation, not immediately."
-    notes: "Statuses this leaves behind: activeReviews, candidate, authorized, manual, auto. Matching only runs when automatic merge is on, or manual review is on with valid reviewers; otherwise borderline scores register as non-matched."
 
   - slide_number: 11
     layout: "Title and Content"
@@ -46,6 +45,7 @@ slides:
         - "Correlate on aggregation: Fusion links missing accounts directly during the run."
         - "Reverse correlation: Fusion writes an attribute that native ISC rules consume instead."
         - "Do not correlate: stage the linking work; matching keeps working without it."
+        - "Enforced correlation role: ISC later links accounts Fusion staged without correlating."
       diagram:
         kind: "comparison"
         elements:
@@ -54,10 +54,11 @@ slides:
           - "Mode: correlate on aggregation"
           - "Mode: reverse correlation"
           - "Mode: do not correlate"
+          - "Mode: enforced correlation role"
         connections:
           - "Matching -> identity exists -> correlation"
+          - "Do not correlate -> enforced correlation role"
         emphasis: "Matching decides, correlation links."
-    notes: "Correlation calls are expensive, so many projects stage them during initial load. Reverse correlation needs optimised aggregation switched off. An enforced correlation role can do the linking later."
 
   - slide_number: 12
     layout: "Two Content"
@@ -84,5 +85,3 @@ slides:
           - "Status entitlements: calculated"
           - "Action entitlements: requestable"
         emphasis: "One account record carries provenance and both entitlement families."
-    notes: "Status entitlements make tenant-wide searches easy: what was created this run, what is in review, who the reviewers are, what stayed non-matched. Use a UUID when you need a truly immutable identifier."
-

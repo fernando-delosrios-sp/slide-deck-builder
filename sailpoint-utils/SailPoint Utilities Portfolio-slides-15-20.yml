@@ -1,0 +1,104 @@
+title: "SailPoint Utilities Portfolio"
+goal: "Present the reusable patterns in the sailpoint-utils repository, with the PowerShell Rule Template as the foundation of a growing rule catalogue. Draw detail from the repository sources."
+options:
+  language: "en"
+  audience: "SailPoint colleagues"
+  tone: "Engaging and professional"
+  length: "long"
+slides:
+  - slide_number: 15
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "Services Standard BeforeProvisioning Rule"
+    subtitle: "JSON configuration instead of a rule per source"
+    content:
+      bullets:
+        - "Challenge: Source edge cases usually mean another BeforeProvisioning BeanShell."
+        - "Solution: One generic cloud rule driven by cloudServicesIDNSetup event configurations."
+        - "Value: Change provisioning behaviour on the source, not in code."
+
+  - slide_number: 16
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Triggers, Then Ordered Actions"
+    subtitle: "Declare when to act and what to do"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Triggers combine operation, identity, attribute, entitlement, and status checks."
+            - "Actions move or rename accounts, strip entitlements, scramble passwords, and more."
+            - "Values substitute identity, manager, account, and date tokens."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Account Request"
+          - "Match Triggers"
+          - "Run Actions in Order"
+          - "Mutated Plan"
+        emphasis: "All triggers must match; later actions see earlier effects."
+
+  - slide_number: 17
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "Optimistic Provisioning SDIM"
+    subtitle: "Simulating write-back when a source cannot persist"
+    content:
+      bullets:
+        - "Challenge: Delimited-file demo sources never persist provisioning requests."
+        - "Solution: Generic SDIM with optimistic provisioning records the account in ISC."
+        - "Value: Realistic demos and POCs without standing up writable infrastructure."
+
+  - slide_number: 18
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Simulated Persistence"
+    subtitle: "The result lands in ISC even when the target ignores it"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "The target ignores the write, so the file stays unchanged."
+            - "The ticket completes immediately, so ISC treats the request as committed."
+            - "Optimistic provisioning stores the account and its attributes."
+      diagram:
+        kind: "comparison"
+        elements:
+          - "Without: no account recorded"
+          - "With: account persisted in ISC"
+        emphasis: "Also useful for any source you cannot write to."
+
+  - slide_number: 19
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "Organizational Hierarchy Path"
+    subtitle: "Walking entitlement parent links"
+    content:
+      bullets:
+        - "Challenge: Organization data arrives flat, with no usable path for reporting or access."
+        - "Solution: A generic cloud rule invoked by a transform walks configured parent links."
+        - "Value: One readable path per identity, with no per-tenant code changes."
+
+  - slide_number: 20
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Parent Walk to Root-First Path"
+    subtitle: "Configuration lives in the transform and source"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "The transform passes the source and entitlement value to the rule."
+            - "Source attributes name the parent, display, and separator fields."
+            - "Traversal is cycle-safe, then reversed to read root first."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Entitlement Value"
+          - "Lookup Parent & Label"
+          - "Walk Up"
+          - "Corporate>Finance>Payroll"
+        emphasis: "Parent fields hold entitlement values, not prebuilt paths."

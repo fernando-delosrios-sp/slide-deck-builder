@@ -127,24 +127,51 @@ properties:
                     - hierarchy
                     - cards
                   description: |
-                    one of:
-                    - 'flow' - ordered steps with inputs and exits
-                    - 'comparison' - two alternatives side by side
-                    - 'matrix' - rows scored against columns
-                    - 'funnel' - candidates narrowing to outcomes
-                    - 'timeline' - events or phases along an axis
-                    - 'hierarchy' - layers or containment
-                    - 'cards' - a grid of peer items
+                    Picture type. 'elements' stay a flat list of strings; the prefix
+                    and delimiter inside each string depend on 'kind':
+                    - 'flow' - ordered steps with inputs and exits. Each element is
+                      one node in reading order. Prefix terminals 'Exit: '. Write
+                      'connections' as 'A -> B'.
+                    - 'comparison' - two alternatives side by side. Prefix every
+                      element with its side ('Without Fusion: …', 'Umbrella: …') so
+                      the two columns parse without a separate grouping field.
+                    - 'matrix' - rows scored against columns. First element is
+                      'Header: <row-key> | <col> | <col> | …'. Each following
+                      element is 'Record: <row-label> | <cell> | <cell> | …' with
+                      the same column count. Pipes are cell delimiters, not markdown
+                      table fences; no leading or trailing '|'. Every scored cell
+                      belongs on a Record; do not list axis names alone and leave
+                      the generator to invent yes/no, scores or phrases.
+                    - 'funnel' - candidates narrowing to outcomes. Elements run
+                      wide to narrow; the first is the intake, later ones are
+                      successive splits or exits.
+                    - 'timeline' - events or phases along an axis. Elements are
+                      chronological; 'connections' chain them in that order.
+                    - 'hierarchy' - layers or containment. The first element is
+                      the root; the rest are children. 'connections' are
+                      'parent -> child' or 'parent -> each of …'.
+                    - 'cards' - a grid of peer items. One element per card; no
+                      ranking. Omit 'connections'.
                 elements:
                   type: array
                   items:
                     type: string
-                  description: Labelled nodes, columns, rows or cards, in reading order.
+                  description: |
+                    Labelled parts of the drawing, in reading order, using the
+                    per-kind prefixes under 'kind'. Values are facts (names,
+                    yes/no, scores, short phrases), never appearance (colours,
+                    icons, stroke, layout).
                 connections:
                   type: array
                   items:
                     type: string
-                  description: Relationships between elements, e.g. 'Map -> Define'.
+                  description: |
+                    Relationships between elements, e.g. 'Map -> Define'. Required
+                    on a 'flow' that branches, merges or exits, and useful for
+                    'comparison', 'funnel', 'timeline' and 'hierarchy'. A strictly
+                    sequential flow may omit them: 'elements' already carry reading
+                    order. Omit on 'cards'. On 'matrix' omit unless a relationship
+                    outside the grid must be drawn.
                 emphasis:
                   type: string
                   description: The single element or relationship the slide argues for.

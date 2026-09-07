@@ -1,0 +1,423 @@
+title: "SailPoint Utilities Portfolio"
+goal: "Present the reusable patterns in the sailpoint-utils repository, with the PowerShell Rule Template as the foundation of a growing rule catalogue. Draw detail from the repository sources."
+options:
+  language: "en"
+  audience: "SailPoint colleagues"
+  tone: "Engaging and professional"
+  length: "long"
+slides:
+  - slide_number: 1
+    layout: "Title Slide"
+    role: "cover"
+    title: "SailPoint Utilities Portfolio"
+    subtitle: "Reusable patterns for ISC, SaaS Connectivity, and third-party integrations"
+    content:
+      body: "Field-proven utilities you can clone, configure, and extend."
+
+  - slide_number: 2
+    layout: "Section Header"
+    role: "transition"
+    title: "ISC Utilities"
+    subtitle: "A standard foundation, then practical implementations"
+    content:
+      body: "Rules, transforms, and configurations that stay reusable across sources and tenants."
+
+  - slide_number: 3
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "PowerShell Rule Template"
+    subtitle: "Copy-ready foundation for IQService rules"
+    content:
+      bullets:
+        - "Challenge: IQService hides script output, so failures are hard to see and reproduce."
+        - "Solution: A bootstrap that owns logging, context, redaction, exit codes, and replay."
+        - "Strategy: Write only rule-specific code; every catalogue rule inherits the same controls."
+
+  - slide_number: 4
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Bootstrap Architecture"
+    subtitle: "One execution contract for every rule"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Context: $ctx exposes request and application values without parsing XML."
+            - "Artifacts: Per-run log plus a verified dump of the script that ran."
+            - "Recovery: Secrets redacted by default; replay reruns the same invocation."
+      diagram:
+        kind: "flow"
+        elements:
+          - "IQService Invocation"
+          - "Build $ctx & Options"
+          - "Log, Dump, Replay"
+          - "Custom Code, Exit 0/1"
+        emphasis: "Developers replace only the custom process section."
+
+  - slide_number: 5
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "Active Directory Home Folders"
+    subtitle: "First practical implementation of the template"
+    content:
+      bullets:
+        - "Challenge: Creating home directories and NTFS ACLs by hand is slow and error-prone."
+        - "Solution: A rule creates the folder and applies configured permissions after account creation."
+        - "Value: Business outcome plus the template's logging, error control, and replay."
+
+  - slide_number: 6
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Settings-Driven Folder Creation"
+    subtitle: "Paths and permission groups live in application settings"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Configure base path, naming inputs, and permission groups per source."
+            - "Build the user path and create the directory when missing."
+            - "Apply the configured user and group NTFS permissions."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Account Created"
+          - "Read Settings"
+          - "Create Folder"
+          - "Apply Permissions"
+        emphasis: "Reuse across environments without touching rule code."
+
+  - slide_number: 7
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "Active Directory OU Management"
+    subtitle: "Preventing provisioning blocks"
+    content:
+      bullets:
+        - "Challenge: AD provisioning fails when the target or parent OU does not exist."
+        - "Solution: BeforeScripts check the path and create missing containers on the fly."
+        - "Value: No ad-hoc requests to build directory structures ahead of time."
+
+  - slide_number: 8
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "On-the-Fly Directory Creation"
+    subtitle: "Inspect the plan, then prepare the path"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Intercept the provisioning plan before execution."
+            - "Detect missing container nodes in the target path."
+            - "Create parent OUs and, optionally, AD groups."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Provisioning Plan"
+          - "Check AD Path"
+          - "Create OUs & Groups"
+          - "Account Created"
+        emphasis: "The path is ready before provisioning runs."
+
+  - slide_number: 9
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "Dynamic Forms & Data Collection"
+    subtitle: "Cascading choices over changing data"
+    content:
+      bullets:
+        - "Challenge: Conditional requirements and fast-changing reference data outgrow static forms."
+        - "Solution: Cascading dropdowns fed by any source that supplies key and name fields."
+        - "Value: Current, guided choices in any process with interdependent selections."
+
+  - slide_number: 10
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Key and Name Data Contract"
+    subtitle: "Hierarchical keys make dependent lookups simple"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Name is the friendly label shown in the form."
+            - "Keys are globally unique and encode ancestry: AXXX, then AXXX-BYYY."
+            - "Searching the selected parent key returns its valid child options."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Parent AXXX"
+          - "Child AXXX-BYYY"
+          - "Search by Parent Key"
+          - "Matching Options"
+        emphasis: "Reference data changes without touching form logic."
+
+  - slide_number: 11
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "Generic Manager Correlation"
+    subtitle: "Ordered identifiers, one reusable rule"
+    content:
+      bullets:
+        - "Challenge: Manager identifiers differ per source, and tenants cannot upload ad-hoc rules."
+        - "Solution: A firstValid transform ranks candidates and emits attributeName|attributeValue."
+        - "Value: Rank identifiers or set a default per source without a new rule."
+
+  - slide_number: 12
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Transform Chooses, Rule Resolves"
+    subtitle: "Identifier logic stays in configuration"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "firstValid tries email, username, or employee number in priority order."
+            - "An optional fallback default closes the chain."
+            - "The source rule parses the token and searches identities on that attribute."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Ordered Options"
+          - "Optional Default"
+          - "attributeName|attributeValue"
+          - "Manager Linked"
+        emphasis: "Changing priority is a transform edit, not a rule change."
+
+  - slide_number: 13
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "JDBC SaaS Driver Downloader"
+    subtitle: "Automating driver collection"
+    content:
+      bullets:
+        - "Challenge: Finding compatible JDBC drivers for SaaS connectors is tedious."
+        - "Solution: Node.js automation queries Maven Central and bundles the result."
+        - "Value: Saves manual searching and packages assets correctly for upload."
+
+  - slide_number: 14
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Driver Package Toolchain"
+    subtitle: "From Maven Central to an upload-ready bundle"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Resolve stable, verified driver versions."
+            - "Bundle drivers into a standard ZIP package."
+            - "Format output for SaaS connector upload."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Maven Central Query"
+          - "Fetch Binary"
+          - "ZIP Bundle"
+          - "Cloud JDBC Source"
+        emphasis: "Verified sources beat unofficial mirrors."
+
+  - slide_number: 15
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "Services Standard BeforeProvisioning Rule"
+    subtitle: "JSON configuration instead of a rule per source"
+    content:
+      bullets:
+        - "Challenge: Source edge cases usually mean another BeforeProvisioning BeanShell."
+        - "Solution: One generic cloud rule driven by cloudServicesIDNSetup event configurations."
+        - "Value: Change provisioning behaviour on the source, not in code."
+
+  - slide_number: 16
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Triggers, Then Ordered Actions"
+    subtitle: "Declare when to act and what to do"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Triggers combine operation, identity, attribute, entitlement, and status checks."
+            - "Actions move or rename accounts, strip entitlements, scramble passwords, and more."
+            - "Values substitute identity, manager, account, and date tokens."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Account Request"
+          - "Match Triggers"
+          - "Run Actions in Order"
+          - "Mutated Plan"
+        emphasis: "All triggers must match; later actions see earlier effects."
+
+  - slide_number: 17
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "Optimistic Provisioning SDIM"
+    subtitle: "Simulating write-back when a source cannot persist"
+    content:
+      bullets:
+        - "Challenge: Delimited-file demo sources never persist provisioning requests."
+        - "Solution: Generic SDIM with optimistic provisioning records the account in ISC."
+        - "Value: Realistic demos and POCs without standing up writable infrastructure."
+
+  - slide_number: 18
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Simulated Persistence"
+    subtitle: "The result lands in ISC even when the target ignores it"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "The target ignores the write, so the file stays unchanged."
+            - "The ticket completes immediately, so ISC treats the request as committed."
+            - "Optimistic provisioning stores the account and its attributes."
+      diagram:
+        kind: "comparison"
+        elements:
+          - "Without: no account recorded"
+          - "With: account persisted in ISC"
+        emphasis: "Also useful for any source you cannot write to."
+
+  - slide_number: 19
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "Organizational Hierarchy Path"
+    subtitle: "Walking entitlement parent links"
+    content:
+      bullets:
+        - "Challenge: Organization data arrives flat, with no usable path for reporting or access."
+        - "Solution: A generic cloud rule invoked by a transform walks configured parent links."
+        - "Value: One readable path per identity, with no per-tenant code changes."
+
+  - slide_number: 20
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Parent Walk to Root-First Path"
+    subtitle: "Configuration lives in the transform and source"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "The transform passes the source and entitlement value to the rule."
+            - "Source attributes name the parent, display, and separator fields."
+            - "Traversal is cycle-safe, then reversed to read root first."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Entitlement Value"
+          - "Lookup Parent & Label"
+          - "Walk Up"
+          - "Corporate>Finance>Payroll"
+        emphasis: "Parent fields hold entitlement values, not prebuilt paths."
+
+  - slide_number: 21
+    layout: "Two Content"
+    role: "solution_intro"
+    title: "Curated Transforms Catalog"
+    subtitle: "A starting library that encodes best practice"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Intention: seed a shared catalogue, not a finished set of every computation."
+            - "Bar: production-vetted native JSON that teams copy instead of rewriting."
+            - "Reuse: the same dates, history, lifecycle, and manager logic in every tenant."
+      diagram:
+        kind: "cards"
+        elements:
+          - "Dates"
+          - "Attribute History"
+          - "Lifecycle State"
+          - "Is Manager"
+        emphasis: "Start here, then add transforms that meet the same bar."
+    notes: "ISC/Transforms on GitHub is the seed: https://github.com/fernando-delosrios-sp/sailpoint-utils/tree/main/ISC/Transforms"
+
+  - slide_number: 22
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "SaaS Custom Operations"
+    subtitle: "A workflow runtime and a library of use cases"
+    content:
+      bullets:
+        - "Challenge: Workflows need custom ISC logic that native steps do not provide."
+        - "Solution: A custom-operations framework plus ready commands and workflow templates."
+        - "Value: Deploy once, reuse proven operations, and add new ones the same way."
+
+  - slide_number: 23
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Framework Plus Catalogue"
+    subtitle: "Invoke, persist, then read results"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Workflows invoke a typed handler that calls back into ISC APIs."
+            - "Results persist to an auto-provisioned source for later workflow steps."
+            - "Shipped operations cover SoD remediation, catalogue checks, and group emails."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Workflow Invoke"
+          - "Handler & ISC APIs"
+          - "Persist Result"
+          - "Read in Workflow"
+        emphasis: "A runtime for workflow logic, not an aggregation source."
+
+  - slide_number: 24
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "OrangeHRM to ISC Aggregation"
+    subtitle: "One employee page, immediate sync"
+    content:
+      bullets:
+        - "Challenge: Scheduled aggregation leaves ISC behind the HR record."
+        - "Solution: Plugin hooks on the employee pages request aggregation on every save."
+        - "Value: Changes are convenient to make and reflected in ISC right away."
+
+  - slide_number: 25
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Save in HR, Sync in ISC"
+    subtitle: "Lifecycle events trigger aggregation directly"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Create, job, contact, report-to, terminate, and activate all trigger a sync."
+            - "A successful save requests account load for the HR source immediately."
+            - "Cancelled forms skip the call; a failed call is logged, not rolled back."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Employee Page Save"
+          - "Aggregation Request"
+          - "ISC Loads Accounts"
+          - "Identity Matches HR"
+        emphasis: "No waiting for the next batch."
+
+  - slide_number: 26
+    layout: "Section Header"
+    role: "transition"
+    title: "Deployment & Strategy"
+    subtitle: "Using the catalogue"
+    content:
+      body: "Clone, configure, and extend these patterns safely."
+
+  - slide_number: 27
+    layout: "Title Slide"
+    role: "closing"
+    title: "Deploy and Accelerate"
+    subtitle: "fernando-delosrios-sp/sailpoint-utils on GitHub"
+    content:
+      body: "Each utility ships its own README. Clone, configure, and contribute your own patterns."

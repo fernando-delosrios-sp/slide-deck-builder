@@ -2,7 +2,7 @@ title: "Identity Fusion NG"
 goal: "Give newcomers the value and mental model of Identity Fusion NG: why it exists, how Map-Define-Match works, who participates, and how to run it."
 options:
   language: "en"
-  audience: "New to the product; an SME presents from the notes"
+  audience: "New to the product; an SME presents from identity-fusion-ng-speaker-notes.md"
   tone: "Technical and educational"
   length: "long"
 slides:
@@ -27,7 +27,6 @@ slides:
         connections:
           - "Map -> Normal Define -> Match -> Unique Define"
         emphasis: "Unique values are minted only after Match decides."
-    notes: "Normal attributes honour static versus always-recalculate, and empty or failed output clears the stored value. Records sources can register unique values without emitting a Fusion account."
 
   - slide_number: 8
     layout: "Title and Content"
@@ -36,10 +35,10 @@ slides:
     subtitle: "Four exits, decided against the baseline"
     content:
       bullets:
-        - "Only uncorrelated managed accounts are scored, against the baseline of known identities."
+        - "Only uncorrelated managed accounts are scored, against the baseline of known Fusion identities."
         - "Automatic merge when the combined score clears the configured auto-merge threshold."
         - "Review form when the score clears the review floor but not the auto-merge threshold."
-        - "Non-match exits by source type: create an identity, register a value, or drop the row."
+        - "Non-match exits by source type: create an identity or drop the account."
       diagram:
         kind: "funnel"
         elements:
@@ -47,12 +46,11 @@ slides:
           - "Above auto-merge threshold: automatic merge"
           - "Between review floor and auto-merge threshold: review form"
           - "Below review floor: non-match"
-          - "Non-match by source type: create identity, register value, drop row"
+          - "Non-match by source type: create identity or drop account"
         connections:
           - "Uncorrelated managed accounts -> scored against baseline"
           - "score -> automatic merge, review form or non-match"
         emphasis: "Two thresholds split the score range into three outcomes."
-    notes: "Mention deferred candidates: the best match may be another new account from the same source in the same run, so identity creation waits for the next aggregation."
 
   - slide_number: 9
     layout: "Title and Content"
@@ -61,21 +59,17 @@ slides:
     subtitle: "Weighted similarity with mandatory rules as vetoes"
     content:
       bullets:
-        - "Each rule compares one attribute with a chosen algorithm and a minimum similarity."
-        - "The minimum similarity is also the rule's weight in the combined score."
+        - "Each rule compares one attribute with a chosen algorithm and a threshold."
+        - "The threshold is also the rule's weight in the combined score."
         - "A failed mandatory rule rejects the candidate whatever the combined score says."
         - "Skip if missing keeps empty attributes from dragging a score down."
       diagram:
         kind: "matrix"
         elements:
-          - "Row: given name, Enhanced Name Matcher"
-          - "Row: employee ID, Binary"
-          - "Row: department, skip if missing"
-          - "Row: clearance status, mandatory rule"
-          - "Column: target identity value"
-          - "Column: candidate account value"
-          - "Column: similarity"
-          - "Combined score against the review floor"
+          - "Header: attribute | algorithm or flag | target identity value | candidate account value | similarity"
+          - "Record: given name | Enhanced Name Matcher | Jane | Jayne | high, weighted"
+          - "Record: employee ID | Binary | E-1042 | E-1042 | exact"
+          - "Record: department | skip if missing | Engineering | (empty) | omitted"
+          - "Record: clearance status | mandatory rule | Secret | Confidential | fail, veto"
+          - "Record: combined score | | | | above review floor, still rejected"
         emphasis: "A failed mandatory rule rejects a candidate that clears the combined score."
-    notes: "Algorithm picker: Enhanced Name Matcher for names, Binary for exact identifiers; Jaro-Winkler, LIG3, Dice, Double Metaphone and custom Velocity stay in the notes. Start with the review floor around 80 and enable automatic merge only after tuning."
-

@@ -2,7 +2,7 @@ title: "Identity Fusion NG"
 goal: "Give newcomers the value and mental model of Identity Fusion NG: why it exists, how Map-Define-Match works, who participates, and how to run it."
 options:
   language: "en"
-  audience: "New to the product; an SME presents from the notes"
+  audience: "New to the product; an SME presents from identity-fusion-ng-speaker-notes.md"
   tone: "Technical and educational"
   length: "long"
 slides:
@@ -10,27 +10,22 @@ slides:
     layout: "Title and Content"
     role: "framework"
     title: "Who participates, and in which step?"
-    subtitle: "Seeding, scoring, and contributing are three different permissions"
+    subtitle: "Seeding, scoring, contributing and exiting are four separate questions"
     content:
       bullets:
-        - "Seeds a Fusion account: an identity in scope, an authoritative managed account, or a Records or Orphan row that matches."
-        - "Contributes attributes: any participating identity or managed account, correlated or not."
-        - "Enters Match: only uncorrelated managed accounts."
-        - "Baseline: identities in scope, existing Fusion accounts, and already-correlated accounts."
+        - "Seed is who originates the Fusion account, not who merely participates."
+        - "Baseline is identities in scope, existing Fusion accounts, and already-correlated accounts; Match scores only uncorrelated managed accounts against that set."
+        - "Map still walks every participating identity and managed account, so contributing attributes is not a Match privilege."
       diagram:
         kind: "matrix"
         elements:
-          - "Row: identity in scope"
-          - "Row: correlated Authoritative account"
-          - "Row: uncorrelated Authoritative account"
-          - "Row: uncorrelated Records"
-          - "Row: uncorrelated Orphan"
-          - "Column: seed"
-          - "Column: enter Match"
-          - "Column: contribute attributes"
-          - "Column: create identity on non-match"
+          - "Header: participant | seed | enter Match | contribute attributes | non-match exit"
+          - "Record: identity in scope | yes | no | yes | return Fusion account"
+          - "Record: correlated managed account | yes | no | yes | return Fusion account"
+          - "Record: uncorrelated Authoritative account | yes/no | yes | yes | return Fusion account (new identity)"
+          - "Record: uncorrelated Records account | no | opt out | yes | drop"
+          - "Record: uncorrelated Orphan account | no | yes | yes | drop"
         emphasis: "Only uncorrelated managed accounts enter Match."
-    notes: "This is the deck's cheat sheet. Warn about the two meanings of orphan: the source type versus the orphan status on a Fusion account with no contributing accounts left."
 
   - slide_number: 5
     layout: "Two Content"
@@ -43,22 +38,22 @@ slides:
           kind: "text"
           bullets:
             - "Umbrella: the Fusion source is authoritative and owns create-versus-correlate decisions."
-            - "Choose it for similarity matching with review forms and Fusion-driven identity creation."
+            - "Choose it whenever Fusion itself has to create identities from managed accounts."
         - id: "right"
           kind: "text"
           bullets:
             - "Side-car: the Fusion source is not authoritative; managed sources still create identities."
-            - "Choose it for generated usernames, merged attributes, or match-only supplemental directories."
+            - "Choose it for generated usernames, merged attributes, or supplemental Records and Orphan sources."
       diagram:
         kind: "comparison"
         elements:
-          - "Umbrella: managed sources, Fusion source, identity creation"
-          - "Side-car: managed sources, Fusion source, identity creation"
+          - "Umbrella: managed sources"
+          - "Umbrella: Fusion source owns identity creation"
+          - "Side-car: Fusion source contributes attributes"
         connections:
           - "Umbrella: managed sources -> Fusion source -> identity creation"
-          - "Side-car: managed sources -> identity creation, Fusion source contributes attributes"
+          - "Side-car: managed sources -> Fusion source -> attributes"
         emphasis: "Which box owns identity creation."
-    notes: "Matching can run in both modes; authoritative is what makes Fusion own identity creation. Umbrella and side-car describe the Fusion source; Authoritative, Records and Orphan describe each managed source. One connector can mix source types."
 
   - slide_number: 6
     layout: "Title and Content"
@@ -68,19 +63,18 @@ slides:
     content:
       bullets:
         - "Many source names, one Fusion attribute: title, jobTitle and position become jobTitle."
-        - "First found walks configured source order; main and origin pin to one snapshot and never fall through."
+        - "First found takes the first non-empty value in the configured source order."
         - "Keep a list or concatenate when a person legitimately has several values."
-        - "Source name forces one source to win for a specific attribute."
+        - "Source name forces one source to win for an attribute, whatever the order says."
       diagram:
         kind: "flow"
         elements:
-          - "Workday: title = Senior Engineer"
-          - "Active Directory: title = Engineer"
-          - "Merge strategy"
-          - "Fusion attribute: jobTitle"
+          - "Workday: title = Solutions Consultant"
+          - "SuccessFactors: title = Sales Engineer"
+          - "Merge strategy: main account, origin account, first found, list, concatenate, source name"
+          - "Fusion attribute: [Solutions Consultant] [Sales Engineer]"
         connections:
           - "Workday -> merge strategy"
-          - "Active Directory -> merge strategy"
+          - "SuccessFactors -> merge strategy"
           - "merge strategy -> jobTitle"
-        emphasis: "The configured source order decides which value wins."
-    notes: "Concatenate produces distinct values in brackets, space separated, not an alphabetical string. When identity scope is on, identities are just another contributing snapshot."
+        emphasis: "The chosen merge strategy decides how data is consolidated."
