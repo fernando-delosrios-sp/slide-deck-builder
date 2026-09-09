@@ -1,0 +1,95 @@
+title: "SailPoint Extensibility"
+goal: "Show a SailPoint prospect that ISC extensibility means tuning a solid platform, then map the toolkit and work through the slides in this spec."
+slide_count: 4
+options:
+  language: "en"
+  audience: "SailPoint prospect evaluating Identity Security Cloud"
+  tone: "Confident, consultative, technical"
+slides:
+  - slide_number: 12
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Two SDKs, and humans in the loop"
+    subtitle: "Typed connectivity plus typed ISC, including forms"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "SaaS Connectivity has its own TypeScript SDK."
+            - "Pair it with the ISC TypeScript SDK."
+            - "Fully typed, officially supported, and boring in the best way."
+        - id: "right"
+          kind: "text"
+          bullets:
+            - "Programmatic control over complex objects such as forms."
+            - "Match grey zone becomes a review form, not a guess."
+            - "Human-in-the-loop is an operation, not a slideware promise."
+      diagram:
+        kind: "hierarchy"
+        elements:
+          - "Fusion connector"
+          - "SaaS Connectivity SDK"
+          - "ISC SDK"
+          - "Forms and reviewers"
+        connections:
+          - "Fusion connector -> SaaS Connectivity SDK"
+          - "Fusion connector -> ISC SDK"
+          - "ISC SDK -> Forms and reviewers"
+        emphasis: "Two official SDKs plus forms as first-class objects."
+    notes: "Double SDK is the craft argument: official typed clients, not UI scraping. Preview branch 2.2.0 is the worked example: https://github.com/fernando-delosrios-sp/colab-saas-conn-sailpoint-identity-fusion/tree/2.2.0/preview"
+
+  - slide_number: 13
+    layout: "Title and Content"
+    role: "architecture"
+    title: "Test, relocate, override"
+    subtitle: "Dry-run, proxy processing, and customizer seams"
+    content:
+      bullets:
+        - "Dry-run through the invoke endpoint: run the pipeline with writes suppressed."
+        - "External or proxy processing: run connector logic on your infrastructure and stream results back."
+        - "Override a service (map, define, match) or an operation; the rest of the connector stays intact."
+        - "Those overrides are the same customizer idea the next section generalises."
+      diagram:
+        kind: "hierarchy"
+        elements:
+          - "Fusion runtime"
+          - "Dry-run invoke"
+          - "Proxy and external processing"
+          - "Customizer: services and operations"
+        connections:
+          - "Fusion runtime -> each of Dry-run invoke, Proxy and external processing, Customizer: services and operations"
+        emphasis: "Three ways to intervene without forking the product."
+    notes: "Customizer here is Fusion's own override registry. Next section is the platform customizer: intercept any SaaS connector, including ones you do not own."
+
+  - slide_number: 14
+    layout: "Section Header"
+    role: "transition"
+    title: "SaaS Customizer Framework"
+    subtitle: "Change inputs and outputs without forking the connector"
+    content:
+      body: "Typed before and after functions, stacked on operations, for any SaaS connector that supports customizers."
+
+  - slide_number: 15
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "What a customizer does"
+    subtitle: "Sit between ISC and the connector"
+    content:
+      bullets:
+        - "Intercept the call from ISC to the connector and the response on the way back."
+        - "Before: mutate input so the connector sees a different request."
+        - "After: mutate output so ISC sees a different account or entitlement."
+        - "The VA analogue is a rule. This is the SaaS analogue, without owning the connector source."
+      diagram:
+        kind: "flow"
+        elements:
+          - "ISC"
+          - "Customizer before"
+          - "SaaS connector"
+          - "Customizer after"
+          - "ISC"
+        connections:
+          - "ISC -> Customizer before -> SaaS connector -> Customizer after -> ISC"
+        emphasis: "The customizer never replaces the connector; it wraps it."
+    notes: "Primary use is SailPoint SaaS connectors. Customizers also apply to community connectors; if they own the connector source they often change the connector instead."

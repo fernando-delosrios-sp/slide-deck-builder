@@ -1,0 +1,29 @@
+title: "SailPoint Utilities Portfolio"
+goal: "Present the reusable patterns in the sailpoint-utils repository, with the PowerShell Rule Template as the foundation of a growing rule catalogue. Draw detail from the repository sources."
+slide_count: 2
+options:
+  language: "en"
+  audience: "SailPoint colleagues"
+  tone: "Engaging and professional"
+slides:
+  - slide_number: 29
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "Source Connection Setup"
+    subtitle: "A growing catalogue of automated source onboarding"
+    content:
+      bullets:
+        - "Challenge: Many ISC sources need cloud changes or extensive data collection before they will connect."
+        - "Solution: Operator scripts that do that work and end with a copy/open menu for Connection Settings."
+        - "Value: Entra, AWS, Google Workspace, and IQService are the start; add every source we can automate."
+
+  - slide_number: 30
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "entro-connect"
+    subtitle: "Prepare integration targets for Entro"
+    content:
+      bullets:
+        - "Challenge: Connecting a target to Entro means gathering requirements and preparing that system first."
+        - "Solution: Entro ships helper tools; an AI agent drives the same work through CLI tools and scripts."
+        - "Value: The fastest way to stand up connections, while you still authenticate vendor CLIs locally."

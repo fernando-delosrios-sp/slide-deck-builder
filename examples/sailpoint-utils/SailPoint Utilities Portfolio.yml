@@ -1,5 +1,6 @@
 title: "SailPoint Utilities Portfolio"
 goal: "Present the reusable patterns in the sailpoint-utils repository, with the PowerShell Rule Template as the foundation of a growing rule catalogue. Draw detail from the repository sources."
+slide_count: 27
 options:
   language: "en"
   audience: "SailPoint colleagues"
@@ -376,35 +377,36 @@ slides:
   - slide_number: 24
     layout: "Title and Content"
     role: "solution_intro"
-    title: "OrangeHRM to ISC Aggregation"
-    subtitle: "One employee page, immediate sync"
+    title: "OrangeHRM Consolidated Employee Page"
+    subtitle: "Type the whole record once"
     content:
       bullets:
-        - "Challenge: Scheduled aggregation leaves ISC behind the HR record."
-        - "Solution: Plugin hooks on the employee pages request aggregation on every save."
-        - "Value: Changes are convenient to make and reflected in ISC right away."
+        - "Challenge: Onboarding walks separate tabs for job, contact, manager, and login."
+        - "Solution: One employee page collects the whole record and saves it together."
+        - "Value: Quicker, more consistent entry, and ISC syncs on the same save."
 
   - slide_number: 25
     layout: "Two Content"
     role: "deep_dive"
-    title: "Save in HR, Sync in ISC"
-    subtitle: "Lifecycle events trigger aggregation directly"
+    title: "One Form, One Save"
+    subtitle: "Identity, job, contact, manager, and login together"
     content:
       regions:
         - id: "left"
           kind: "text"
           bullets:
-            - "Create, job, contact, report-to, terminate, and activate all trigger a sync."
-            - "A successful save requests account load for the HR source immediately."
-            - "Cancelled forms skip the call; a failed call is logged, not rolled back."
+            - "Name, ID, job title, department, location, and status sit on one page."
+            - "So do phones, emails, contract dates, photo, and an optional login."
+            - "One save writes employee, contract, direct manager, and user account."
+            - "Later job, contact, report-to, terminate, and activate edits sync the same way."
       diagram:
         kind: "flow"
         elements:
-          - "Employee Page Save"
-          - "Aggregation Request"
-          - "ISC Loads Accounts"
-          - "Identity Matches HR"
-        emphasis: "No waiting for the next batch."
+          - "Consolidated Employee Page"
+          - "Single Save"
+          - "Employee, Contract, Manager, Login"
+          - "Aggregation Request to ISC"
+        emphasis: "One page replaces the tab-by-tab walk."
 
   - slide_number: 26
     layout: "Section Header"

@@ -1,0 +1,52 @@
+title: "SailPoint Extensibility"
+goal: "Show a SailPoint prospect that ISC extensibility means tuning a solid platform, then map the toolkit and work through the slides in this spec."
+slide_count: 3
+options:
+  language: "en"
+  audience: "SailPoint prospect evaluating Identity Security Cloud"
+  tone: "Confident, consultative, technical"
+slides:
+  - slide_number: 1
+    layout: "Title Slide"
+    role: "cover"
+    title: "SailPoint Extensibility"
+    subtitle: "Tune the platform. Do not rescue a wreck."
+    content:
+      body: "Triggers, APIs, connectors, and customizers that add power without replacing the car."
+
+  - slide_number: 2
+    layout: "Comparison"
+    role: "hook"
+    title: "Two ways to 'extend' a car"
+    subtitle: "Theatre on a wreck versus extra power on a good chassis"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Lousy car, tacky upgrades"
+            - "A spoiler the chassis cannot use"
+            - "Massive exhaust as theatre"
+            - "Flame paint on the doors"
+        - id: "right"
+          kind: "text"
+          bullets:
+            - "Good car, then tuned"
+            - "Chipped for extra power"
+            - "Better sound system"
+            - "Upholstered steering wheel"
+      diagram:
+        kind: "comparison"
+        elements:
+          - "Lousy car: spoiler, exhaust, flame paint"
+          - "Good car: chip, sound, steering wheel"
+        emphasis: "Same word 'upgrade'; opposite engineering."
+    notes: "The comparison is the argument. Left is collage on a deficient original. Right is extra power on a car that already works. ISC is the right-hand car: extend it at a published seam; do not stand up a second identity product beside it. Then go to the seams."
+
+  - slide_number: 3
+    layout: "Section Header"
+    role: "transition"
+    title: "Types of extensibility"
+    subtitle: "Pick the seam that matches the job"
+    content:
+      body: "Events, APIs, in-product logic, and connectivity — seven ways to add power without replacing the chassis."

@@ -1,0 +1,65 @@
+title: "SailPoint Extensibility"
+goal: "Show a SailPoint prospect that ISC extensibility means tuning a solid platform, then map the toolkit and work through the slides in this spec."
+slide_count: 3
+options:
+  language: "en"
+  audience: "SailPoint prospect evaluating Identity Security Cloud"
+  tone: "Confident, consultative, technical"
+slides:
+  - slide_number: 4
+    layout: "Title and Content"
+    role: "framework"
+    title: "Seven seams on one platform"
+    subtitle: "Talk to ISC, change how ISC talks to systems, or both"
+    content:
+      bullets:
+        - "Triggers and Shared Signals: events out, then act elsewhere."
+        - "API: programmatic control of ISC objects and operations."
+        - "SDK and CLI: typed clients and automation on that API."
+        - "Rules and transforms: in-product logic at aggregation, provisioning, and identity processing."
+        - "MCP server: agent-facing tools over ISC."
+        - "Generic connectors: Web Services, JDBC, Delimited Text, and similar templates."
+        - "Custom SaaS connectors and customizers: own the operation, or intercept someone else's."
+      diagram:
+        kind: "cards"
+        elements:
+          - "Triggers and Shared Signals"
+          - "API"
+          - "SDK and CLI"
+          - "Rules and transforms"
+          - "MCP server"
+          - "Generic connectors"
+          - "Custom SaaS connectors and customizers"
+        emphasis: "Seven peer seams, not a ranking."
+    notes: "Do not rank them. Rank comes from the job. Rules still win for a one-line transform. Custom SaaS wins when you need an operation ISC cannot express. MCP is the newest seam: same API, agent-shaped."
+
+  - slide_number: 5
+    layout: "Section Header"
+    role: "transition"
+    title: "How ISC extensibility grew"
+    subtitle: "Each era closed a circle the previous one left open"
+    content:
+      body: "From transforms in a closed box to connectors that treat ISC as both source and target."
+
+  - slide_number: 6
+    layout: "Title and Content"
+    role: "roadmap"
+    title: "Four eras, each adding a missing arc"
+    subtitle: "What the platform could do, and what still had to be invented around it"
+    content:
+      bullets:
+        - "Transforms and rules: limited use cases; most of today's options did not exist."
+        - "API and triggers: serverless functions closed trigger to API; loopback Web Services connectors appeared."
+        - "Workflows and forms: interactive processes; workflows call the API for operations otherwise not available."
+        - "SaaS Connectivity: custom connectors and customizers; internal and external extensibility; advanced operations complement workflows."
+      diagram:
+        kind: "timeline"
+        elements:
+          - "Transforms and rules"
+          - "API, triggers, serverless, loopback Web Services"
+          - "Workflows and forms"
+          - "SaaS Connectivity: custom connectors and customizers"
+        connections:
+          - "Transforms and rules -> API, triggers, serverless, loopback Web Services -> Workflows and forms -> SaaS Connectivity: custom connectors and customizers"
+        emphasis: "SaaS Connectivity is the first era that covers both inside and outside the tenant in one toolkit."
+    notes: "Tell it as field experience with ISC, not an internal changelog. Each era is a capability they can use today. Loopback already existed with Web Services; SaaS Connectivity is that idea at full power."

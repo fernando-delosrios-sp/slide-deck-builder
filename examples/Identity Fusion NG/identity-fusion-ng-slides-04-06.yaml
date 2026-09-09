@@ -1,10 +1,10 @@
 title: "Identity Fusion NG"
 goal: "Give newcomers the value and mental model of Identity Fusion NG: why it exists, how Map-Define-Match works, who participates, and how to run it."
+slide_count: 3
 options:
   language: "en"
   audience: "New to the product; an SME presents from identity-fusion-ng-speaker-notes.md"
   tone: "Technical and educational"
-  length: "long"
 slides:
   - slide_number: 4
     layout: "Title and Content"

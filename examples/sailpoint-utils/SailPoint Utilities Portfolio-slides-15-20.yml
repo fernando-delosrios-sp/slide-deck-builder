@@ -1,10 +1,10 @@
 title: "SailPoint Utilities Portfolio"
 goal: "Present the reusable patterns in the sailpoint-utils repository, with the PowerShell Rule Template as the foundation of a growing rule catalogue. Draw detail from the repository sources."
+slide_count: 6
 options:
   language: "en"
   audience: "SailPoint colleagues"
   tone: "Engaging and professional"
-  length: "long"
 slides:
   - slide_number: 15
     layout: "Title and Content"

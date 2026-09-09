@@ -1,0 +1,107 @@
+title: "SailPoint Extensibility"
+goal: "Show a SailPoint prospect that ISC extensibility means tuning a solid platform, then map the toolkit and work through the slides in this spec."
+slide_count: 5
+options:
+  language: "en"
+  audience: "SailPoint prospect evaluating Identity Security Cloud"
+  tone: "Confident, consultative, technical"
+slides:
+  - slide_number: 7
+    layout: "Section Header"
+    role: "transition"
+    title: "Identity Fusion NG"
+    subtitle: "A connector that treats ISC as source and target"
+    content:
+      body: "Unique IDs, de-duplication, and a Map-Define-Match pipeline built on SaaS Connectivity."
+
+  - slide_number: 8
+    layout: "Title and Content"
+    role: "problem_statement"
+    title: "Why Fusion exists"
+    subtitle: "Mint unique IDs. Stop duplicate identities."
+    content:
+      bullets:
+        - "ISC has no built-in way to mint unique identifiers at aggregation time."
+        - "Exact-match correlation misses near-duplicates and creates a second identity."
+        - "The answer is not a spoiler on the platform: it is a connector that uses ISC as both source and target."
+      diagram:
+        kind: "comparison"
+        elements:
+          - "Without Fusion: one person, two identities"
+          - "With Fusion: unique IDs and scored matches"
+        emphasis: "Same person should not become two identities."
+    notes: "Motivation is two jobs: uniqueness and de-duplication. Everything else in Fusion is that pair generalised."
+
+  - slide_number: 9
+    layout: "Title and Content"
+    role: "framework"
+    title: "Map, Define, Match"
+    subtitle: "One pipeline, many jobs"
+    content:
+      bullets:
+        - "Map aligns schemas and consolidates attributes across sources."
+        - "Define computes values: unique IDs, UUIDs, normalised names and dates."
+        - "Match scores near-duplicates and can send the grey zone to a reviewer."
+        - "The same framework covers account consolidation, attribute computation, identity de-duplication, data-record reconciliation, and orphan-account management."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Managed sources and identity scope"
+          - "Map"
+          - "Define"
+          - "Match"
+          - "Exit: Fusion account, review, auto-merge, or drop"
+        connections:
+          - "Managed sources and identity scope -> Map -> Define -> Match"
+          - "Match -> Exit: Fusion account, review, auto-merge, or drop"
+        emphasis: "Order is always Map, then Define, then Match; jobs change which exits you use."
+    notes: "Do not teach every operation mode. Teach that Map-Define-Match is a connectivity pattern, not a one-off identity product."
+
+  - slide_number: 10
+    layout: "Two Content"
+    role: "architecture"
+    title: "ISC is both source and target"
+    subtitle: "Loopback taken as far as the platform will go"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Mindset change: the tenant is not only the destination of accounts."
+            - "Read identities and accounts from ISC, compute, then write Fusion accounts back."
+        - id: "right"
+          kind: "text"
+          bullets:
+            - "Loopback is a known self-management pattern."
+            - "Web Services could do it. SaaS Connectivity plus the ISC SDK take it to the limit."
+      diagram:
+        kind: "flow"
+        elements:
+          - "ISC identities and managed accounts"
+          - "Fusion connector"
+          - "Fusion accounts back into ISC"
+        connections:
+          - "ISC identities and managed accounts -> Fusion connector -> Fusion accounts back into ISC"
+        emphasis: "The connector sits on a loop, not on a one-way import."
+    notes: "This is the chip, not the spoiler: Fusion does not replace correlation; it adds a source that can see the tenant and write back."
+
+  - slide_number: 11
+    layout: "Title and Content"
+    role: "solution_intro"
+    title: "It is a connector"
+    subtitle: "Instantiate, configure, persist, operate"
+    content:
+      bullets:
+        - "Instantiate it more than once, with different configs, for different jobs."
+        - "Take control of every connector operation the SDK exposes."
+        - "Sources can persist data, so the connector is not a stateless transform."
+        - "That is why one codebase covers consolidation, uniqueness, matching, records, and orphans."
+      diagram:
+        kind: "cards"
+        elements:
+          - "Multiple instances"
+          - "Per-instance config"
+          - "Full operation set"
+          - "Persisted source data"
+        emphasis: "Connector semantics, not a sidecar script."
+    notes: "If they remember one Fusion line, it is this: it is a source. Treat it like a source."

@@ -1,0 +1,59 @@
+title: "SailPoint Extensibility"
+goal: "Show a SailPoint prospect that ISC extensibility means tuning a solid platform, then map the toolkit and work through the slides in this spec."
+slide_count: 2
+options:
+  language: "en"
+  audience: "SailPoint prospect evaluating Identity Security Cloud"
+  tone: "Confident, consultative, technical"
+slides:
+  - slide_number: 16
+    layout: "Two Content"
+    role: "deep_dive"
+    title: "Typed functions and an operations map"
+    subtitle: "Stackable before and after hooks, keyed by operation and attribute"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "You write BeforeOperation<input> or AfterOperation<input>."
+            - "Before returns a partial input to merge; after returns a partial output to merge."
+            - "The engine iterates, merges, and logs. You do not wire SDK commands by hand."
+        - id: "right"
+          kind: "text"
+          bullets:
+            - "An operations map assigns one or more functions to one or more operations."
+            - "Keys are hookPattern.attributePattern: afterStdAccountRead.sponsors, beforeStdAccountCreate.*, *.*."
+            - "Several functions on one key stack; one function can serve many keys."
+      diagram:
+        kind: "flow"
+        elements:
+          - "SDK command"
+          - "Operation map match"
+          - "BeforeOperation or AfterOperation functions in order"
+          - "Merged input or output"
+        connections:
+          - "SDK command -> Operation map match -> BeforeOperation or AfterOperation functions in order -> Merged input or output"
+        emphasis: "The map is the convenience; the typed function is the unit of work."
+    notes: "Worked example: https://github.com/fernando-delosrios-sp/saas-customizer-framework — Entra ID sponsors as a Graph navigation property the base connector cannot read or write. preSetSponsors on create/update, setSponsors after create, getSponsors after list/read. Guest GAL and application parsing stack on the same map."
+
+  - slide_number: 17
+    layout: "Title and Content"
+    role: "closing"
+    title: "Chip the engine"
+    subtitle: "A good car, extra power, no flame paint"
+    content:
+      bullets:
+        - "ISC is the chassis. Extensibility is a chip, a sound system, a better wheel — not a spoiler on a wreck."
+        - "Pick the seam: event, API, rule, generic connector, custom SaaS, or customizer."
+        - "Fusion shows the loopback mindset at full power: ISC as source and target."
+        - "The customizer framework shows how to change a connector you do not own, with typed, stackable operations."
+      diagram:
+        kind: "cards"
+        elements:
+          - "Tune the platform"
+          - "Pick the seam"
+          - "Fusion: loopback connector"
+          - "Customizer: wrap, do not fork"
+        emphasis: "Four takeaways, no ranking."
+    notes: "Close on the car. Ask which of their current extensions are chips and which are spoilers, then name the ISC seam that would replace the spoiler."
