@@ -1,5 +1,6 @@
 title: "Slide Deck Builder"
 goal: "Introduce the Slide Deck Builder project to SailPoint colleagues, detailing the journey from redundant paid tools to harnessing NotebookLM with proper guardrails."
+slide_count: 12
 options:
   language: "en"
   audience: "SailPoint colleagues"

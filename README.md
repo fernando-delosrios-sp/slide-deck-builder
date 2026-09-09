@@ -16,7 +16,7 @@ The deck generation process relies on three foundational files:
 
 ### 1. Schema (`Schema.yaml`)
 This is the blueprint for the presentation. It defines the required structure for the deck, including:
-- **Global Properties**: `title`, `goal`, and `options` (language, audience, tone, length).
+- **Global Properties**: `title`, `goal`, `slide_count`, and `options` (language, audience, tone, length).
 - **Slides Array**: A list of individual slides, each requiring a specific `layout`, semantic `role`, `title`, and `content` (body text, bullets, media regions), along with optional presenter `notes`.
 
 ### 2. Layouts (`Layouts.csv`)
@@ -65,6 +65,20 @@ The spec describes structure and content; the enabled style source decides how i
 
 - **The spec names no style.** No `style` key, no colours, no fonts, no visual language in `notes`. A spec that reads correctly under Civic Standard reads correctly under SailPoint Corporate 2026. When a slide needs a drawing, describe it with `content.diagram` (`kind`, `elements`, `connections`, `emphasis`) so the style decides strokes, icons and depth.
 - **Exactly one `*-design.md` source is enabled** during generation. Enabling several, or none, is what makes the model invent a look.
+
+### Controlling how many slides come out
+
+The `slides` array is the only thing that sets the length of a generated deck. Two fields in a spec look like they set it and do not:
+
+- `options.length` sizes the spec while you are writing it, so `long` on a spec holding three slides still generates three slides.
+- `goal` and `title` describe the whole story. A spec that promises a toolkit and two worked examples but carries three slides is still a three-slide job.
+
+Declare the number you want with `slide_count`, the count of entries in the `slides` array. The count travels with the spec, so the generator can compare what it was told against what it received and ask for the rest instead of inventing slides to fill the gap.
+
+Two habits keep a sliced spec from growing slides of its own:
+
+- **Set `slide_count` to the length of the slice**, not the length of the finished deck. A spec holding slides 4 to 7 declares `slide_count: 4`.
+- **Prefer a slice that ends on its own payoff.** A slice whose last slide is a section header or transition announces content that is not in the paste, which is the strongest invitation there is to keep drawing. Cut after the section's content instead, or say in the prompt that this pass ends on the announcement.
 
 ### Generating a long deck
 

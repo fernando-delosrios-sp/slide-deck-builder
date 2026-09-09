@@ -15,6 +15,14 @@ properties:
   goal:
     type: string
     description: One or two sentences describing what the deck should achieve.
+  slide_count:
+    type: integer
+    description: |
+      How many slides this spec asks for: the number of entries in 'slides', which for a
+      slice of a longer deck is the length of the slice, not the length of the whole deck.
+      Generation outputs exactly this many slides. A count that disagrees with the entries
+      present means the spec was truncated in transit, so generation stops and asks for the
+      rest rather than inventing the difference.
   options:
     type: object
     properties:
@@ -34,10 +42,12 @@ properties:
           - default
           - long
         description: |
-          one of:
+          Target size while the spec is being written, one of:
           - 'short' - ~5-7 slides
           - 'default' - ~8-14 slides
           - 'long' - 15+ slides
+          Generation ignores this field. Only the 'slides' array sets how many slides come
+          out, so 'long' on a spec holding three entries still generates three slides.
   slides:
     type: array
     items:
