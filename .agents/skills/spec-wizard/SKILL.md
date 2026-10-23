@@ -28,12 +28,18 @@ The user works from a dedicated project directory: `projects/<project-name>/`.
          ```bash
          ./venv/bin/python engine/inspect_pptx.py projects/<project-name>/<filename>.pptx
          ```
-       * Use the extracted slide inventory as the baseline for modernization.
+       * Use the extracted slide inventory and OCR text as the baseline for modernization.
+       * **Flattened Deck Gate**: If `inspect_pptx.py` reports a `Flattened Presentation Detected (Picture-Only Slides)`:
+         Present a structured gate (`ask_question`) warning the user about the reconstruction effort:
+         - `reconstruct`: "Reconstruct Flattened Deck (Recommended) — reconstruct slides into native semantic components from OCR text and redraw diagrams as clean SVGs (requires higher legwork). Whole-slide screenshots will NOT be embedded as thumbnails."
+         - `scratch`: "Start fresh — build from notes/brief instead of reconstructing flattened bitmaps."
+         - `cancel`: "Pause — provide an editable PowerPoint deck with native vector shapes/text."
        * Record the baseline in `spec.yaml` as `baseline: "../<filename>.pptx"` (enables the coverage gate).
   3. **Mandatory Visual Review (no drafting before this)**: text extraction misses what most baseline slides actually say — screenshots, schemas, worked examples and diagrams live in images.
      - **Open every significant extracted image** in `deck/assets/` with `view_file` (raster ≥150px on both sides; `engine/check_coverage.py` lists them) and write a one-line description of what it shows into `projects/<project-name>/media-notes.md` (e.g. `image29.png — Identity Profile Mappings table: attribute → HR field, sample identity jcooper`).
      - Group-shape diagrams with no extractable text must also be understood visually before being summarised.
      - Drafting may not begin until `media-notes.md` covers every significant image. Never infer an image's content from its filename, slide title, or neighbouring text.
+     - **Slide Canvas Rule**: Do NOT embed full-slide canvas screenshots (`assets/imageX.png`) in `content.image`. Embedding whole-slide screenshots into layout frames is prohibited by `check_coverage.py`. Reconstruct the slide into native semantic components (`cards`, `comparison`, `metrics`, `bullets`) using OCR text, and redraw diagrams as clean SVGs or architecture components.
 
 ### 2. Discover Outcome Details (Grilling Round)
 Follow the [grilling](../grilling/SKILL.md) skill round loop to systematically settle the presentation contract without unstated assumptions.
@@ -47,7 +53,7 @@ Consult [Schema.yaml](../../../Schema.yaml) properties:
 - **Baseline Modernization Focus** (when modernizing an existing deck):
   - **Fidelity-First Modernization Mandate**: When starting from an existing presentation, the primary goal is **modernizing the existing slides faithfully**. Preserve the original slides' specific technical concepts, data examples, schemas, tables, diagrams, and presenter notes. Modernization means elevating visual design, typography, layout, and theme compliance—**NOT rewriting, over-interpreting, or abstracting away the domain specifics**.
   - **Consensuating Consolidations & Messaging Revisions**: The agent **MUST NOT unilaterally consolidate slides, drop slides, or alter core messaging**. If the agent identifies opportunities to prune, merge, or refine messaging, these recommendations **MUST be explicitly proposed and consensuated with the user** at a structured choice gate (`ask_question`). Without user approval, keep the baseline slides intact.
-  - **Media Extraction**: `inspect_pptx.py` automatically extracts all embedded vector graphics (SVGs) and images to `projects/<project-name>/deck/assets/`. Extracted assets MUST be prioritized and linked in `spec.yaml` via `content.image`.
+  - **Media Extraction & Slide Canvas Distinction**: `inspect_pptx.py` automatically extracts all embedded vector graphics (SVGs) and images to `projects/<project-name>/deck/assets/`. Extracted illustrations MUST be prioritized and linked in `spec.yaml` via `content.image`. However, full-slide canvas screenshots (flattened slides) MUST NOT be embedded—they must be reconstructed with native semantic components and SVG diagrams.
   - **Strict Diagram Preservation Mandate**: Any baseline slide detected with an architectural, relational, or process diagram (flowcharts, node connections, multi-tier stacks) **MUST** be preserved as a visual diagram in the modernized spec.
   - **Diagram Standard (Prohibition on Embedded Mermaid)**: Embedded Mermaid is prohibited as it renders poorly in presentation slides. Modernized diagrams MUST use **high-fidelity SVGs** (`diagram.svg`, `diagram.src`, or `content.svg`) or native semantic architecture components (`pipeline`, `convergence`, `cardinality`, `policy_flow`, `layered_stack`).
   - **Icon Sizing Rule**: Icons are micro-visual accents (24px–48px). **Never blow up an icon to hero size**. When needing a picture to represent something bigger (e.g. for cover slides, split layouts, or visual metaphors), **generate one** using `generate_image`.

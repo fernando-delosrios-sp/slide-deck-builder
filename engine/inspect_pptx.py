@@ -13,6 +13,30 @@ import xml.etree.ElementTree as ET
 import pptx
 from pptx.enum.shapes import MSO_SHAPE_TYPE
 
+import shutil
+import subprocess
+
+def run_ocr_on_image(image_path):
+    """
+    Run tesseract on an image file if tesseract is installed.
+    Returns the extracted text, or None if unavailable or on error.
+    """
+    if not shutil.which("tesseract"):
+        return None
+    try:
+        res = subprocess.run(
+            ["tesseract", image_path, "stdout", "--oem", "1", "-l", "eng"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+            timeout=20,
+        )
+        if res.returncode == 0 and res.stdout.strip():
+            return res.stdout.strip()
+    except Exception:
+        pass
+    return None
+
 def extract_media_and_rels(pptx_path, assets_output_dir):
     """
     Extract all embedded media files from the PPTX zip archive and map them to slides.
@@ -147,7 +171,10 @@ def inspect_presentation(pptx_path, format="markdown", extract_assets=True):
                 "pictures": 0,
                 "node_labels": []
             },
-            "is_diagram": False
+            "is_diagram": False,
+            "is_flattened_canvas": False,
+            "canvas_image": None,
+            "ocr_text": ""
         }
 
         # Inspect speaker notes
@@ -155,6 +182,17 @@ def inspect_presentation(pptx_path, format="markdown", extract_assets=True):
             notes_tf = slide.notes_slide.notes_text_frame
             if notes_tf and notes_tf.text.strip():
                 slide_info["notes"] = notes_tf.text.strip()
+
+        # Check for full-slide canvas picture candidates
+        sw = prs.slide_width
+        sh = prs.slide_height
+        canvas_candidates = []
+        for shape in slide.shapes:
+            if shape.shape_type == MSO_SHAPE_TYPE.PICTURE:
+                w = getattr(shape, "width", 0)
+                h = getattr(shape, "height", 0)
+                if sw and sh and (w >= 0.8 * sw and h >= 0.8 * sh):
+                    canvas_candidates.append(shape)
 
         # Inspect shapes recursively
         for shape in slide.shapes:
@@ -169,12 +207,35 @@ def inspect_presentation(pptx_path, format="markdown", extract_assets=True):
         if de["connectors"] > 0 or de["groups"] > 0 or (de["shapes"] >= 3 and len(de["node_labels"]) >= 3):
             slide_info["is_diagram"] = True
 
+        # Detect flattened canvas slide: full-bleed picture covering slide with no native text/tables
+        if canvas_candidates and len(slide_info["text_blocks"]) == 0 and len(slide_info["tables"]) == 0:
+            slide_info["is_flattened_canvas"] = True
+            if slide_media_files:
+                canvas_img = slide_media_files[0]
+                slide_info["canvas_image"] = canvas_img
+                img_path = extracted_files.get(canvas_img)
+                if img_path and os.path.exists(img_path):
+                    ocr_res = run_ocr_on_image(img_path)
+                    if ocr_res:
+                        slide_info["ocr_text"] = ocr_res
+                        lines = [line.strip() for line in ocr_res.split("\n") if line.strip()]
+                        if slide_info["title"] == "Untitled Slide" and lines:
+                            slide_info["title"] = lines[0]
+                        # Populate text_blocks from OCR lines
+                        ocr_blocks = []
+                        for l in lines:
+                            ocr_blocks.append([{"level": 0, "text": l}])
+                        slide_info["text_blocks"] = ocr_blocks
+
         slides_data.append(slide_info)
+
+    has_flattened = any(s["is_flattened_canvas"] for s in slides_data)
 
     if format == "json":
         return json.dumps({
             "slides": slides_data,
             "total_slides": len(slides_data),
+            "is_flattened_deck": has_flattened,
             "extracted_assets": extracted_files
         }, indent=2)
 
@@ -186,22 +247,38 @@ def inspect_presentation(pptx_path, format="markdown", extract_assets=True):
         lines.append(f"**Extracted Media Assets:** {len(extracted_files)} files saved to `{os.path.relpath(assets_dir, pptx_dir)}/`")
     lines.append("")
 
+    if has_flattened:
+        lines.append("> [!WARNING]")
+        lines.append("> **Flattened Presentation Detected (Picture-Only Slides):**")
+        lines.append("> Slides in this deck are full-slide raster screenshots with no native text shapes.")
+        lines.append("> Text content has been extracted using local OCR (Tesseract).")
+        lines.append("> ")
+        lines.append("> **Mandatory Reconstruction Rule:**")
+        lines.append("> - **PROHIBITED:** Do **NOT** embed these full-slide canvas images (`assets/imageX.png`) into layout sub-frames or cards. Embedding a whole-slide screenshot as a sub-image creates a useless 'thumbnail in a frame' and wastes real estate.")
+        lines.append("> - **REQUIRED:** Reconstruct each slide into native semantic components (`cards`, `comparison`, `metrics`, `bullets`) using the OCR text.")
+        lines.append("> - **REQUIRED:** Redraw any architectural diagrams as clean SVGs (`diagram.svg` or native architecture components) or high-fidelity vector diagrams.")
+        lines.append("")
+
     lines.append("## Slide Overview")
-    lines.append("| Slide | Title | Layout | Diagram? | Media Files | Notes |")
-    lines.append("| :--- | :--- | :--- | :--- | :--- | :--- |")
+    lines.append("| Slide | Title | Layout | Canvas? | Diagram? | Media Files | Notes |")
+    lines.append("| :--- | :--- | :--- | :--- | :--- | :--- | :--- |")
     for s in slides_data:
         has_notes = "Yes" if s["notes"] else "No"
         media = ", ".join(s["media_files"]) if s["media_files"] else "-"
         diag = "Yes" if s["is_diagram"] else "No"
+        canvas = "Yes (OCR)" if s["is_flattened_canvas"] else "No"
         safe_title = s['title'].replace('|', '-')
-        lines.append(f"| {s['slide_number']} | {safe_title} | {s['layout']} | {diag} | {media} | {has_notes} |")
+        lines.append(f"| {s['slide_number']} | {safe_title} | {s['layout']} | {canvas} | {diag} | {media} | {has_notes} |")
 
     lines.append("\n## Detailed Slide Content\n")
 
     for s in slides_data:
         lines.append(f"### Slide {s['slide_number']}: {s['title']}")
         lines.append(f"- **Layout:** `{s['layout']}`")
-        if s["media_files"]:
+        if s["is_flattened_canvas"]:
+            lines.append(f"- **Slide Type:** ⚠️ **Flattened Slide Canvas** (Full-slide bitmap `{s['canvas_image']}`)")
+            lines.append(f"  > Reconstruct with native semantic components. Do NOT embed `{s['canvas_image']}` into sub-frames.")
+        elif s["media_files"]:
             media_links = [f"`assets/{m}`" for m in s["media_files"]]
             lines.append(f"- **Media Assets:** {', '.join(media_links)}")
 
@@ -209,13 +286,14 @@ def inspect_presentation(pptx_path, format="markdown", extract_assets=True):
             de = s["diagram_elements"]
             lines.append(f"- **Visual Structure:** **Architecture / Flow Diagram Detected** ({de['shapes']} shapes, {de['connectors']} connectors, {de['groups']} groups)")
             lines.append(f"  > [!IMPORTANT]")
-            lines.append(f"  > **Diagram Preservation Mandate:** This slide contains an architectural/flow diagram. In the modernized spec, you MUST preserve or elevate it into a visual diagram (e.g. `mermaid`, SVG/image, or architecture component). Do NOT flatten it into plain bullet walls or generic text cards!")
+            lines.append(f"  > **Diagram Preservation Mandate:** This slide contains an architectural/flow diagram. In the modernized spec, you MUST preserve or elevate it into a visual diagram (e.g. SVG or architecture component). Do NOT flatten it into plain bullet walls or generic text cards!")
             if de["node_labels"]:
                 clean_labels = [re.sub(r'\s+', ' ', l) for l in de["node_labels"] if len(l.strip()) > 1]
                 lines.append(f"  - **Diagram Nodes:** {', '.join(clean_labels[:12])}")
 
         if s["text_blocks"]:
-            lines.append("- **Extracted Text Hierarchy:**")
+            source_lbl = "OCR Extracted Text Hierarchy" if s["is_flattened_canvas"] else "Extracted Text Hierarchy"
+            lines.append(f"- **{source_lbl}:**")
             seen_texts = set()
             for block in s["text_blocks"]:
                 for p in block:

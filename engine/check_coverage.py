@@ -67,6 +67,7 @@ def walk_text(shape, out):
 def baseline_model(pptx_path):
     prs = pptx.Presentation(pptx_path)
     corpus, slides = [], {}
+    canvas_media = set()
     with tempfile.TemporaryDirectory() as tmp:
         media_map, files = inspect_pptx.extract_media_and_rels(pptx_path, tmp)
         sizes = {}
@@ -77,21 +78,42 @@ def baseline_model(pptx_path):
                         sizes[name] = im.size
                 except Exception:
                     pass
-    for idx, slide in enumerate(prs.slides, 1):
-        texts = []
-        for sh in slide.shapes:
-            walk_text(sh, texts)
-        if slide.has_notes_slide and slide.notes_slide.notes_text_frame:
-            texts.append(slide.notes_slide.notes_text_frame.text)
-        corpus.extend(texts)
-        slides[idx] = {
-            "title": slide.shapes.title.text.strip() if slide.shapes.title else "",
-            "media": media_map.get(idx, []),
-        }
+
+        sw = prs.slide_width
+        sh = prs.slide_height
+        for idx, slide in enumerate(prs.slides, 1):
+            texts = []
+            has_canvas = False
+            for sh_shape in slide.shapes:
+                walk_text(sh_shape, texts)
+                if sh_shape.shape_type == MSO_SHAPE_TYPE.PICTURE:
+                    w = getattr(sh_shape, "width", 0)
+                    h = getattr(sh_shape, "height", 0)
+                    if sw and sh and (w >= 0.8 * sw and h >= 0.8 * sh):
+                        has_canvas = True
+
+            slide_media = media_map.get(idx, [])
+            if has_canvas and not texts and slide_media:
+                for m in slide_media:
+                    canvas_media.add(m)
+                    m_path = files.get(m)
+                    if m_path:
+                        ocr_txt = inspect_pptx.run_ocr_on_image(m_path)
+                        if ocr_txt:
+                            texts.append(ocr_txt)
+
+            if slide.has_notes_slide and slide.notes_slide.notes_text_frame:
+                texts.append(slide.notes_slide.notes_text_frame.text)
+            corpus.extend(texts)
+            slides[idx] = {
+                "title": slide.shapes.title.text.strip() if slide.shapes.title else "",
+                "media": slide_media,
+            }
+
     significant = {
         n for n, (w, h) in sizes.items() if min(w, h) >= MIN_SIDE
     }
-    return slides, " ".join(corpus).lower(), significant, sizes
+    return slides, " ".join(corpus).lower(), significant, sizes, canvas_media
 
 
 def spec_strings(slide):
@@ -157,10 +179,19 @@ def main():
         print(f"ERROR: baseline not found: {base_path}")
         sys.exit(1)
 
-    b_slides, b_text, significant, sizes = baseline_model(base_path)
+    b_slides, b_text, significant, sizes, canvas_media = baseline_model(base_path)
     errors, warns, infos = [], [], []
     slides = spec.get("slides", [])
     cuts = spec.get("baseline_cuts", []) or []
+
+    # --- disallow embedding full-slide canvas screenshots -------------
+    for s in slides:
+        for ref in spec_media_refs(s):
+            if ref in canvas_media:
+                errors.append(f"spec slide {s.get('slide_number')} embeds full-slide canvas '{ref}' "
+                              "as a content image. Embedding whole-slide screenshots in sub-frames is "
+                              "prohibited. Reconstruct with native semantic components or redraw "
+                              "diagrams as SVG.")
 
     # --- slide coverage ------------------------------------------------
     carried = {}
@@ -199,6 +230,9 @@ def main():
         if name in used or name in redrawn or name in cut_media or name in cut_slide_media:
             continue
         owners = [n for n, i in b_slides.items() if name in i["media"]]
+        # If media is a full-slide canvas and its slide is carried, it is considered reconstructed
+        if name in canvas_media and any(o in carried for o in owners):
+            continue
         w, h = sizes[name]
         errors.append(f"baseline media {name} ({w}x{h}, slide(s) {owners}) is neither embedded, "
                       "listed in a slide's redrawn_media, nor in baseline_cuts")
