@@ -101,8 +101,8 @@ def generate_preview(spec_path, output_path=None):
         # Image preview
         if img_src:
             content_preview_html.append(f'''
-                <div class="mini-image-card">
-                    <img src="{img_src}" alt="{img_alt}" class="mini-image-thumb" />
+                <div class="mini-image-wrapper">
+                    <div class="mini-image-card"><img src="{img_src}" alt="{img_alt}" class="mini-image-thumb" /></div>
                     {f'<span class="mini-image-caption">{img_caption}</span>' if img_caption else ''}
                 </div>
             ''')
@@ -430,39 +430,59 @@ def generate_preview(spec_path, output_path=None):
             flex-direction: column;
             gap: 0.6rem;
         }}
-        .mini-image-card {{
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--card-border);
-            max-height: 140px;
+        .mini-image-wrapper {{
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 0.35rem;
+            width: 100%;
+        }}
+        .mini-image-card {{
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            max-height: 120px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0;
+            line-height: 0;
             background: rgba(0,0,0,0.02);
+            padding: 0.5rem;
+            box-sizing: border-box;
+            width: fit-content;
+            max-width: 100%;
         }}
         .mini-image-thumb {{
             max-width: 100%;
-            max-height: 110px;
-            object-fit: cover;
+            max-height: 95px;
+            object-fit: contain;
+            border-radius: 6px;
+            display: block;
+            margin: 0 !important;
         }}
         .mini-image-caption {{
             font-size: 0.68rem;
             color: var(--ink-muted);
-            padding: 2px 6px;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            border: 1px solid var(--card-border);
+            background: rgba(0,0,0,0.15);
+            text-align: center;
+            max-width: 90%;
         }}
         .mini-bullets {{
             list-style: none;
             padding-left: 0;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 0.4rem;
+            gap: 0.5rem;
             line-height: 1.35;
         }}
         .mini-bullets li {{
             background: rgba(255, 255, 255, 0.035);
             border: 1px solid var(--card-border);
-            border-radius: 6px;
-            padding: 0.4rem 0.5rem;
+            border-radius: 8px;
+            padding: 0.5rem 0.6rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -482,7 +502,7 @@ def generate_preview(spec_path, output_path=None):
         .mini-metric-card {{
             background: rgba(0,0,0,0.02);
             border: 1px solid var(--card-border);
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 0.6rem;
             text-align: center;
         }}
@@ -508,8 +528,8 @@ def generate_preview(spec_path, output_path=None):
         .mini-content-card {{
             background: rgba(0,0,0,0.02);
             border: 1px solid var(--card-border);
-            border-radius: 8px;
-            padding: 0.65rem;
+            border-radius: 12px;
+            padding: 0.75rem;
         }}
         .mini-content-card.glowing {{ border-color: var(--accent-alt); }}
         .mini-content-card strong {{ display: block; font-size: 0.85rem; color: var(--ink); margin-bottom: 0.2rem; }}

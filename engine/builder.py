@@ -500,8 +500,8 @@ def build_deck(spec_path, output_path=None):
         if img_src:
             caption_tag = f'<div class="slide-image-caption">{img_caption}</div>' if img_caption else ''
             image_html_block = f'''
-                <div class="slide-image-card">
-                    <img src="{img_src}" alt="{img_alt}" class="slide-embedded-image" />
+                <div class="slide-image-wrapper">
+                    <div class="slide-image-card"><img src="{img_src}" alt="{img_alt}" class="slide-embedded-image" /></div>
                     {caption_tag}
                 </div>
             '''
@@ -942,7 +942,7 @@ def build_deck(spec_path, output_path=None):
         }}
 
         .reveal .slides section {{
-            padding: 2.5rem 3.5rem;
+            padding: 3.5rem;
             box-sizing: border-box;
             height: 100% !important;
             max-height: 1080px !important;
@@ -1222,60 +1222,134 @@ def build_deck(spec_path, output_path=None):
             justify-content: center;
             align-items: center;
             max-height: 720px;
+            height: 100%;
+            min-height: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }}
+        .slide-split-media {{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-height: 720px;
+            height: 100%;
+            min-height: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }}
+        .slide-split-media .slide-embedded-image {{
+            max-height: 560px;
+            max-width: 100%;
+            object-fit: contain;
         }}
 
-        /* Embedded Image Cards */
-        .slide-image-card {{
-            display: flex;
+        .reveal section img {{
+            margin: 0 !important;
+        }}
+
+        /* Embedded Image Cards & Frames */
+        .slide-image-wrapper {{
+            display: inline-flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            max-width: 100%;
+            max-height: 100%;
+            box-sizing: border-box;
+        }}
+        .slide-image-card {{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0;
+            line-height: 0;
             border-radius: 18px;
-            overflow: hidden;
             border: 1px solid var(--deck-card-border);
             background: var(--deck-card-bg);
             box-shadow: {card_shadow};
-            max-height: 600px;
-            width: 100%;
+            padding: 1.25rem;
+            width: fit-content;
+            max-width: 100%;
+            height: fit-content;
+            max-height: 100%;
+            box-sizing: border-box;
         }}
         .slide-embedded-image {{
             max-width: 100%;
-            max-height: 520px;
+            max-height: 540px;
             width: auto;
             height: auto;
             object-fit: contain;
-            border-radius: 14px;
+            border-radius: 12px;
             display: block;
+            margin: 0 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
         }}
         .slide-image-caption {{
             font-size: 0.88rem;
             color: var(--deck-ink-muted);
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 1.25rem;
             text-align: center;
-            border-top: 1px solid var(--deck-card-border);
-            width: 100%;
-            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--deck-card-border);
+            border-radius: 9999px;
+            width: auto;
+            max-width: 90%;
+            background: rgba(11, 17, 30, 0.85);
+            margin-top: 0.85rem;
+            flex-shrink: 0;
+            box-sizing: border-box;
         }}
 
         /* Picture with Caption Grid */
         .picture-caption-grid {{
             display: grid;
-            grid-template-columns: 1.05fr 0.95fr;
+            grid-template-columns: 1.15fr 0.85fr;
             gap: 2.5rem;
             align-items: center;
             flex: 1;
             max-height: 720px;
-            overflow: hidden;
+            height: 100%;
+            min-height: 0;
+            box-sizing: border-box;
         }}
         .picture-side {{
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100%;
+            max-height: 680px;
+            min-height: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }}
+        .picture-side .slide-embedded-image {{
+            max-height: 560px;
+            max-width: 100%;
+            object-fit: contain;
         }}
         .caption-side {{
             display: flex;
             flex-direction: column;
             gap: 1.25rem;
             justify-content: center;
+        }}
+
+        /* Center Media Layout */
+        .slide-center-media {{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            height: 100%;
+            max-height: 720px;
+            width: 100%;
+            box-sizing: border-box;
+        }}
+        .slide-center-media .slide-embedded-image {{
+            max-height: 620px;
+            max-width: 100%;
+            object-fit: contain;
         }}
 
         /* Split Grid Component Adjustments */

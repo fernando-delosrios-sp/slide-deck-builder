@@ -504,7 +504,7 @@ slides:
   - Catalog
   - FieldOps
 - slide_number: 18
-  layout: Two Content
+  layout: Four Tiles
   role: architecture
   baseline_slides:
   - 18
@@ -514,19 +514,43 @@ slides:
   title: 'Building Blocks: Access Profiles'
   subtitle: Single-source entitlement bundling, request governance, and equivalency detection
   content:
-    bullets:
-    - Bundle one or more entitlements strictly from a single source system.
-    - Represent cohesive combinations of allocate-able operational access.
-    - Can be requested directly by end users through the IdentityNow Request Center.
-    - Support optional approval workflows configured on the access profile.
-    - 'Detection Engine: IDN compares aggregated accounts and entitlements against access profiles.'
-    - If an identity holds all bundled entitlements, the profile is automatically detected and marked active.
+    cards:
+    - title: Single-Source Bundling
+      badge: Scope Constraint
+      icon: layers
+      body: Bundle one or more entitlements strictly from a single source system to represent cohesive operational access.
+    - title: Request Governance
+      badge: Request Center
+      icon: key
+      body: Can be requested directly by end users through the IdentityNow Request Center with optional approval workflows.
+    - title: Automated Detection
+      badge: Detection Engine
+      icon: activity
+      body: IDN compares aggregated accounts and entitlements against access profiles to detect held access automatically.
+    - title: Active State Marking
+      badge: State Transition
+      icon: check-circle
+      body: If an identity holds all bundled entitlements, the access profile is automatically detected and marked active.
   notes: 'Baseline Slide 18 details Access Profiles: must be single-source, requestable in Request Center with optional approval,
     and automatically detected when an identity holds all component entitlements.'
   additions:
+  - Active
+  - Automated
+  - Bundling
+  - Center
+  - Constraint
+  - Detection
   - Engine
+  - Governance
+  - Marking
+  - Request
+  - Scope
+  - Single
+  - Source
+  - State
+  - Transition
 - slide_number: 19
-  layout: Two Content
+  layout: Four Tiles
   role: architecture
   baseline_slides:
   - 19
@@ -537,18 +561,44 @@ slides:
   title: 'Building Blocks: Roles'
   subtitle: Multi-source business packaging and automated membership assignment criteria
   content:
-    bullets:
-    - Bundle access profiles across single or multiple connected sources.
-    - Represent recognizable jobs, business personas, and organizational functions.
-    - Support model-based assignment via automated membership matching criteria.
-    - 'Example criteria: title == ''Accountant'' automatically assigns the Accountant Role.'
-    - Roles grant all included access profiles simultaneously across connected systems.
+    cards:
+    - title: Multi-Source Bundling
+      badge: Business Packaging
+      icon: layers
+      body: Bundle access profiles across single or multiple connected sources into cohesive business access structures.
+    - title: Business Personas
+      badge: Organizational
+      icon: users
+      body: Represent recognizable jobs, business personas, and organizational functions across the enterprise.
+    - title: Model-Based Assignment
+      badge: Membership Criteria
+      icon: user-check
+      body: Automated membership matching criteria assign roles dynamically (e.g. title == 'Accountant' assigns Accountant Role).
+    - title: Simultaneous Granting
+      badge: Multi-System
+      icon: shield-check
+      body: Roles grant all included access profiles simultaneously across connected systems without manual intervention.
   notes: 'Baseline Slide 19 introduces Roles: multi-source bundling, representing business jobs, and assigned automatically
     via membership criteria (e.g. title == ''Accountant'').'
   additions:
   - Accountant
+  - Assignment
+  - Based
+  - Bundling
+  - Business
+  - Criteria
+  - Granting
+  - Membership
+  - Model
+  - Multi
+  - Organizational
+  - Packaging
+  - Personas
+  - Simultaneous
+  - Source
+  - System
 - slide_number: 20
-  layout: Two Content
+  layout: Four Tiles
   role: governance
   baseline_slides:
   - 20
@@ -558,22 +608,46 @@ slides:
   title: 'Roles: Business Definition & Assignment'
   subtitle: Business context, automated membership criteria, and zero-approval provisioning
   content:
-    bullets:
-    - 'Business Name and Description: describes role purpose in clear business-friendly context.'
-    - 'Membership (Assignment) based on criteria: standard match of entitlement, identity, or account attributes.'
-    - 'Automated Fulfillment: once criteria match, IdentityNow automatically provisions component access profiles.'
-    - NO approval process is initiated for automated criteria-based assignments.
-    - Roles can also be made requestable in the Request Center with configured approval chains.
+    cards:
+    - title: Business Name & Description
+      badge: Context
+      icon: file-text
+      body: Describes role purpose in clear business-friendly context for intuitive governance and discovery.
+    - title: Membership Criteria Match
+      badge: Standard Attributes
+      icon: sliders
+      body: 'Assignment based on criteria: standard match of entitlement, identity, or account attributes across sources.'
+    - title: Automated Fulfillment
+      badge: Zero-Approval
+      icon: zap
+      body: Once criteria match, IdentityNow automatically provisions component access profiles with no approval process required.
+    - title: Requestable Role Options
+      badge: Request Center
+      icon: key
+      body: Roles can also be made requestable in the Request Center with configured multi-tier approval chains.
   notes: Baseline Slide 20 emphasizes that criteria-based role assignment requires NO approval process, automatically provisioning
     access profiles when users meet attribute criteria.
   additions:
+  - Approval
   - Assignment
+  - Attributes
+  - Business
+  - Center
+  - Context
+  - Criteria
   - Definition
   - Description
   - Fulfillment
+  - Match
+  - Membership
   - Name
+  - Options
+  - Request
+  - Requestable
+  - Standard
+  - Zero
 - slide_number: 21
-  layout: Two Content
+  layout: Four Tiles
   role: lifecycle
   baseline_slides:
   - 21
@@ -583,16 +657,45 @@ slides:
   title: 'Building Blocks: Lifecycle States'
   subtitle: State-driven access transitions and multi-source access profile automation
   content:
-    bullets:
-    - Defined within Identity Profiles to represent user employment states (e.g. Pre-hire, Active, Leave, Terminated).
-    - Combine and grant access profiles across multiple sources based on current lifecycle state.
-    - Enforce model-based automated provisioning and deprovisioning as users transition between states.
-    - Drive immediate access suspension or revocation when moving to inactive or terminated states.
+    cards:
+    - title: Employment State Models
+      badge: Identity Profile
+      icon: user-check
+      body: Defined within Identity Profiles to represent employment stages (e.g. Pre-hire, Active, Leave, Terminated).
+    - title: Multi-Source Access Granting
+      badge: Multi-System
+      icon: layers
+      body: Combine and grant access profiles across multiple sources simultaneously based on the current lifecycle state.
+    - title: State Transition Automation
+      badge: Model-Based
+      icon: refresh-cw
+      body: Enforce automated provisioning and deprovisioning as users transition between lifecycle states.
+    - title: Suspension & Revocation
+      badge: Enforcement
+      icon: shield-alert
+      body: Drive immediate access suspension or revocation when moving identities into inactive or terminated states.
   notes: 'Baseline Slide 21 covers Lifecycle States: defined in identity profiles, combining access profiles from multiple
     sources, and triggering automated access changes on state shifts.'
   additions:
+  - Access
+  - Automation
+  - Based
+  - Employment
+  - Enforcement
+  - Granting
+  - Identity
   - Leave
+  - Model
+  - Models
+  - Multi
+  - Profile
+  - Revocation
+  - State
+  - States
+  - Suspension
+  - System
   - Terminated
+  - Transition
 - slide_number: 22
   layout: Title and Content
   role: architecture
@@ -694,7 +797,7 @@ slides:
   - Provisioning
   - Scenario
 - slide_number: 26
-  layout: Two Content
+  layout: Four Tiles
   role: governance
   baseline_slides:
   - 29
@@ -704,26 +807,47 @@ slides:
   title: 'Assignment: Special Circumstances'
   subtitle: Approval bypass for criteria assignments and certification campaign boundaries
   content:
-    bullets:
-    - 'Zero-Approval Automation: When assigned via role membership criteria, no approval process is used.'
-    - 'Audited Consistency: System assumes HR attribute changes reflect authorized business events.'
-    - 'Certification Campaign Boundary: Access profiles granted to users by roles are not included in certification campaigns.'
-    - 'Role-Level Certification: Only the top-level Role is certified, preventing redundant review of individual component
-      profiles.'
+    cards:
+    - title: Zero-Approval Automation
+      badge: Criteria Assignment
+      icon: zap
+      body: When assigned via role membership criteria, no approval process is used as authoritative changes govern access.
+    - title: Audited Consistency
+      badge: Authoritative HR
+      icon: check-circle
+      body: System assumes HR attribute changes reflect authorized business events with complete audit trail integrity.
+    - title: Campaign Exclusion Boundary
+      badge: Certification Boundary
+      icon: shield-alert
+      body: Access profiles granted to users by roles are not included in certification campaigns to avoid redundant review.
+    - title: Role-Level Certification
+      badge: Top-Level Review
+      icon: user-check
+      body: Only the top-level Role is certified, streamlining reviewer workflows and preventing fatigue.
   notes: 'Baseline Slide 29 covers critical governance edge cases: criteria-based assignments bypass approvals, and access
     profiles granted via roles are excluded from individual certification campaigns.'
   additions:
+  - Approval
+  - Assignment
+  - Audited
+  - Authoritative
   - Automation
   - Boundary
   - Campaign
   - Certification
   - Circumstances
   - Consistency
+  - Criteria
+  - Exclusion
   - Level
+  - Review
+  - Role
   - Rules
   - Special
+  - Top
+  - Zero
 - slide_number: 27
-  layout: Two Content
+  layout: Four Tiles
   role: governance
   baseline_slides:
   - 30
@@ -735,23 +859,45 @@ slides:
   title: Access Removal via Role & Edge Cases
   subtitle: Understanding automated deprovisioning triggers and critical non-deprovisioning behaviors
   content:
-    bullets:
-    - 'Deprovisioning Triggers: Role-based deprovisioning removes entitlements when criteria no longer match or user is removed
-      from identity list.'
-    - 'CRITICAL: No deprovisioning is triggered when a Role is edited to remove an Access Profile.'
-    - Previously granted access remains intact on the user account if an access profile is removed from a role definition.
-    - 'CRITICAL: Deleting a Role does NOT deprovision access that was previously assigned through it.'
-    - Removal requires explicit de-assignment or lifecycle transition to trigger target account cleanup.
+    cards:
+    - title: Deprovisioning Triggers
+      badge: Automated Removal
+      icon: user-check
+      body: Role-based deprovisioning removes entitlements when criteria no longer match or user is removed from identity list.
+    - title: Role Editing Edge Case
+      badge: Critical Behavior
+      icon: shield-alert
+      body: No deprovisioning is triggered when a Role is edited to remove an Access Profile; granted access remains intact.
+    - title: Role Deletion Behavior
+      badge: Critical Behavior
+      icon: shield-alert
+      body: Deleting a Role does NOT deprovision access previously assigned through it; target accounts retain permissions.
+    - title: Explicit Cleanup Required
+      badge: Governance Action
+      icon: refresh-cw
+      body: Removal requires explicit de-assignment or lifecycle transition to trigger target account deprovisioning.
   notes: 'Baseline Slide 30 highlights critical deprovisioning gotchas: editing a role to remove an access profile leaves
     existing access intact; deleting a role does NOT automatically deprovision granted access.'
   additions:
+  - Action
+  - Automated
+  - Behavior
   - Cases
+  - Cleanup
+  - Critical
   - Deleting
+  - Deletion
+  - Deprovisioning
   - Edge
+  - Editing
+  - Explicit
+  - Governance
   - Removal
+  - Required
+  - Role
   - Triggers
 - slide_number: 28
-  layout: Two Content
+  layout: Four Tiles
   role: architecture
   baseline_slides:
   - 31
@@ -761,16 +907,50 @@ slides:
   title: Access Profiles and Roles Matrix
   subtitle: Cross-allocation relationships between multiple business roles and technical access profiles
   content:
-    bullets:
-    - Roles R1 and R2 can share underlying Access Profiles (e.g. AP1, AP2) across different business departments.
-    - Access profiles package application-specific privileges into cohesive units.
-    - Decouples business role definitions from underlying IT infrastructure changes.
-    - Modifying an access profile updates permissions for all parent business roles seamlessly.
+    cards:
+    - title: Shared Profile Allocation
+      badge: Multi-Role Reuse
+      icon: layers
+      body: Roles R1 and R2 can share underlying Access Profiles (e.g. AP1, AP2) across distinct business departments.
+    - title: Application Privilege Units
+      badge: Technical Packaging
+      icon: box
+      body: Access profiles package application-specific privileges into cohesive, manageable operational units.
+    - title: Business & IT Decoupling
+      badge: Modular Architecture
+      icon: layers
+      body: Decouples business role definitions from underlying IT infrastructure and target system changes.
+    - title: Centralized Propagation
+      badge: Seamless Updates
+      icon: refresh-cw
+      body: Modifying an access profile updates permissions for all parent business roles simultaneously.
   notes: Baseline Slide 31 diagrams the mapping matrix between Roles (R1, R2) and Access Profiles (AP1, AP2, AP3).
   additions:
+  - Allocation
+  - Application
+  - Architecture
+  - Business
+  - Centralized
+  - Decoupling
+  - IT
+  - Manageable
   - Matrix
+  - Modular
+  - Multi
+  - Packaging
+  - Privilege
+  - Profile
+  - Propagation
+  - Reuse
+  - Role
+  - Roles
+  - Seamless
+  - Shared
+  - Technical
+  - Units
+  - Updates
 - slide_number: 29
-  layout: Two Content
+  layout: Four Tiles
   role: architecture
   baseline_slides:
   - 32
@@ -780,15 +960,49 @@ slides:
   title: Access Component Relationships of IdentityNow
   subtitle: How lifecycle states dynamically govern access profile and role assignments
   content:
-    bullets:
-    - Lifecycle states (defined in identity profiles) grant 1..N Access Profiles upon state transition.
-    - Moving into a new lifecycle state automatically provisions required access and revokes obsolete access.
-    - Identity profiles serve as the master templates describing how identities are created from authoritative sources.
-    - Ensures strict alignment between authoritative HR status and active IT permissions.
+    cards:
+    - title: Dynamic State Grants
+      badge: Profile Governance
+      icon: activity
+      body: Lifecycle states defined in identity profiles grant 1..N Access Profiles upon state transition.
+    - title: Automated Lifecycle Shift
+      badge: Auto Provisioning
+      icon: refresh-cw
+      body: Moving into a new lifecycle state automatically provisions required access and revokes obsolete access.
+    - title: Master Template Foundation
+      badge: Authoritative Source
+      icon: file-text
+      body: Identity profiles serve as master templates describing how identities are created from authoritative sources.
+    - title: HR to IT Synchronization
+      badge: Strict Alignment
+      icon: shield-check
+      body: Ensures continuous, strict alignment between authoritative HR status and active enterprise IT permissions.
   notes: Baseline Slide 32 details how lifecycle states in identity profiles govern access profiles and roles dynamically.
   additions:
+  - Alignment
+  - Authoritative
+  - Auto
+  - Automated
+  - Component
+  - Continuous
+  - Dynamic
+  - Foundation
+  - Governance
+  - Grants
+  - HR
+  - IT
   - Integration
+  - Lifecycle
+  - Master
+  - Profile
+  - Provisioning
   - Relationships
+  - Shift
+  - Source
+  - State
+  - Strict
+  - Synchronization
+  - Template
 - slide_number: 30
   layout: Title and Content
   role: architecture
