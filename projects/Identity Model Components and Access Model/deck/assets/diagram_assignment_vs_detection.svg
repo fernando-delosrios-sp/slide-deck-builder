@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="100%" height="100%">
+  <defs>
+    <marker id="arr24" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#54C0E8"/>
+    </marker>
+    <marker id="arr24green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#93D500"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="520" rx="16" fill="#070C16" stroke="#415364" stroke-width="1.5"/>
+
+  <!-- Top Central Identity Node -->
+  <g transform="translate(350, 30)">
+    <rect width="300" height="85" rx="10" fill="#0033A1" fill-opacity="0.8" stroke="#54C0E8" stroke-width="2"/>
+    <text x="150" y="35" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="16" font-weight="700" text-anchor="middle">Central Identity</text>
+    <text x="150" y="58" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11" text-anchor="middle">Evaluated for both Assigned &amp; Detected rights</text>
+  </g>
+
+  <!-- Left: Assigned Flow (Governed Provisioning) -->
+  <g transform="translate(50, 150)">
+    <rect width="420" height="330" rx="12" fill="#0B111E" stroke="#54C0E8" stroke-width="1.5"/>
+    <text x="25" y="35" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="12" font-weight="700">ASSIGNED ACCESS (TOP-DOWN GOVERNANCE)</text>
+
+    <!-- Role / Request Center -->
+    <rect x="25" y="55" width="370" height="65" rx="8" fill="#002266" fill-opacity="0.5" stroke="#415364" stroke-width="1"/>
+    <text x="40" y="85" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="14" font-weight="700">Role Criteria or Request Center</text>
+    <text x="40" y="105" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">Automated birthright role assignment or approved request</text>
+
+    <path d="M 210 120 L 210 150" stroke="#54C0E8" stroke-width="2" marker-end="url(#arr24)"/>
+
+    <!-- Access Profile Provisioned -->
+    <rect x="25" y="150" width="370" height="65" rx="8" fill="#001633" fill-opacity="0.7" stroke="#54C0E8" stroke-width="1"/>
+    <text x="40" y="180" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="14" font-weight="700">Access Profile Assigned</text>
+    <text x="40" y="200" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">Triggers provisioning engine to target system</text>
+
+    <path d="M 210 215 L 210 245" stroke="#54C0E8" stroke-width="2" marker-end="url(#arr24)"/>
+
+    <!-- Target Provisioning -->
+    <rect x="25" y="245" width="370" height="65" rx="8" fill="#070C16" stroke="#93D500" stroke-width="1"/>
+    <text x="40" y="275" fill="#93D500" font-family="Poppins, sans-serif" font-size="13" font-weight="700">Active Directory Account Provisioned</text>
+    <text x="40" y="295" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">Entitlements granted directly on target source</text>
+  </g>
+
+  <!-- Right: Detected Flow (Bottom-Up Aggregation) -->
+  <g transform="translate(530, 150)">
+    <rect width="420" height="330" rx="12" fill="#0B111E" stroke="#93D500" stroke-width="1.5"/>
+    <text x="25" y="35" fill="#93D500" font-family="Poppins, sans-serif" font-size="12" font-weight="700">DETECTED ACCESS (BOTTOM-UP AGGREGATION)</text>
+
+    <!-- Target Source Aggregation -->
+    <rect x="25" y="55" width="370" height="65" rx="8" fill="#070C16" stroke="#415364" stroke-width="1"/>
+    <text x="40" y="85" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="14" font-weight="700">Target Account Aggregated</text>
+    <text x="40" y="105" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">Source scan reads existing account &amp; native entitlements</text>
+
+    <path d="M 210 120 L 210 150" stroke="#93D500" stroke-width="2" marker-end="url(#arr24green)"/>
+
+    <!-- Correlation Engine -->
+    <rect x="25" y="150" width="370" height="65" rx="8" fill="#070C16" stroke="#54C0E8" stroke-width="1"/>
+    <text x="40" y="180" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="14" font-weight="700">Account Correlation to Identity</text>
+    <text x="40" y="200" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">Matched via correlation rules (e.g. employeeId, email)</text>
+
+    <path d="M 210 215 L 210 245" stroke="#93D500" stroke-width="2" marker-end="url(#arr24green)"/>
+
+    <!-- Access Profile Detected -->
+    <rect x="25" y="245" width="370" height="65" rx="8" fill="#002266" fill-opacity="0.4" stroke="#93D500" stroke-width="1.5"/>
+    <text x="40" y="275" fill="#93D500" font-family="Poppins, sans-serif" font-size="13" font-weight="700">Access Profile Detected (Equivalency)</text>
+    <text x="40" y="295" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">If identity holds all AP entitlements, AP is marked detected</text>
+  </g>
+
+  <!-- Connectors from Identity -->
+  <path d="M 400 115 L 260 150" stroke="#54C0E8" stroke-width="2" marker-end="url(#arr24)"/>
+  <path d="M 600 115 L 740 150" stroke="#93D500" stroke-width="2" marker-end="url(#arr24green)"/>
+</svg>

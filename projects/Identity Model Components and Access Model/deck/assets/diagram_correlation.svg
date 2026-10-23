@@ -1,0 +1,81 @@
+<svg viewBox="0 0 920 440" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="corr-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <filter id="corr-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <marker id="corr-cyan-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38BDF8" />
+    </marker>
+    <marker id="corr-green-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34D399" />
+    </marker>
+    <marker id="corr-amber-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F59E0B" />
+    </marker>
+  </defs>
+
+  <style>
+    .corr-title { font-family: system-ui, -apple-system, sans-serif; font-size: 15px; font-weight: 700; fill: #FFFFFF; }
+    .corr-sub { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; fill: #94A3B8; }
+    .corr-badge { font-family: system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; }
+  </style>
+
+  <!-- Step 1: Target Connected Sources -->
+  <g transform="translate(40, 40)" filter="url(#corr-shadow)">
+    <rect width="260" height="90" rx="10" fill="url(#corr-bg)" stroke="#475569" stroke-width="1.5" />
+    <text x="16" y="28" class="corr-badge" fill="#94A3B8">TARGET APPLICATIONS</text>
+    <text x="16" y="54" class="corr-title">Connected Sources</text>
+    <text x="16" y="74" class="corr-sub">Active Directory, AWS, SAP, Salesforce</text>
+  </g>
+
+  <!-- Arrow to Aggregated Queue -->
+  <path d="M 300 85 L 395 85" fill="none" stroke="#38BDF8" stroke-width="2" marker-end="url(#corr-cyan-arrow)" />
+  <rect x="306" y="65" width="82" height="16" rx="3" fill="#0B111E" />
+  <text x="347" y="77" style="font-family: system-ui; font-size: 10px; fill: #38BDF8; font-weight: 600; text-anchor: middle;">Aggregate</text>
+
+  <!-- Step 2: Aggregated Account Inventory -->
+  <g transform="translate(405, 40)" filter="url(#corr-shadow)">
+    <rect width="250" height="90" rx="10" fill="url(#corr-bg)" stroke="#38BDF8" stroke-width="1.5" />
+    <text x="16" y="28" class="corr-badge" fill="#38BDF8">UNLINKED INVENTORY</text>
+    <text x="16" y="54" class="corr-title">Aggregated Accounts</text>
+    <text x="16" y="74" class="corr-sub">Native IDs, user names &amp; attributes</text>
+  </g>
+
+  <!-- Arrow down to Correlation Engine -->
+  <path d="M 530 130 L 530 185" fill="none" stroke="#38BDF8" stroke-width="2" marker-end="url(#corr-cyan-arrow)" />
+
+  <!-- Step 3: Correlation Engine (Decision) -->
+  <g transform="translate(355, 185)" filter="url(#corr-shadow)">
+    <rect width="350" height="110" rx="10" fill="url(#corr-bg)" stroke="#818CF8" stroke-width="1.5" />
+    <text x="16" y="28" class="corr-badge" fill="#818CF8">EVALUATION ENGINE</text>
+    <text x="16" y="54" class="corr-title">Correlation Rule Matching</text>
+    <text x="16" y="76" class="corr-sub">• Primary: account.mail == identity.email</text>
+    <text x="16" y="96" class="corr-sub">• Fallback: account.employeeNumber == identity.employeeId</text>
+  </g>
+
+  <!-- Split Branch 1: Match Found (Left Down) -->
+  <path d="M 440 290 L 440 330 L 260 330 L 260 365" fill="none" stroke="#34D399" stroke-width="2.5" marker-end="url(#corr-green-arrow)" />
+  <rect x="270" y="318" width="105" height="18" rx="3" fill="#0B111E" />
+  <text x="322" y="331" style="font-family: system-ui; font-size: 10px; fill: #34D399; font-weight: 600; text-anchor: middle;">1:1 Match Found</text>
+
+  <g transform="translate(80, 370)" filter="url(#corr-shadow)">
+    <rect width="360" height="60" rx="8" fill="url(#corr-bg)" stroke="#34D399" stroke-width="1.5" />
+    <text x="16" y="26" class="corr-title" fill="#34D399">Correlated to Central Identity</text>
+    <text x="16" y="46" class="corr-sub">Direct Account Ownership &amp; Governance Established</text>
+  </g>
+
+  <!-- Split Branch 2: Unmatched (Right Down) -->
+  <path d="M 620 290 L 620 330 L 730 330 L 730 365" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#corr-amber-arrow)" />
+  <rect x="635" y="318" width="115" height="18" rx="3" fill="#0B111E" />
+  <text x="692" y="331" style="font-family: system-ui; font-size: 10px; fill: #F59E0B; font-weight: 600; text-anchor: middle;">No Match / Ambiguity</text>
+
+  <g transform="translate(560, 370)" filter="url(#corr-shadow)">
+    <rect width="330" height="60" rx="8" fill="url(#corr-bg)" stroke="#F59E0B" stroke-width="1.5" />
+    <text x="16" y="26" class="corr-title" fill="#F59E0B">Uncorrelated Account Queue</text>
+    <text x="16" y="46" class="corr-sub">Isolated for Administrative Review &amp; Linking</text>
+  </g>
+</svg>

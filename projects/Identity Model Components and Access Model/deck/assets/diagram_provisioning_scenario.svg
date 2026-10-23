@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="100%" height="100%">
+  <defs>
+    <marker id="arr25" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#54C0E8"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="500" rx="16" fill="#070C16" stroke="#415364" stroke-width="1.5"/>
+
+  <!-- Step 1: HR System -->
+  <g transform="translate(30, 80)">
+    <rect width="210" height="340" rx="12" fill="#0B111E" stroke="#54C0E8" stroke-width="1.5"/>
+    <text x="20" y="35" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11" font-weight="700">STEP 1: SOURCE UPDATE</text>
+    <text x="20" y="60" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">HR System Record</text>
+    
+    <rect x="15" y="85" width="180" height="110" rx="6" fill="#070C16" stroke="#415364" stroke-width="1"/>
+    <text x="25" y="110" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Employee: John Doe</text>
+    <text x="25" y="130" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Title: Accountant</text>
+    <text x="25" y="150" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Dept: Finance</text>
+    <text x="25" y="170" fill="#93D500" font-family="Poppins, sans-serif" font-size="11">Status: Active</text>
+
+    <text x="20" y="230" fill="#94A3B8" font-family="Poppins, sans-serif" font-size="10">Aggregation imports</text>
+    <text x="20" y="248" fill="#94A3B8" font-family="Poppins, sans-serif" font-size="10">new account record</text>
+  </g>
+
+  <path d="M 240 220 L 275 220" stroke="#54C0E8" stroke-width="2.5" marker-end="url(#arr25)"/>
+
+  <!-- Step 2: Identity Profile -->
+  <g transform="translate(275, 80)">
+    <rect width="210" height="340" rx="12" fill="#0B111E" stroke="#415364" stroke-width="1.5"/>
+    <text x="20" y="35" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11" font-weight="700">STEP 2: IDENTITY PROFILE</text>
+    <text x="20" y="60" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">Identity Generation</text>
+
+    <rect x="15" y="85" width="180" height="110" rx="6" fill="#002266" fill-opacity="0.4" stroke="#54C0E8" stroke-width="1"/>
+    <text x="25" y="110" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="11" font-weight="600">Mappings Evaluated</text>
+    <text x="25" y="130" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Username: jdoe</text>
+    <text x="25" y="150" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Lifecycle: Active</text>
+    <text x="25" y="170" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11">Identity Created</text>
+
+    <text x="20" y="230" fill="#94A3B8" font-family="Poppins, sans-serif" font-size="10">Transforms calculate</text>
+    <text x="20" y="248" fill="#94A3B8" font-family="Poppins, sans-serif" font-size="10">standard attributes</text>
+  </g>
+
+  <path d="M 485 220 L 520 220" stroke="#54C0E8" stroke-width="2.5" marker-end="url(#arr25)"/>
+
+  <!-- Step 3: Role Assignment -->
+  <g transform="translate(520, 80)">
+    <rect width="210" height="340" rx="12" fill="#0B111E" stroke="#54C0E8" stroke-width="1.5"/>
+    <text x="20" y="35" fill="#93D500" font-family="Poppins, sans-serif" font-size="11" font-weight="700">STEP 3: ROLE TRIGGER</text>
+    <text x="20" y="60" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">Criteria Match</text>
+
+    <rect x="15" y="85" width="180" height="110" rx="6" fill="#001633" fill-opacity="0.7" stroke="#93D500" stroke-width="1"/>
+    <text x="25" y="110" fill="#93D500" font-family="Poppins, sans-serif" font-size="11" font-weight="700">Accountant Role</text>
+    <text x="25" y="130" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">title == 'Accountant'</text>
+    <text x="25" y="150" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">-> AP1: General Ledger</text>
+    <text x="25" y="170" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10">No approval needed</text>
+
+    <text x="20" y="230" fill="#94A3B8" font-family="Poppins, sans-serif" font-size="10">Evaluates role</text>
+    <text x="20" y="248" fill="#94A3B8" font-family="Poppins, sans-serif" font-size="10">membership rules</text>
+  </g>
+
+  <path d="M 730 220 L 765 220" stroke="#54C0E8" stroke-width="2.5" marker-end="url(#arr25)"/>
+
+  <!-- Step 4: Target Provisioning -->
+  <g transform="translate(765, 80)">
+    <rect width="205" height="340" rx="12" fill="#0B111E" stroke="#93D500" stroke-width="1.5"/>
+    <text x="20" y="35" fill="#93D500" font-family="Poppins, sans-serif" font-size="11" font-weight="700">STEP 4: PROVISION</text>
+    <text x="20" y="60" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">Target System</text>
+
+    <rect x="15" y="85" width="175" height="110" rx="6" fill="#070C16" stroke="#93D500" stroke-width="1"/>
+    <text x="25" y="110" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="11" font-weight="600">Active Directory</text>
+    <text x="25" y="130" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">Account created: jdoe</text>
+    <text x="25" y="150" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">Group: GL_Write</text>
+    <text x="25" y="170" fill="#93D500" font-family="Poppins, sans-serif" font-size="10">Access Operational</text>
+
+    <text x="20" y="230" fill="#94A3B8" font-family="Poppins, sans-serif" font-size="10">Automated end-to-end</text>
+    <text x="20" y="248" fill="#94A3B8" font-family="Poppins, sans-serif" font-size="10">zero-touch fulfillment</text>
+  </g>
+</svg>

@@ -62,18 +62,22 @@ def parse_style(style_path_or_name, styles_dir="styles"):
                 mode = "dark"
     data["mode"] = mode
 
-    # Determine theme logo if explicitly defined in assets_dir
-    assets_dir = data.get("assets_dir")
-    logo_path = None
-    if assets_dir:
-        repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-        assets_full = os.path.join(repo_root, assets_dir) if not os.path.isabs(assets_dir) else assets_dir
-        # Check standard logo filenames
-        for candidate in ["logo.svg", "logo.png", "media/image123.png", "media/logo.png"]:
-            cand_path = os.path.join(assets_full, candidate)
-            if os.path.exists(cand_path):
-                logo_path = cand_path
-                break
+    # Determine theme logo if explicitly defined in frontmatter or discovered in assets_dir
+    logo_path = data.get("logo_path")
+    repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    if logo_path:
+        if not os.path.isabs(logo_path):
+            logo_path = os.path.join(repo_root, logo_path)
+    else:
+        assets_dir = data.get("assets_dir")
+        if assets_dir:
+            assets_full = os.path.join(repo_root, assets_dir) if not os.path.isabs(assets_dir) else assets_dir
+            # Check standard logo filenames
+            for candidate in ["logo.svg", "logo.png", "logo-white.svg", "media/logo.svg", "media/logo.png", "media/image1.svg"]:
+                cand_path = os.path.join(assets_full, candidate)
+                if os.path.exists(cand_path):
+                    logo_path = cand_path
+                    break
     data["logo_path"] = logo_path
 
     return data

@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SailPoint Smart iLab: Identity Model & PoV Blueprint</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Reveal.js Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/theme/black.min.css">
+
+    <!-- Deck Theme & Layout CSS -->
+    <style>
+        :root {
+            --deck-bg-gradient: radial-gradient(circle at 85% 15%, rgba(0, 51, 161, 0.5) 0%, rgba(1, 28, 72, 0.7) 45%, #000000 100%);
+            --deck-bg: #000000;
+            --deck-surface: #000000;
+            --deck-card-bg: #0B111E;
+            --deck-card-border: #415364;
+            --deck-accent: #54C0E8;
+            --deck-accent-alt: #D60EB5;
+            --deck-ink: #FFFFFF;
+            --deck-ink-muted: #DAE1E9;
+            --font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+            --deck-icon-badge-bg: rgba(84, 192, 232, 0.12);
+            --deck-icon-badge-border: rgba(84, 192, 232, 0.25);
+            --deck-icon-badge-glow: var(--sp-glow-aqua);
+        }
+
+        body, .reveal {
+            font-family: var(--font-family) !important;
+            background: var(--deck-bg-gradient) !important;
+            color: var(--deck-ink) !important;
+        }
+
+        .reveal .slides {
+            text-align: left;
+        }
+
+        .reveal .slides section {
+            padding: 2.5rem 3.5rem;
+            box-sizing: border-box;
+            height: 100% !important;
+            max-height: 1080px !important;
+            overflow: hidden !important;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5 {
+            font-family: var(--font-family) !important;
+            color: var(--deck-ink) !important;
+            text-transform: none !important;
+            letter-spacing: -0.015em;
+        }
+
+        .eyebrow-badge {
+            display: inline-block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--deck-accent);
+            background: rgba(84, 192, 232, 0.15);
+            border: 1px solid var(--deck-accent);
+            padding: 4px 14px;
+            border-radius: 9999px;
+            margin-bottom: 0.85rem;
+        }
+
+        /* Title Slide Layout */
+        .title-slide-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            max-height: 900px;
+            box-sizing: border-box;
+        }
+        .title-slide-wrapper.with-cover-image {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 3.5rem;
+            align-items: center;
+            height: 100%;
+            max-height: 900px;
+        }
+        .cover-text-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .cover-media-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cover-hero-image {
+            max-width: 100%;
+            max-height: 540px;
+            width: auto;
+            height: auto;
+            border-radius: 20px;
+            border: 1px solid var(--deck-card-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            object-fit: contain;
+            display: block;
+        }
+        .cover-brand-logo-wrapper {
+            margin-bottom: 2rem;
+        }
+        .cover-brand-logo {
+            height: 52px;
+            width: auto;
+            max-width: 320px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+        }
+        .cover-description {
+            font-size: 1.3rem;
+            color: var(--deck-ink-muted);
+            max-width: 900px;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        .cover-meta-grid {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            border-top: 1px solid var(--deck-card-border);
+            padding-top: 1.25rem;
+            margin-top: 1rem;
+        }
+        .cover-meta-grid .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .cover-meta-grid .meta-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--deck-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .cover-meta-grid .meta-val {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--deck-ink);
+        }
+
+        /* Section Header Layout */
+        .section-header-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+            max-height: 850px;
+        }
+        .section-title {
+            font-size: 3.8rem !important;
+            font-weight: 700 !important;
+            line-height: 1.2 !important;
+            margin-bottom: 1rem !important;
+        }
+        .section-subtitle {
+            font-size: 1.6rem !important;
+            color: var(--deck-accent) !important;
+            max-width: 75%;
+        }
+        .section-body {
+            font-size: 1.3rem;
+            color: var(--deck-ink-muted);
+            max-width: 70%;
+            margin-top: 1rem;
+        }
+
+        /* Standard Slide Layout Container */
+        .slide-layout {
+            height: 100%;
+            max-height: 880px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .slide-header {
+            margin-bottom: 1.5rem;
+            flex-shrink: 0;
+        }
+        .slide-title {
+            font-size: 2.5rem !important;
+            font-weight: 600 !important;
+            line-height: 1.2 !important;
+            margin: 0.2rem 0 !important;
+        }
+        .slide-subtitle {
+            font-size: 1.25rem !important;
+            font-weight: 400 !important;
+            color: var(--deck-ink-muted) !important;
+        }
+
+        /* Standard Slide Content Area */
+        .slide-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            flex: 1;
+            overflow: hidden;
+        }
+        .styled-bullets {
+            font-size: 1.3rem !important;
+            line-height: 1.65 !important;
+            color: var(--deck-ink-muted);
+            padding-left: 2rem;
+        }
+        .styled-bullets li {
+            margin-bottom: 0.75rem;
+        }
+        .styled-bullets li::marker {
+            color: var(--deck-accent);
+        }
+        .slide-body-text {
+            font-size: 1.3rem !important;
+            line-height: 1.55 !important;
+            color: var(--deck-ink-muted);
+            max-width: 95%;
+        }
+
+        /* Side-by-Side Split Grid when Image is Present */
+        .slide-split-grid {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 2.5rem;
+            align-items: center;
+            flex: 1;
+            max-height: 720px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .slide-split-text {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            justify-content: center;
+            max-height: 720px;
+            overflow: hidden;
+        }
+        .slide-split-text .styled-bullets {
+            font-size: 1.15rem !important;
+            line-height: 1.55 !important;
+            padding-left: 1.5rem;
+        }
+        .slide-split-text .styled-bullets li {
+            margin-bottom: 0.6rem;
+        }
+        .slide-split-text .slide-body-text {
+            font-size: 1.15rem !important;
+            line-height: 1.5 !important;
+        }
+        .slide-split-media {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-height: 720px;
+        }
+
+        /* Embedded Image Cards */
+        .slide-image-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid var(--deck-card-border);
+            background: var(--deck-card-bg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            max-height: 600px;
+            width: 100%;
+        }
+        .slide-embedded-image {
+            max-width: 100%;
+            max-height: 520px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 14px;
+            display: block;
+        }
+        .slide-image-caption {
+            font-size: 0.88rem;
+            color: var(--deck-ink-muted);
+            padding: 0.5rem 1rem;
+            text-align: center;
+            border-top: 1px solid var(--deck-card-border);
+            width: 100%;
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        /* Picture with Caption Grid */
+        .picture-caption-grid {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 2.5rem;
+            align-items: center;
+            flex: 1;
+            max-height: 720px;
+            overflow: hidden;
+        }
+        .picture-side {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .caption-side {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            justify-content: center;
+        }
+
+        /* Split Grid Component Adjustments */
+        .slide-split-text .metrics-container {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin-top: 0;
+        }
+        .slide-split-text .metric-card {
+            padding: 0.85rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-align: left;
+        }
+        .slide-split-text .metric-value {
+            font-size: 2.2rem;
+            margin-bottom: 0;
+        }
+        .slide-split-text .metric-label {
+            font-size: 1.05rem;
+            margin-bottom: 0;
+        }
+        .slide-split-text .metric-subtext {
+            font-size: 0.85rem;
+        }
+
+        .slide-split-text .cards-grid {
+            grid-template-columns: 1fr;
+            gap: 0.85rem;
+            margin-top: 0;
+        }
+        .slide-split-text .feature-card {
+            padding: 1.1rem 1.35rem;
+        }
+        .slide-split-text .card-title {
+            font-size: 1.25rem !important;
+            margin-bottom: 0.35rem !important;
+        }
+        .slide-split-text .card-body {
+            font-size: 1.05rem !important;
+            line-height: 1.45 !important;
+        }
+
+        .slide-split-text .comparison-container {
+            grid-template-columns: 1fr;
+            gap: 0.85rem;
+            margin-top: 0;
+        }
+        .slide-split-text .comparison-card {
+            padding: 1.1rem 1.35rem;
+        }
+        .slide-split-text .comparison-card .card-title {
+            font-size: 1.25rem !important;
+            margin-bottom: 0.35rem !important;
+        }
+        .slide-split-text .comparison-card .styled-bullets {
+            font-size: 1.05rem !important;
+            line-height: 1.45 !important;
+            padding-left: 1.2rem;
+        }
+
+        .slide-split-text .regions-container {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin-top: 0;
+        }
+        .slide-split-text .region-col {
+            padding: 0.85rem 1.15rem;
+        }
+        .slide-split-text .region-title {
+            font-size: 1.15rem !important;
+            margin-bottom: 0.25rem !important;
+        }
+        .slide-split-text .region-col .styled-bullets {
+            font-size: 1.05rem !important;
+            line-height: 1.45 !important;
+            padding-left: 1.2rem;
+        }
+
+        /* Metrics (Full Slide) */
+        .metrics-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.75rem;
+            margin-top: 0.5rem;
+        }
+        .metric-card {
+            background: linear-gradient(145deg, #0B111E 0%, #000000 100%);
+            border: 1px solid var(--deck-card-border);
+            border-radius: 18px;
+            padding: 1.75rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        .metric-card.glowing {
+            border-color: var(--deck-accent);
+            box-shadow: 0 0 25px #54C0E844;
+        }
+        .metric-value {
+            font-size: 3.4rem;
+            font-weight: 700;
+            color: var(--deck-accent);
+            line-height: 1.1;
+            margin-bottom: 0.4rem;
+        }
+        .metric-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--deck-ink);
+            margin-bottom: 0.3rem;
+        }
+        .metric-subtext {
+            font-size: 0.95rem;
+            color: var(--deck-accent-alt);
+        }
+
+        /* Cards Grid (Full Slide) */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.75rem;
+            margin-top: 0.5rem;
+        }
+        .feature-card {
+            background: linear-gradient(145deg, #0B111E 0%, #000000 100%);
+            border: 1px solid var(--deck-card-border);
+            border-radius: 18px;
+            padding: 1.75rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        .feature-card.glowing {
+            border-color: var(--deck-accent-alt);
+            box-shadow: 0 0 25px #D60EB533;
+        }
+        .card-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.85rem;
+            width: 100%;
+        }
+        .card-icon-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--deck-icon-badge-bg);
+            border: 1px solid var(--deck-icon-badge-border);
+            color: var(--deck-accent);
+            box-shadow: var(--deck-icon-badge-glow);
+            flex-shrink: 0;
+        }
+        .card-icon-container.circle {
+            border-radius: 50%;
+        }
+        .card-icon-container.bare {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            width: auto;
+            height: auto;
+        }
+        .card-icon-container svg {
+            width: 24px;
+            height: 24px;
+        }
+        .feature-card.glowing .card-icon-container {
+            color: var(--deck-accent-alt);
+            border-color: rgba(214, 14, 181, 0.35);
+            background: rgba(214, 14, 181, 0.12);
+            box-shadow: 0 0 16px rgba(214, 14, 181, 0.3);
+        }
+        .metric-icon-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.65rem;
+            color: var(--deck-accent);
+        }
+        .metric-icon-badge svg {
+            width: 26px;
+            height: 26px;
+        }
+        .metric-card.glowing .metric-icon-badge {
+            color: var(--deck-accent-alt);
+        }
+        .card-badge {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--deck-accent);
+            border: 1px solid var(--deck-accent);
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 0;
+            text-transform: uppercase;
+        }
+        .card-badge.accent-alt {
+            color: var(--deck-accent-alt);
+            border-color: var(--deck-accent-alt);
+        }
+        .card-title {
+            font-size: 1.5rem !important;
+            font-weight: 600 !important;
+            margin-bottom: 0.65rem !important;
+        }
+        .card-body {
+            font-size: 1.15rem !important;
+            line-height: 1.55 !important;
+            color: var(--deck-ink-muted);
+        }
+
+        /* Comparison Layout (Full Slide) */
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.25rem;
+            margin-top: 0.5rem;
+        }
+        .comparison-card {
+            background: linear-gradient(145deg, #0B111E 0%, #000000 100%);
+            border: 1px solid var(--deck-card-border);
+            border-radius: 18px;
+            padding: 1.85rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        .comparison-card.glowing {
+            border-color: var(--deck-accent);
+            box-shadow: 0 0 25px #54C0E844;
+        }
+
+        /* Regions / Multi-column Layouts (Full Slide) */
+        .regions-container {
+            display: grid;
+            gap: 1.75rem;
+            margin-top: 0.5rem;
+        }
+        .regions-container.count-2 { grid-template-columns: 1fr 1fr; }
+        .regions-container.count-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .region-col {
+            background: linear-gradient(145deg, #0B111E 0%, #000000 100%);
+            border: 1px solid var(--deck-card-border);
+            border-radius: 18px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        .region-title {
+            font-size: 1.45rem !important;
+            font-weight: 600 !important;
+            color: var(--deck-accent) !important;
+            margin-bottom: 0.75rem !important;
+        }
+
+        /* Diagram Canvas */
+        .diagram-wrapper {
+            background: linear-gradient(145deg, #0B111E 0%, #000000 100%);
+            border: 1.5px dashed var(--deck-accent);
+            border-radius: 18px;
+            padding: 1.75rem;
+            margin-top: 0.5rem;
+        }
+        .diagram-badge {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--deck-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1rem;
+        }
+        .diagram-nodes {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .diagram-node {
+            background: var(--deck-card-bg);
+            border: 1px solid var(--deck-accent);
+            border-radius: 12px;
+            padding: 1rem 1.4rem;
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--deck-ink);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        .node-idx {
+            color: var(--deck-accent-alt);
+            font-weight: 700;
+            margin-right: 0.4rem;
+        }
+        .diagram-arrow {
+            font-size: 1.5rem;
+            color: var(--deck-accent);
+        }
+
+        /* Architecture Slide Layout (Sidebar + Full Canvas) */
+        .architecture-slide-layout {
+            display: grid;
+            grid-template-columns: 460px 1fr;
+            gap: 2.5rem;
+            align-items: stretch;
+            height: calc(1080px - 220px);
+            max-height: 720px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        .architecture-slide-layout.full-width {
+            grid-template-columns: 1fr;
+        }
+        .arch-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            justify-content: flex-start;
+            height: 100%;
+            overflow: hidden;
+        }
+        .arch-cards-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex: 1;
+        }
+        .arch-cards-stack .feature-card {
+            padding: 1.2rem 1.4rem;
+            min-height: auto;
+        }
+        .arch-cards-stack .card-title {
+            font-size: 1.15rem !important;
+            margin-bottom: 0.35rem !important;
+        }
+        .arch-cards-stack .card-body {
+            font-size: 0.95rem !important;
+            line-height: 1.45 !important;
+        }
+        .arch-icon-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.75rem 1.25rem;
+            background: rgba(11, 17, 30, 0.65);
+            border: 1px solid var(--deck-card-border);
+            border-radius: 12px;
+            color: var(--deck-ink-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .arch-icon-badge img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+        }
+        .arch-diagram-canvas {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        .arch-diagram-canvas .mermaid-wrapper {
+            width: 100%;
+            height: 100%;
+            margin-top: 0;
+            padding: 1.5rem 2rem;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .arch-diagram-canvas .mermaid {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .arch-diagram-canvas .mermaid svg {
+            max-width: 100% !important;
+            max-height: 600px !important;
+            width: auto !important;
+            height: auto !important;
+        }
+
+        /* Blank Hero Visual */
+        .blank-hero-layout {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-full-bleed {
+            max-width: 100%;
+            max-height: 850px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            object-fit: contain;
+        }
+        .hero-overlay-card {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 2.5rem;
+            background: rgba(11, 17, 30, 0.9);
+            backdrop-filter: blur(12px);
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--deck-card-border);
+            max-width: 600px;
+        }
+
+        /* Progress Bar & Controls */
+        .reveal .progress {
+            height: 5px;
+            color: var(--deck-accent);
+        }
+        .reveal .slide-number {
+            font-family: var(--font-family);
+            font-size: 1rem;
+            color: var(--deck-ink-muted);
+            right: 2rem;
+            bottom: 1.5rem;
+        }
+
+        /* =========================================================
+           Native Architecture Diagram Theme Components
+           Strictly bound to theme tokens:
+           Aqua (accent): var(--deck-accent) [#54C0E8]
+           Pink (accent-alt): var(--deck-accent-alt) [#D60EB5]
+           Surface: var(--deck-card-bg) / var(--deck-surface)
+           Border: var(--deck-card-border) [#415364]
+           Ink: var(--deck-ink) [#FFFFFF] / var(--deck-ink-muted) [#DAE1E9]
+        ========================================================= */
+        .native-arch-wrapper {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1.5rem 1.75rem;
+            background: linear-gradient(145deg, rgba(11, 17, 30, 0.95) 0%, rgba(1, 28, 72, 0.45) 100%);
+            border: 1px solid var(--deck-card-border);
+            border-radius: 18px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        .native-arch-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(84, 192, 232, 0.2);
+            padding-bottom: 0.6rem;
+            margin-bottom: 0.4rem;
+        }
+        .native-arch-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .native-arch-title .arch-icon {
+            color: var(--deck-accent);
+        }
+        .native-arch-badge {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--deck-accent);
+            background: rgba(84, 192, 232, 0.12);
+            border: 1px solid var(--deck-accent);
+            padding: 3px 10px;
+            border-radius: 9999px;
+        }
+
+        /* 1. Pipeline Architecture (Slide 2) */
+        .arch-pipeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+        }
+        .arch-pipeline-stages {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.85rem;
+            align-items: stretch;
+            position: relative;
+        }
+        .arch-pipeline-stage {
+            background: rgba(15, 26, 46, 0.85);
+            border: 1px solid var(--deck-card-border);
+            border-radius: 14px;
+            padding: 1.1rem 0.9rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            position: relative;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+        }
+        .arch-pipeline-stage.glowing {
+            border-color: var(--deck-accent);
+            box-shadow: 0 0 20px rgba(84, 192, 232, 0.35);
+        }
+        .arch-pipeline-stage .stage-num {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--deck-accent);
+            letter-spacing: 0.05em;
+        }
+        .arch-pipeline-stage .stage-title {
+            font-size: 1.05rem !important;
+            font-weight: 600 !important;
+            color: #FFFFFF;
+            margin: 0 !important;
+        }
+        .arch-pipeline-stage .stage-badge {
+            font-size: 0.72rem;
+            color: var(--deck-accent-alt);
+            font-weight: 500;
+        }
+        .arch-pipeline-stage .stage-desc {
+            font-size: 0.82rem;
+            color: var(--deck-ink-muted);
+            line-height: 1.35;
+            margin: 0;
+        }
+        .arch-pipeline-arrow {
+            position: absolute;
+            right: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            color: var(--deck-accent);
+            font-size: 1rem;
+            background: #0B111E;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--deck-accent);
+        }
+        .arch-pipeline-trigger {
+            background: rgba(214, 14, 181, 0.08);
+            border: 1px dashed var(--deck-accent-alt);
+            border-radius: 12px;
+            padding: 0.75rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .arch-pipeline-trigger .trigger-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--deck-accent-alt);
+            background: rgba(214, 14, 181, 0.15);
+            border: 1px solid var(--deck-accent-alt);
+            padding: 3px 8px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+        .arch-pipeline-trigger .trigger-content {
+            font-size: 0.88rem;
+            color: var(--deck-ink-muted);
+        }
+
+        /* 2. Convergence Architecture (Slide 3) */
+        .arch-convergence {
+            display: grid;
+            grid-template-columns: 1.6fr 0.12fr 1fr;
+            gap: 1.25rem;
+            align-items: center;
+            width: 100%;
+        }
+        .arch-tracks-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .arch-track {
+            background: rgba(15, 26, 46, 0.75);
+            border: 1px solid var(--deck-card-border);
+            border-radius: 14px;
+            padding: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .arch-track.glowing {
+            border-color: var(--deck-accent-alt);
+            box-shadow: 0 0 20px rgba(214, 14, 181, 0.25);
+        }
+        .arch-track-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .arch-track-identity {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+        .arch-track-identity img {
+            width: 26px;
+            height: 26px;
+            object-fit: contain;
+        }
+        .arch-track .track-badge {
+            font-size: 0.75rem;
+            color: var(--deck-accent);
+            border: 1px solid var(--deck-accent);
+            padding: 2px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+        .arch-track-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+        .arch-track-step {
+            background: rgba(11, 17, 30, 0.6);
+            border: 1px solid rgba(84, 192, 232, 0.2);
+            border-radius: 8px;
+            padding: 0.5rem 0.4rem;
+            font-size: 0.8rem;
+            color: var(--deck-ink-muted);
+            text-align: center;
+        }
+        .arch-convergence-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--deck-accent);
+            font-size: 2rem;
+        }
+        .arch-hub-card {
+            background: linear-gradient(145deg, rgba(15, 26, 46, 0.95), rgba(1, 28, 72, 0.85));
+            border: 2px solid var(--deck-accent);
+            box-shadow: 0 0 25px rgba(84, 192, 232, 0.35);
+            border-radius: 16px;
+            padding: 1.5rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        /* 3. Cardinality Architecture (Slide 4) */
+        .arch-cardinality {
+            display: grid;
+            grid-template-columns: 1fr 0.18fr 1fr 0.18fr 1.15fr;
+            gap: 0.85rem;
+            align-items: center;
+            width: 100%;
+        }
+        .arch-card-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+        .arch-card-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            text-align: center;
+        }
+        .arch-connector-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--deck-accent);
+            background: rgba(84, 192, 232, 0.15);
+            border: 1px solid var(--deck-accent);
+            padding: 3px 8px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+        .arch-connector-line {
+            font-size: 1.5rem;
+            color: var(--deck-accent);
+        }
+        .arch-source-card, .arch-profile-card, .arch-role-card {
+            background: rgba(15, 26, 46, 0.8);
+            border: 1px solid var(--deck-card-border);
+            border-radius: 14px;
+            padding: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+        }
+        .arch-profile-card.glowing {
+            border-color: var(--deck-accent);
+            box-shadow: 0 0 20px rgba(84, 192, 232, 0.25);
+        }
+        .arch-role-card.glowing {
+            border-color: var(--deck-accent-alt);
+            box-shadow: 0 0 25px rgba(214, 14, 181, 0.35);
+        }
+        .arch-item-chips {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .arch-chip {
+            font-size: 0.8rem;
+            background: rgba(11, 17, 30, 0.6);
+            border: 1px solid rgba(84, 192, 232, 0.15);
+            padding: 4px 8px;
+            border-radius: 6px;
+            color: var(--deck-ink-muted);
+        }
+        .arch-profile-subcard, .arch-role-subcard {
+            background: rgba(11, 17, 30, 0.55);
+            border: 1px solid rgba(84, 192, 232, 0.12);
+            border-radius: 8px;
+            padding: 0.55rem 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            margin-top: 0.4rem;
+        }
+        .arch-profile-subcard strong, .arch-role-subcard strong {
+            font-size: 0.95rem;
+            color: #FFFFFF;
+        }
+        .subcard-meta {
+            font-size: 0.78rem;
+            color: var(--deck-ink-muted);
+        }
+
+        /* 4. Policy Flow / Dynamic ABAC Architecture (Slide 5) */
+        .arch-policy-flow {
+            display: grid;
+            grid-template-columns: 1fr 0.12fr 1.1fr 0.12fr 1fr 0.12fr 1.1fr;
+            gap: 0.75rem;
+            align-items: center;
+            width: 100%;
+        }
+        .arch-flow-col {
+            background: rgba(15, 26, 46, 0.8);
+            border: 1px solid var(--deck-card-border);
+            border-radius: 14px;
+            padding: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+        }
+        .arch-flow-col.glowing {
+            border-color: var(--deck-accent);
+            box-shadow: 0 0 20px rgba(84, 192, 232, 0.25);
+        }
+        .arch-flow-col.role-col.glowing {
+            border-color: var(--deck-accent-alt);
+            box-shadow: 0 0 20px rgba(214, 14, 181, 0.25);
+        }
+        .arch-flow-arrow {
+            font-size: 1.6rem;
+            color: var(--deck-accent);
+            text-align: center;
+        }
+        .arch-attrs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .arch-attr-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            background: rgba(11, 17, 30, 0.6);
+            padding: 5px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(84, 192, 232, 0.15);
+        }
+        .attr-key {
+            color: #FFFFFF;
+            font-weight: 500;
+        }
+        .attr-op {
+            color: var(--deck-accent);
+            font-weight: 700;
+        }
+        .attr-val {
+            color: var(--deck-accent-alt);
+            font-weight: 600;
+        }
+        .engine-status-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--deck-accent);
+            background: rgba(84, 192, 232, 0.15);
+            border: 1px solid var(--deck-accent);
+            padding: 4px 8px;
+            border-radius: 6px;
+            text-align: center;
+            margin-top: 0.4rem;
+        }
+
+        /* 5. Layered Stack Architecture (Slide 6) */
+        .arch-layered-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            width: 100%;
+        }
+        .arch-layer-card {
+            background: rgba(15, 26, 46, 0.85);
+            border: 1px solid var(--deck-card-border);
+            border-radius: 14px;
+            padding: 1.1rem 1.5rem;
+            display: grid;
+            grid-template-columns: 90px 1.4fr 2.6fr;
+            align-items: center;
+            gap: 1.25rem;
+        }
+        .arch-layer-card.cyan, .arch-layer-card.glowing {
+            border-color: var(--deck-accent);
+            box-shadow: 0 0 20px rgba(84, 192, 232, 0.25);
+        }
+        .arch-layer-card.orchid {
+            border-color: var(--deck-accent-alt);
+            box-shadow: 0 0 20px rgba(214, 14, 181, 0.25);
+        }
+        .arch-layer-card.blue {
+            border-color: #0071CE;
+        }
+        .arch-layer-tier {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--deck-accent);
+            letter-spacing: 0.05em;
+        }
+        .arch-layer-card.orchid .arch-layer-tier {
+            color: var(--deck-accent-alt);
+        }
+        .arch-layer-info .card-title {
+            font-size: 1.15rem !important;
+            margin: 0.2rem 0 !important;
+            color: #FFFFFF;
+        }
+        .arch-layer-desc p {
+            font-size: 0.88rem;
+            color: var(--deck-ink-muted);
+            line-height: 1.4;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <section class="deck-slide slide-1" data-role="cover">
+                
+                <div class="title-slide-wrapper">
+                    <div class="cover-text-content">
+                        <div class="cover-brand-logo-wrapper"><img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTk4My4wMyA3MDMuNTUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjwvZGVmcz48ZyBpZD0iTGF5ZXJfMiI+PGcgaWQ9IkNvbG9yIj48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTk4My4wMyIgaGVpZ2h0PSI3MDMuNTUiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNNjQ3Ljc3IDM1Ni40NUM2MjkuNTkgMzUxLjMgNjIwLjIyIDM0Mi40IDYyMC4yMiAzMzAgNjIwLjIyIDMxNC43IDYzNC4yMiAzMDMuODkgNjUzLjQzIDMwMy44OSA2NzMuMyAzMDMuODkgNjg1Ljg4IDMxNC40NSA2ODYuNjEgMzMxLjQ0TDczNS4wOSAzMzEuNDRDNzM0LjMgMjg4LjU5IDcwMS44OSAyNTkuODIgNjU0LjAxIDI1OS44MiA2MDYuMTMgMjU5LjgyIDU3MS4zNyAyODkuODcgNTcxLjM3IDMzMS4zMiA1NzEuMzcgMzY0LjE5IDU5Mi4yNSAzODcuMjQgNjMzLjM3IDQwMC4wM0w2NjMuMDkgNDA4LjNDNjg1LjA5IDQxNC42IDY5NC4yMSA0MjMuMiA2OTMuNjkgNDM3LjY1IDY5My4zNiA0NTQuMyA2NzguNzkgNDY1LjIgNjU2LjIzIDQ2NS4yIDYzMS43NCA0NjUuMiA2MTkuNSA0NTAuNjYgNjE4LjE1IDQzNS43NUw1NjkuMTUgNDM1Ljc1QzU3MC4wNCA0NzguNiA2MDUuNTcgNTA4LjA1IDY1Ni4yNiA1MDguMDUgNjk3LjI2IDUwOC4wNSA3NDEuOTYgNDg2LjA1IDc0Mi42NyA0MzcuOTYgNzQzLjY3IDQwMi45NiA3MjEuNTIgMzc4LjU4IDY3Ni42NyAzNjUuNjlaIiBmaWxsPSIjMDAzM0ExIi8+PHBhdGggZD0iTTgzOC40MyAzMzguMDVDNzkxLjY5IDMzOS4yOTUgNzU0LjgwOSAzNzguMTk0IDc1Ni4wNTQgNDI0LjkzNCA3NTcuMjUyIDQ2OS45MjMgNzkzLjQ0IDUwNi4xMTIgODM4LjQzIDUwNy4zMSA4NTIuMDIgNTA3LjMxIDg3NS43MSA1MDAuNzMgODg1LjMyIDQ4Ni4wNEw4ODguMzggNDgxLjM5IDg4OC4zOCA1MDQgOTM0LjExIDUwNCA5MzQuMTEgMzQxLjU3IDg4OC41MyAzNDEuNTcgODg4LjUzIDM2My41NyA4ODUuNDcgMzU5LjI1Qzg3MSAzMzguNjYgODQxLjcgMzM4LjA1IDgzOC40MyAzMzguMDVaTTg0My4zMiA0NjMuNzZDODIyLjU0IDQ2My43NiA4MDAuMTQgNDQ4LjA2IDgwMC4xNCA0MjIuNzYgODAwLjE0IDM5Ny40NiA4MjIuNTEgMzgxLjc2IDg0My4zMiAzODEuNzYgODY0LjEzIDM4MS43NiA4ODUuMDcgMzk2LjE0IDg4NS4wNyA0MjIuNzYgODg1LjA3IDQ0OS4zOCA4NjMuNTMgNDYzLjc2IDg0My4zMiA0NjMuNzZaIiBmaWxsPSIjMDAzM0ExIi8+PHBhdGggZD0iTTEwMDcuMTQgMzQxLjYgOTYxLjQ0IDM0MS42IDk2MS40NCA1MDQuMTYgMTAwNy4xNCA1MDQuMTZaIiBmaWxsPSIjMDAzM0ExIi8+PHBhdGggZD0iTTEwODAuNzIgMjYzIDEwMzQuODEgMjYzIDEwMzQuODEgNTA0LjEgMTA4MC43MiA1MDQuMVoiIGZpbGw9IiMwMDMzQTEiLz48cGF0aCBkPSJNMTIwNS44MSAyNjIuNzYgMTEwNyAyNjIuNzYgMTEwNyA1MDQuMSAxMTU2IDUwNC4xIDExNTYgNDE5LjYyIDEyMDUuOTIgNDE5LjYyQzEyNjQuMDggNDE5LjYyIDEyODQuODYgMzc3LjQ3IDEyODQuODYgMzQxLjMgMTI4NC43NSAyODcuMDkgMTI0NS4xMSAyNjIuNzYgMTIwNS44MSAyNjIuNzZaTTEyMDMuMyAzNzcuNDcgMTE1NS44OSAzNzcuNDcgMTE1NS44OSAzMDUuMjEgMTIwNC44OSAzMDUuMjFDMTIyNi4zMiAzMDUuMjEgMTIzNi4wMiAzMjYuMyAxMjM2LjAyIDM0MS4yNiAxMjM2LjAyIDM1OS4xNCAxMjIzLjc4IDM3Ny40NyAxMjAzLjQ2IDM3Ny40N1oiIGZpbGw9IiMwMDMzQTEiLz48cGF0aCBkPSJNMTM2NiAzMzguMDVDMTMxNy4xOCAzMzguMDUgMTI4MS43MyAzNzMuNDkgMTI4MS43MyA0MjIuMzUgMTI4MS43MyA0NzEuMjEgMTMxNyA1MDcgMTM2NiA1MDcgMTQxNSA1MDcgMTQ1MC40NyA0NzEuNCAxNDUwLjQ3IDQyMi4zNyAxNDUwLjQ3IDM3My4zNCAxNDE1IDMzOC4wNSAxMzY2IDMzOC4wNVpNMTM2NiA0NjJDMTM0NC4yIDQ2Mi4xMzcgMTMyNi40MSA0NDQuNTczIDEzMjYuMjcgNDIyLjc3IDEzMjYuMTMgNDAwLjk2NiAxMzQzLjcgMzgzLjE3OSAxMzY1LjUgMzgzLjA0MiAxMzg3LjI4IDM4Mi45MDQgMTQwNS4wNiA0MDAuNDMxIDE0MDUuMjMgNDIyLjIxIDE0MDYuMTUgNDQzLjI2NSAxMzg5LjgzIDQ2MS4wNzkgMTM2OC43NyA0NjEuOTk5IDEzNjguNzcgNDYyIDEzNjguNzYgNDYyIDEzNjguNzYgNDYyIDEzNjcuODUgNDYyIDEzNjYuOTMgNDYyIDEzNjYgNDYyWiIgZmlsbD0iIzAwMzNBMSIvPjxwYXRoIGQ9Ik0xNTEzLjY3IDM0MS42IDE0NjcuOTQgMzQxLjYgMTQ2Ny45NCA1MDQuMTYgMTUxMy42NyA1MDQuMTZaIiBmaWxsPSIjMDAzM0ExIi8+PHBhdGggZD0iTTE1ODkuNyAzNjQuODYgMTU4Ni42NCAzNzAuNjggMTU4Ni42NCAzNDEuNTcgMTU0MC40OCAzNDEuNTcgMTU0MC40OCA1MDQuMDcgMTU4Ni4zOSA1MDQuMDcgMTU4Ni4zOSA0MThDMTU4Ni4zOSAzOTQuODYgMTU5Ny41OSAzODIuNjIgMTYxOC41NiAzODIuNjIgMTYzNy40NSAzODIuNjIgMTY0OC45NSAzOTUuOSAxNjQ4Ljk1IDQxNy4yTDE2NDguOTUgNTA0IDE2OTUgNTA0IDE2OTUgNDA2LjZDMTY5NS4yMSAzNjIuMzcgMTY3NC4yNSAzMzcuODkgMTYzNi4xNyAzMzcuODkgMTYxNi45NyAzMzcuODYgMTU5OS4yMiAzNDguMTI3IDE1ODkuNjggMzY0Ljc5WiIgZmlsbD0iIzAwMzNBMSIvPjxwYXRoIGQ9Ik05ODQuMjcgMzE4LjQ5QzEwMDAuMDMgMzE4LjUyOSAxMDEyLjgzIDMwNS43ODcgMTAxMi44NyAyOTAuMDMgMTAxMi45MSAyNzQuMjczIDEwMDAuMTcgMjYxLjQ2OSA5ODQuNDEgMjYxLjQzIDk2OC42NTMgMjYxLjM5MiA5NTUuODQ5IDI3NC4xMzMgOTU1LjgxIDI4OS44OSA5NTUuODEgMjg5Ljg5MyA5NTUuODEgMjg5Ljg5NyA5NTUuODEgMjg5LjlMOTU1LjgxIDI5MEM5NTUuNzk3IDI5My43NDEgOTU2LjU0MiAyOTcuNDQ1IDk1OCAzMDAuODkgOTYyLjQxMiAzMTEuNTM1IDk3Mi43OTcgMzE4LjQ3OSA5ODQuMzIgMzE4LjQ5WiIgZmlsbD0iIzAwMzNBMSIvPjxwYXRoIGQ9Ik0xNDkwLjc0IDMxOC40OUMxNTA2LjUgMzE4LjUyOSAxNTE5LjMgMzA1Ljc4NyAxNTE5LjM0IDI5MC4wMyAxNTE5LjM4IDI3NC4yNzMgMTUwNi42NCAyNjEuNDY5IDE0OTAuODggMjYxLjQzIDE0NzUuMTIgMjYxLjM5MiAxNDYyLjMyIDI3NC4xMzMgMTQ2Mi4yOCAyODkuODkgMTQ2Mi4yOCAyODkuODkzIDE0NjIuMjggMjg5Ljg5NyAxNDYyLjI4IDI4OS45TDE0NjIuMjggMjkwQzE0NjIuMjUgMjkzLjczNyAxNDYyLjk4IDI5Ny40NDIgMTQ2NC40MiAzMDAuODkgMTQ2OC44MyAzMTEuNTM3IDE0NzkuMjIgMzE4LjQ4MiAxNDkwLjc0IDMxOC40OVoiIGZpbGw9IiMwMDMzQTEiLz48cGF0aCBkPSJNMTgxNC4yNCAzNDEuNDggMTc4Mi4yNCAzNDEuNDggMTc4Mi4yNCAyNzguMDkgMTczNi4zMyAyNzguMDkgMTczNi4zMyAzNDEuNDggMTcwNS43MiAzNDEuNDggMTcwNS43MiAzODAuMTcgMTczNi4zMyAzODAuMTcgMTczNi4zMyA1MDQuMSAxNzgyLjI0IDUwNC4xIDE3ODIuMjQgMzgwLjE3IDE4MTQuMjQgMzgwLjE3WiIgZmlsbD0iIzAwMzNBMSIvPjxwYXRoIGQ9Ik0zNzkuNzUgMTcyLjcxIDQyMy44MyA0MzUuNzYgMTY4Ljc0IDQzNS43NiAzNzkuNzUgMTcyLjcxWiIgZmlsbD0iIzAwMzNBMSIvPjxwYXRoIGQ9Ik0zNzkuNzUgMTcyLjcxIDUzNS45OCA0MzUuNzYgNDIzLjgzIDQzNS43NiAzNzkuNzUgMTcyLjcxWiIgZmlsbD0iI0NDMjdCMCIvPjxwYXRoIGQ9Ik0xNjguNzQgNDM1Ljc2IDQyMy44MyA0MzUuNzYgNDM5Ljc3IDUzMC44MyAxNjguNzQgNDM1Ljc2WiIgZmlsbD0iIzAwNzFDRSIvPjxwYXRoIGQ9Ik00MjMuODMgNDM1Ljc2IDUzNS45OCA0MzUuNzYgNDM5Ljc3IDUzMC44MyA0MjMuODMgNDM1Ljc2WiIgZmlsbD0iI0UxN0ZEMiIvPjxwYXRoIGQ9Ik0xODI2LjQgNDczQzE4MjkuMDUgNDc0LjU0MyAxODMxLjIzIDQ3Ni43ODQgMTgzMi43IDQ3OS40OCAxODM0LjI1IDQ4Mi4zMiAxODM1LjA0IDQ4NS41MTQgMTgzNSA0ODguNzUgMTgzNS4wNSA0OTEuOTcxIDE4MzQuMjYgNDk1LjE0OSAxODMyLjcgNDk3Ljk3IDE4MzEuMjIgNTAwLjY0OCAxODI5LjA1IDUwMi44NzQgMTgyNi40IDUwNC40MSAxODIzLjYyIDUwNS45OTkgMTgyMC40NyA1MDYuODA3IDE4MTcuMjcgNTA2Ljc1IDE4MTQuMDYgNTA2LjgwNCAxODEwLjg5IDUwNS45OTYgMTgwOC4wOSA1MDQuNDEgMTgwNS40MiA1MDIuODg1IDE4MDMuMjMgNTAwLjY1NyAxODAxLjc0IDQ5Ny45NyAxODAwLjE5IDQ5NS4xNDggMTc5OS40IDQ5MS45NyAxNzk5LjQ1IDQ4OC43NSAxNzk5LjQgNDg1LjUxNCAxODAwLjE5IDQ4Mi4zMjEgMTgwMS43NCA0NzkuNDggMTgwMy4yMiA0NzYuNzc1IDE4MDUuNDIgNDc0LjUzMiAxODA4LjA5IDQ3MyAxODEwLjg5IDQ3MS40MTQgMTgxNC4wNiA0NzAuNjA2IDE4MTcuMjcgNDcwLjY2IDE4MjAuNDcgNDcwLjYwMyAxODIzLjYyIDQ3MS40MTEgMTgyNi40IDQ3M1pNMTgyNy43NSA0OTkuNTVDMTgzMy4xIDQ5My4zNDIgMTgzMy4xIDQ4NC4xNTggMTgyNy43NSA0NzcuOTUgMTgyMS44NiA0NzIuMzA5IDE4MTIuNTggNDcyLjMwOSAxODA2LjY5IDQ3Ny45NSAxODAxLjM2IDQ4NC4xNjIgMTgwMS4zNiA0OTMuMzM4IDE4MDYuNjkgNDk5LjU1IDE4MTIuNTggNTA1LjE5MSAxODIxLjg2IDUwNS4xOTEgMTgyNy43NSA0OTkuNTVaTTE4MjMuODQgNDg4LjU1QzE4MjIuOTMgNDg5LjU4IDE4MjEuNjkgNDkwLjI2NSAxODIwLjMzIDQ5MC40OUwxODI1LjczIDQ5OC4yMyAxODIxLjE0IDQ5OC4zMiAxODE2LjE0IDQ5MC42NyAxODE0LjA3IDQ5MC42NyAxODE0LjA3IDQ5OC4zMiAxODEwLjIgNDk4LjMyIDE4MTAuMiA0NzguOTIgMTgxOC41NyA0NzguOTJDMTgyMC4yOSA0NzguODI4IDE4MjEuOTcgNDc5LjM4OSAxODIzLjI5IDQ4MC40OSAxODI0LjQ4IDQ4MS41ODYgMTgyNS4xMyA0ODMuMTUzIDE4MjUuMDUgNDg0Ljc3IDE4MjUuMTEgNDg2LjExOSAxODI0LjY4IDQ4Ny40NDUgMTgyMy44NCA0ODguNVpNMTgxNC4xMiA0ODcuNDMgMTgxOC4zNSA0ODcuNDNDMTgxOS4wOSA0ODcuNDYxIDE4MTkuODIgNDg3LjIzOSAxODIwLjQyIDQ4Ni44IDE4MjAuOTggNDg2LjMzNyAxODIxLjI4IDQ4NS42MzQgMTgyMS4yMyA0ODQuOTEgMTgyMS4yOSA0ODQuMTk2IDE4MjAuOTggNDgzLjUwMSAxODIwLjQyIDQ4My4wNiAxODE5LjgxIDQ4Mi42NTEgMTgxOS4wOCA0ODIuNDQ4IDE4MTguMzUgNDgyLjQ4TDE4MTQuMTIgNDgyLjQ4WiIgZmlsbD0iIzAwMzNBMSIvPjwvZz48L2c+PC9zdmc+" alt="SailPoint Logo" class="cover-brand-logo" /></div>
+                        
+                        <h1 class="cover-title">SailPoint Smart iLab</h1>
+                        <h2 class="cover-subtitle">Identity Model Architecture & Proof-of-Value Blueprint</h2>
+                        <p class="cover-description">A foundational visual guide to identity object hierarchies, non-human identity governance, dynamic role modeling, and demonstration tenant architecture.</p>
+                        <div class="cover-meta-grid"><div class="meta-item"><span class="meta-label">Presenter</span><span class="meta-val">Christian Bersch, Advisory Solutions Consultant</span></div><div class="meta-item"><span class="meta-label">Date</span><span class="meta-val">2026</span></div><div class="meta-item"><span class="meta-label">Series</span><span class="meta-val">SailPoint Architecture Series</span></div></div>
+                    </div>
+                    
+                </div>
+            
+                <aside class="notes">Welcome to the modernized SailPoint Smart iLab architectural presentation. In this deck, we walk through the core identity model, machine identity governance, dynamic role assignment, and how our demonstration tenant accelerates customer proof-of-value engagements.</aside>
+            </section>
+        
+
+            <section class="deck-slide slide-2" data-role="architecture">
+                
+                <div class="slide-layout title-and-content">
+                    
+                <div class="slide-header">
+                    <div class="eyebrow-badge">Core Architecture</div>
+                    <h2 class="slide-title">The SailPoint Identity Object Hierarchy</h2>
+                    <h4 class="slide-subtitle">Establishing authoritative lineage across all enterprise systems and sources</h4>
+                </div>
+            
+                    
+                    <div class="architecture-slide-layout with-sidebar">
+                        <div class="arch-sidebar"><div class="arch-cards-stack">
+                            <div class="feature-card">
+                                
+                                <div class="card-header-row">
+                                    <div class="card-icon-container"><svg
+  class="lucide-icon lucide-shield-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="26px"
+  height="26px"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+  <path d="m9 12 2 2 4-4" />
+</svg></div>
+                                    <span class="card-badge">Single Source of Truth</span>
+                                </div>
+                            
+                                <h3 class="card-title">Authoritative Identity Core</h3>
+                                <p class="card-body">Central identity record correlated to disparate target accounts, maintaining lifecycle state and audit trails.</p>
+                            </div>
+                        
+                            <div class="feature-card glowing">
+                                
+                                <div class="card-header-row">
+                                    <div class="card-icon-container"><svg
+  class="lucide-icon lucide-layers"
+  xmlns="http://www.w3.org/2000/svg"
+  width="26px"
+  height="26px"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" />
+  <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" />
+  <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" />
+</svg></div>
+                                    <span class="card-badge">Entitlements to Roles</span>
+                                </div>
+                            
+                                <h3 class="card-title">Deterministic Hierarchy</h3>
+                                <p class="card-body">Granular entitlements grouped into single-source Access Profiles, then bundled into multi-source business roles.</p>
+                            </div>
+                        </div>
+                        <div class="arch-icon-badge">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTE2IDExNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgaWQ9Ikljb24iIG92ZXJmbG93PSJoaWRkZW4iPjxzdHlsZT4NCi5Nc2Z0T2ZjVGhtX0FjY2VudDRfU3Ryb2tlX3YyIHsNCiBzdHJva2U6IzU0QzBFODsgDQp9DQo8L3N0eWxlPg0KPGRlZnM+PC9kZWZzPjxwYXRoIGQ9Ik0xNy43MSA4MyAxNy43MSA5MEMxNy42OTk5IDk4LjY1NjQgMjAuNTA4IDEwNy4wODEgMjUuNzEgMTE0IiBjbGFzcz0iY2xzLTEgTXNmdE9mY1RobV9BY2NlbnQ0X1N0cm9rZV92MiIgc3Ryb2tlPSIjNTRDMEU4IiBzdHJva2Utd2lkdGg9IjQuNjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjEiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMzEuNzEgMjcuNkMyMi44MTQ2IDM1LjE5MjYgMTcuNjk3MSA0Ni4zMDQ5IDE3LjcxIDU4TDE3LjcxIDY2IiBjbGFzcz0iY2xzLTEgTXNmdE9mY1RobV9BY2NlbnQ0X1N0cm9rZV92MiIgc3Ryb2tlPSIjNTRDMEU4IiBzdHJva2Utd2lkdGg9IjQuNjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjEiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNNTcuNzEgMTggNTcuNzEgMThDNTEuMDc3MiAxNy45OTQyIDQ0LjU0NzMgMTkuNjQwNCAzOC43MSAyMi43OSIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTk3LjcxIDY1IDk3LjcxIDU4Qzk3LjcxNDIgNDEuMzA1IDg3LjM0OSAyNi4zNjMzIDcxLjcxIDIwLjUyIiBjbGFzcz0iY2xzLTEgTXNmdE9mY1RobV9BY2NlbnQ0X1N0cm9rZV92MiIgc3Ryb2tlPSIjNTRDMEU4IiBzdHJva2Utd2lkdGg9IjQuNjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjEiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNODkuNzIgMTE0Qzk0LjkyMjYgMTA3LjA4MSA5Ny43MzA5IDk4LjY1NjYgOTcuNzIgOTBMOTcuNzIgNzkiIGNsYXNzPSJjbHMtMSBNc2Z0T2ZjVGhtX0FjY2VudDRfU3Ryb2tlX3YyIiBzdHJva2U9IiM1NEMwRTgiIHN0cm9rZS13aWR0aD0iNC42NCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utb3BhY2l0eT0iMSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0zLjcgNDRDMi41NjgxMiA0OC40ODIgMS45OTcwOSA1My4wODczIDIgNTcuNzFMMiA5MC4yOUMxLjk4NzMzIDk4LjQ4NjMgMy43OTA1MiAxMDYuNTg0IDcuMjggMTE0IiBjbGFzcz0iY2xzLTEgTXNmdE9mY1RobV9BY2NlbnQ0X1N0cm9rZV92MiIgc3Ryb2tlPSIjNTRDMEU4IiBzdHJva2Utd2lkdGg9IjQuNjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjEiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMzAuNzEgOUMyMS40ODI3IDE0LjEyMzEgMTMuODkxIDIxLjc0OTUgOC44MSAzMSIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTg4LjA5IDExQzc5LjA1MzMgNS4xMTExMiA2OC40OTYxIDEuOTgzNiA1Ny43MSAyTDU3LjcxIDJDNTEuNTU5MiAxLjk5NjUgNDUuNDUwMSAzLjAxMDE4IDM5LjYzIDUiIGNsYXNzPSJjbHMtMSBNc2Z0T2ZjVGhtX0FjY2VudDRfU3Ryb2tlX3YyIiBzdHJva2U9IiM1NEMwRTgiIHN0cm9rZS13aWR0aD0iNC42NCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utb3BhY2l0eT0iMSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0xMTMuNDMgOTAuMjkgMTEzLjQzIDU3LjcxQzExMy40NSA0My4yNjE3IDEwNy44MzYgMjkuMzc0OSA5Ny43OCAxOSIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTEwOC4xNCAxMTRDMTA5LjkzMyAxMTAuMTY4IDExMS4yNzUgMTA2LjE0MSAxMTIuMTQgMTAyIiBjbGFzcz0iY2xzLTEgTXNmdE9mY1RobV9BY2NlbnQ0X1N0cm9rZV92MiIgc3Ryb2tlPSIjNTRDMEU4IiBzdHJva2Utd2lkdGg9IjQuNjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjEiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNODEuNzEgOTAgODEuNzEgNThDODEuNzEgNDQuNzQ1MiA3MC45NjQ4IDM0IDU3LjcxIDM0TDU3LjcxIDM0QzQ5LjU1NDQgMzQuMDAxNCA0MS45NTc2IDM4LjE0NDQgMzcuNTQgNDUiIGNsYXNzPSJjbHMtMSBNc2Z0T2ZjVGhtX0FjY2VudDRfU3Ryb2tlX3YyIiBzdHJva2U9IiM1NEMwRTgiIHN0cm9rZS13aWR0aD0iNC42NCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utb3BhY2l0eT0iMSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik01Ny43MSAxMTQgNTcuNzEgMTE0QzY2LjI4NjMgMTE0LjAwMiA3NC4yMTE5IDEwOS40MjcgNzguNSAxMDIiIGNsYXNzPSJjbHMtMSBNc2Z0T2ZjVGhtX0FjY2VudDRfU3Ryb2tlX3YyIiBzdHJva2U9IiM1NEMwRTgiIHN0cm9rZS13aWR0aD0iNC42NCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utb3BhY2l0eT0iMSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0zMy43MSA1OCAzMy43MSA5MEMzMy43MDkyIDk4LjA0MzUgMzcuNzM3OCAxMDUuNTUzIDQ0LjQ0IDExMCIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTU4LjcxIDk3Ljk0QzYyLjcxMSA5Ny40MzU5IDY1LjcxMTQgOTQuMDMyNyA2NS43MSA5MEw2NS43MSA2OSIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTY1LjcxIDU4QzY1LjcxIDUzLjU4MTcgNjIuMTI4MyA1MCA1Ny43MSA1MEw1Ny43MSA1MEM1My4yOTE3IDUwIDQ5LjcxIDUzLjU4MTcgNDkuNzEgNThMNDkuNzEgOTBDNDkuNzA5NSA5MS40MDQxIDUwLjA3ODUgOTIuNzgzNyA1MC43OCA5NCIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PC9zdmc+" alt="Identity Core" />
+                            <span>Authoritative Biometric Core</span>
+                        </div>
+                    </div>
+                        <div class="arch-diagram-canvas">
+                            
+            <div class="native-arch-wrapper pipeline-wrapper">
+                <div class="native-arch-header">
+                    <span class="native-arch-title"><span class="arch-icon">⬡</span> Deterministic Identity-to-Entitlement Lineage</span>
+                    <span class="native-arch-badge">Deterministic Lineage</span>
+                </div>
+                <div class="arch-pipeline">
+                    <div class="arch-pipeline-stages">
+                        
+                <div class="arch-pipeline-stage">
+                    <span class="stage-num">01</span>
+                    <h4 class="stage-title">Identity Core</h4>
+                    <span class="stage-badge">Source of Truth</span>
+                    <p class="stage-desc">Central correlated persona with lifecycle state</p>
+                    <div class="arch-pipeline-arrow">➔</div>
+                </div>
+            
+                <div class="arch-pipeline-stage">
+                    <span class="stage-num">02</span>
+                    <h4 class="stage-title">Accounts</h4>
+                    <span class="stage-badge">Target Systems</span>
+                    <p class="stage-desc">Direct system credentials across SaaS and on-prem</p>
+                    <div class="arch-pipeline-arrow">➔</div>
+                </div>
+            
+                <div class="arch-pipeline-stage">
+                    <span class="stage-num">03</span>
+                    <h4 class="stage-title">Entitlements</h4>
+                    <span class="stage-badge">Fine-Grained</span>
+                    <p class="stage-desc">Granular privileges, groups, and permissions</p>
+                    <div class="arch-pipeline-arrow">➔</div>
+                </div>
+            
+                <div class="arch-pipeline-stage">
+                    <span class="stage-num">04</span>
+                    <h4 class="stage-title">Access Profiles</h4>
+                    <span class="stage-badge">1 : N Rule</span>
+                    <p class="stage-desc">Source-isolated bundles of entitlements</p>
+                    <div class="arch-pipeline-arrow">➔</div>
+                </div>
+            
+                <div class="arch-pipeline-stage glowing">
+                    <span class="stage-num">05</span>
+                    <h4 class="stage-title">Business Roles</h4>
+                    <span class="stage-badge">N : M Rule</span>
+                    <p class="stage-desc">Cross-system composite business access bundles</p>
+                    
+                </div>
+            
+                    </div>
+                    
+                <div class="arch-pipeline-trigger">
+                    <span class="trigger-badge">Autonomous Event</span>
+                    <div class="trigger-content">
+                        <strong>Lifecycle Events (JML Trigger)</strong>: Joiner, Mover, Leaver events trigger autonomous role calculation and target provisioning
+                    </div>
+                </div>
+            
+                </div>
+            </div>
+        
+                        </div>
+                    </div>
+                
+                </div>
+            
+                <aside class="notes">Baseline Slide 2 established the core object hierarchy: Identity, Accounts, Access Profiles, Roles, Entitlements, Events, and Ownership. This diagram maps the exact lineage from identity to target entitlements.</aside>
+            </section>
+        
+
+            <section class="deck-slide slide-3" data-role="comparison">
+                
+                <div class="slide-layout title-and-content">
+                    
+                <div class="slide-header">
+                    <div class="eyebrow-badge">Identity Convergence</div>
+                    <h2 class="slide-title">Governing Human and Non-Human Identities Alike</h2>
+                    <h4 class="slide-subtitle">Applying identical governance rigor across human workforces and machine workloads</h4>
+                </div>
+            
+                    
+                    <div class="architecture-slide-layout with-sidebar">
+                        <div class="arch-sidebar"><div class="arch-cards-stack">
+                            <div class="feature-card">
+                                
+                                <div class="card-header-row">
+                                    <div></div>
+                                    <span class="card-badge">Employees & Contractors</span>
+                                </div>
+                            
+                                <h3 class="card-title">Human Workforce Identities</h3>
+                                <p class="card-body">Lifecycle driven by HR joiner-mover-leaver events, interactive logins, MFA, and manager certification reviews.</p>
+                            </div>
+                        
+                            <div class="feature-card glowing">
+                                
+                                <div class="card-header-row">
+                                    <div></div>
+                                    <span class="card-badge">Service Accounts, Bots, IoT</span>
+                                </div>
+                            
+                                <h3 class="card-title">Non-Human Machine Identities</h3>
+                                <p class="card-body">Programmatic tokens, API keys, and machine workloads outnumbering humans 40:1, governed under identical policy rules.</p>
+                            </div>
+                        </div>
+                        <div class="arch-icon-badge">
+                            <img src="data:image/png;base64,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" alt="Machine Governance" />
+                            <span>Non-Human Identity Governance</span>
+                        </div>
+                    </div>
+                        <div class="arch-diagram-canvas">
+                            
+            <div class="native-arch-wrapper convergence-wrapper">
+                <div class="native-arch-header">
+                    <span class="native-arch-title"><span class="arch-icon">⬡</span> Unified Multi-Track Governance Architecture</span>
+                    <span class="native-arch-badge">Unified Governance Hub</span>
+                </div>
+                <div class="arch-convergence">
+                    <div class="arch-tracks-col">
+                        
+                <div class="arch-track">
+                    <div class="arch-track-header">
+                        <div class="arch-track-identity">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTE2IDExNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgaWQ9Ikljb24iIG92ZXJmbG93PSJoaWRkZW4iPjxzdHlsZT4NCi5Nc2Z0T2ZjVGhtX0FjY2VudDRfU3Ryb2tlX3YyIHsNCiBzdHJva2U6IzU0QzBFODsgDQp9DQo8L3N0eWxlPg0KPGRlZnM+PC9kZWZzPjxwYXRoIGQ9Ik0xNy43MSA4MyAxNy43MSA5MEMxNy42OTk5IDk4LjY1NjQgMjAuNTA4IDEwNy4wODEgMjUuNzEgMTE0IiBjbGFzcz0iY2xzLTEgTXNmdE9mY1RobV9BY2NlbnQ0X1N0cm9rZV92MiIgc3Ryb2tlPSIjNTRDMEU4IiBzdHJva2Utd2lkdGg9IjQuNjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjEiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMzEuNzEgMjcuNkMyMi44MTQ2IDM1LjE5MjYgMTcuNjk3MSA0Ni4zMDQ5IDE3LjcxIDU4TDE3LjcxIDY2IiBjbGFzcz0iY2xzLTEgTXNmdE9mY1RobV9BY2NlbnQ0X1N0cm9rZV92MiIgc3Ryb2tlPSIjNTRDMEU4IiBzdHJva2Utd2lkdGg9IjQuNjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjEiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNNTcuNzEgMTggNTcuNzEgMThDNTEuMDc3MiAxNy45OTQyIDQ0LjU0NzMgMTkuNjQwNCAzOC43MSAyMi43OSIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTk3LjcxIDY1IDk3LjcxIDU4Qzk3LjcxNDIgNDEuMzA1IDg3LjM0OSAyNi4zNjMzIDcxLjcxIDIwLjUyIiBjbGFzcz0iY2xzLTEgTXNmdE9mY1RobV9BY2NlbnQ0X1N0cm9rZV92MiIgc3Ryb2tlPSIjNTRDMEU4IiBzdHJva2Utd2lkdGg9IjQuNjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjEiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNODkuNzIgMTE0Qzk0LjkyMjYgMTA3LjA4MSA5Ny43MzA5IDk4LjY1NjYgOTcuNzIgOTBMOTcuNzIgNzkiIGNsYXNzPSJjbHMtMSBNc2Z0T2ZjVGhtX0FjY2VudDRfU3Ryb2tlX3YyIiBzdHJva2U9IiM1NEMwRTgiIHN0cm9rZS13aWR0aD0iNC42NCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utb3BhY2l0eT0iMSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0zLjcgNDRDMi41NjgxMiA0OC40ODIgMS45OTcwOSA1My4wODczIDIgNTcuNzFMMiA5MC4yOUMxLjk4NzMzIDk4LjQ4NjMgMy43OTA1MiAxMDYuNTg0IDcuMjggMTE0IiBjbGFzcz0iY2xzLTEgTXNmdE9mY1RobV9BY2NlbnQ0X1N0cm9rZV92MiIgc3Ryb2tlPSIjNTRDMEU4IiBzdHJva2Utd2lkdGg9IjQuNjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjEiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMzAuNzEgOUMyMS40ODI3IDE0LjEyMzEgMTMuODkxIDIxLjc0OTUgOC44MSAzMSIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTg4LjA5IDExQzc5LjA1MzMgNS4xMTExMiA2OC40OTYxIDEuOTgzNiA1Ny43MSAyTDU3LjcxIDJDNTEuNTU5MiAxLjk5NjUgNDUuNDUwMSAzLjAxMDE4IDM5LjYzIDUiIGNsYXNzPSJjbHMtMSBNc2Z0T2ZjVGhtX0FjY2VudDRfU3Ryb2tlX3YyIiBzdHJva2U9IiM1NEMwRTgiIHN0cm9rZS13aWR0aD0iNC42NCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utb3BhY2l0eT0iMSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0xMTMuNDMgOTAuMjkgMTEzLjQzIDU3LjcxQzExMy40NSA0My4yNjE3IDEwNy44MzYgMjkuMzc0OSA5Ny43OCAxOSIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTEwOC4xNCAxMTRDMTA5LjkzMyAxMTAuMTY4IDExMS4yNzUgMTA2LjE0MSAxMTIuMTQgMTAyIiBjbGFzcz0iY2xzLTEgTXNmdE9mY1RobV9BY2NlbnQ0X1N0cm9rZV92MiIgc3Ryb2tlPSIjNTRDMEU4IiBzdHJva2Utd2lkdGg9IjQuNjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjEiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNODEuNzEgOTAgODEuNzEgNThDODEuNzEgNDQuNzQ1MiA3MC45NjQ4IDM0IDU3LjcxIDM0TDU3LjcxIDM0QzQ5LjU1NDQgMzQuMDAxNCA0MS45NTc2IDM4LjE0NDQgMzcuNTQgNDUiIGNsYXNzPSJjbHMtMSBNc2Z0T2ZjVGhtX0FjY2VudDRfU3Ryb2tlX3YyIiBzdHJva2U9IiM1NEMwRTgiIHN0cm9rZS13aWR0aD0iNC42NCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utb3BhY2l0eT0iMSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik01Ny43MSAxMTQgNTcuNzEgMTE0QzY2LjI4NjMgMTE0LjAwMiA3NC4yMTE5IDEwOS40MjcgNzguNSAxMDIiIGNsYXNzPSJjbHMtMSBNc2Z0T2ZjVGhtX0FjY2VudDRfU3Ryb2tlX3YyIiBzdHJva2U9IiM1NEMwRTgiIHN0cm9rZS13aWR0aD0iNC42NCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utb3BhY2l0eT0iMSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0zMy43MSA1OCAzMy43MSA5MEMzMy43MDkyIDk4LjA0MzUgMzcuNzM3OCAxMDUuNTUzIDQ0LjQ0IDExMCIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTU4LjcxIDk3Ljk0QzYyLjcxMSA5Ny40MzU5IDY1LjcxMTQgOTQuMDMyNyA2NS43MSA5MEw2NS43MSA2OSIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTY1LjcxIDU4QzY1LjcxIDUzLjU4MTcgNjIuMTI4MyA1MCA1Ny43MSA1MEw1Ny43MSA1MEM1My4yOTE3IDUwIDQ5LjcxIDUzLjU4MTcgNDkuNzEgNThMNDkuNzEgOTBDNDkuNzA5NSA5MS40MDQxIDUwLjA3ODUgOTIuNzgzNyA1MC43OCA5NCIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PC9zdmc+" alt="" class="track-icon" />
+                            <span>Human Workforce Track</span>
+                        </div>
+                        <span class="track-badge">Employees & Contractors</span>
+                    </div>
+                    <div class="arch-track-steps">
+                        <div class="arch-track-step">Identity Persona</div><div class="arch-track-step">Enterprise Accounts</div><div class="arch-track-step">Target Access Profiles</div><div class="arch-track-step">Composite Business Roles</div>
+                    </div>
+                </div>
+            
+                <div class="arch-track glowing">
+                    <div class="arch-track-header">
+                        <div class="arch-track-identity">
+                            <img src="data:image/png;base64,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" alt="" class="track-icon" />
+                            <span>Non-Human Machine Track</span>
+                        </div>
+                        <span class="track-badge">Service Accounts, Bots, IoT</span>
+                    </div>
+                    <div class="arch-track-steps">
+                        <div class="arch-track-step">Machine Identities</div><div class="arch-track-step">Workload Credentials & Keys</div><div class="arch-track-step">Source Access Profiles</div><div class="arch-track-step">Constrained Service Roles</div>
+                    </div>
+                </div>
+            
+                    </div>
+                    <div class="arch-convergence-arrow">
+                        <span>➔</span>
+                    </div>
+                    <div class="arch-hub-col">
+                        
+            <div class="arch-hub-card">
+                <span class="card-badge">Continuous Governance</span>
+                <h3 class="card-title">SailPoint Unified Policy & Audit Engine</h3>
+                <p class="card-body">Unified certification campaigns, real-time access reviews, automated JML lifecycle events, and compliance telemetry across all identity archetypes.</p>
+            </div>
+        
+                    </div>
+                </div>
+            </div>
+        
+                        </div>
+                    </div>
+                
+                </div>
+            
+                <aside class="notes">Baseline Slide 3 explicitly introduced Service Accounts, ChatBots, and IoT Devices alongside human identities. Non-human identities are not managed in a silo—they follow identical access profiling, role bundling, and certification audits.</aside>
+            </section>
+        
+
+            <section class="deck-slide slide-4" data-role="architecture">
+                
+                <div class="slide-layout title-and-content">
+                    
+                <div class="slide-header">
+                    <div class="eyebrow-badge">Data Model Cardinality</div>
+                    <h2 class="slide-title">Entitlements, Access Profiles, and Composite Roles</h2>
+                    <h4 class="slide-subtitle">Architectural cardinality rules governing source aggregation and role composition</h4>
+                </div>
+            
+                    
+                    <div class="architecture-slide-layout with-sidebar">
+                        <div class="arch-sidebar"><div class="arch-cards-stack">
+                            <div class="feature-card">
+                                
+                                <div class="card-header-row">
+                                    <div></div>
+                                    <span class="card-badge">Strict Boundary</span>
+                                </div>
+                            
+                                <h3 class="card-title">Access Profile Rule (1 : N)</h3>
+                                <p class="card-body">An Access Profile maps to strictly one source, aggregating N entitlements within that isolated system.</p>
+                            </div>
+                        
+                            <div class="feature-card glowing">
+                                
+                                <div class="card-header-row">
+                                    <div></div>
+                                    <span class="card-badge">Cross-System Composite</span>
+                                </div>
+                            
+                                <h3 class="card-title">Role Architecture (N : M)</h3>
+                                <p class="card-body">A Role transcends application boundaries, combining N Access Profiles and standalone entitlements across any number of sources.</p>
+                            </div>
+                        </div></div>
+                        <div class="arch-diagram-canvas">
+                            
+            <div class="native-arch-wrapper cardinality-wrapper">
+                <div class="native-arch-header">
+                    <span class="native-arch-title"><span class="arch-icon">⬡</span> Access Profile (1:N) & Composite Role (N:M) Cardinality Rules</span>
+                    <span class="native-arch-badge">Data Model Cardinality</span>
+                </div>
+                <div class="arch-cardinality">
+                    <div class="arch-card-col sources-col">
+                        
+                <div class="arch-source-card">
+                    <span class="card-badge">On-Prem Directory</span>
+                    <h4 class="card-title">Source 1: Active Directory</h4>
+                    <div class="arch-item-chips"><span class="arch-chip">Domain Admins Group</span><span class="arch-chip">Finance Shared Drive Read</span><span class="arch-chip">VPN Standard Access</span></div>
+                </div>
+            
+                <div class="arch-source-card">
+                    <span class="card-badge">Cloud SaaS</span>
+                    <h4 class="card-title">Source 2: Salesforce CRM</h4>
+                    <div class="arch-item-chips"><span class="arch-chip">Enterprise Sales License</span><span class="arch-chip">CPQ Opportunity Read/Write</span></div>
+                </div>
+            
+                    </div>
+                    <div class="arch-card-connector">
+                        <span class="arch-connector-badge">1 : N Rule</span>
+                        <span class="arch-connector-line">➔</span>
+                    </div>
+                    <div class="arch-card-col profiles-col">
+                        
+            <div class="arch-profile-card glowing">
+                <span class="card-badge">Strict 1 : N Rule</span>
+                <h4 class="card-title">Access Profiles</h4>
+                <p class="card-body">Exactly 1 Source per Profile, aggregating N Entitlements within that single source boundary</p>
+                <div class="arch-profile-items">
+                <div class="arch-profile-subcard">
+                    <strong>AD Core Access Profile</strong>
+                    <span class="subcard-meta">Bound strictly to Source 1</span>
+                </div>
+            
+                <div class="arch-profile-subcard">
+                    <strong>SFDC Sales Access Profile</strong>
+                    <span class="subcard-meta">Bound strictly to Source 2</span>
+                </div>
+            </div>
+            </div>
+        
+                    </div>
+                    <div class="arch-card-connector">
+                        <span class="arch-connector-badge">N : M Rule</span>
+                        <span class="arch-connector-line">➔</span>
+                    </div>
+                    <div class="arch-card-col roles-col">
+                        
+            <div class="arch-role-card glowing">
+                <span class="card-badge accent-alt">Cross-System N : M Rule</span>
+                <h4 class="card-title">Composite Business Roles</h4>
+                <p class="card-body">Can span N Sources, combining N Access Profiles + direct entitlements across applications</p>
+                <div class="arch-role-items">
+                <div class="arch-role-subcard glowing">
+                    <strong>Regional Sales Director Role</strong>
+                    <span class="subcard-meta">Combines AD Profile + SFDC Profile + Direct Standalone Privileges</span>
+                </div>
+            </div>
+            </div>
+        
+                    </div>
+                </div>
+            </div>
+        
+                        </div>
+                    </div>
+                
+                </div>
+            
+                <aside class="notes">Baseline Slide 4 defined the mathematical relationships: 1 source per profile with n entitlements from that source; Roles can encompass n entitlements across n sources and include n Access Profiles.</aside>
+            </section>
+        
+
+            <section class="deck-slide slide-5" data-role="solution">
+                
+                <div class="slide-layout title-and-content">
+                    
+                <div class="slide-header">
+                    <div class="eyebrow-badge">Dynamic Policy Engine</div>
+                    <h2 class="slide-title">Multi-Dimensional Dynamic Roles & ABAC Evaluation</h2>
+                    <h4 class="slide-subtitle">Automating role assignments via real-time multi-dimensional attribute evaluation</h4>
+                </div>
+            
+                    
+                    <div class="architecture-slide-layout with-sidebar">
+                        <div class="arch-sidebar"><div class="arch-cards-stack">
+                            <div class="feature-card">
+                                
+                                <div class="card-header-row">
+                                    <div></div>
+                                    <span class="card-badge">Compliance & Location</span>
+                                </div>
+                            
+                                <h3 class="card-title">Attribute-Based Criteria</h3>
+                                <p class="card-body">Combines compliance prerequisites (Training = Approved) and multi-value location attributes (Boston OR Houston).</p>
+                            </div>
+                        
+                            <div class="feature-card glowing">
+                                
+                                <div class="card-header-row">
+                                    <div></div>
+                                    <span class="card-badge">Zero Manual Tickets</span>
+                                </div>
+                            
+                                <h3 class="card-title">Autonomous Role Assignment</h3>
+                                <p class="card-body">When attributes align, the Store Manager Role is automatically granted, immediately provisioning regional access.</p>
+                            </div>
+                        </div></div>
+                        <div class="arch-diagram-canvas">
+                            
+            <div class="native-arch-wrapper policy-flow-wrapper">
+                <div class="native-arch-header">
+                    <span class="native-arch-title"><span class="arch-icon">⬡</span> Attribute-Based Dynamic Role Assignment Flow</span>
+                    <span class="native-arch-badge">Dynamic ABAC Execution</span>
+                </div>
+                <div class="arch-policy-flow">
+                    
+            <div class="arch-flow-col input-col">
+                <span class="card-badge">Identity Metadata</span>
+                <h4 class="card-title">Multi-Dimensional Attributes</h4>
+                <div class="arch-attrs-list">
+                <div class="arch-attr-row">
+                    <span class="attr-key">Training Status</span>
+                    <span class="attr-op">=</span>
+                    <span class="attr-val">Approved</span>
+                </div>
+            
+                <div class="arch-attr-row">
+                    <span class="attr-key">Store Location</span>
+                    <span class="attr-op">=</span>
+                    <span class="attr-val">Boston</span>
+                </div>
+            
+                <div class="arch-attr-row">
+                    <span class="attr-key">Store Location</span>
+                    <span class="attr-op">=</span>
+                    <span class="attr-val">Houston</span>
+                </div>
+            </div>
+            </div>
+        
+                    <div class="arch-flow-arrow">➔</div>
+                    
+            <div class="arch-flow-col engine-col glowing">
+                <span class="card-badge">Real-Time ABAC</span>
+                <h4 class="card-title">SailPoint Dynamic Policy Engine</h4>
+                <p class="card-body">Evaluates multi-dimensional boolean criteria, conflict of interest, and separation of duties (SoD)</p>
+                <div class="engine-status-badge">⚡ Real-Time ABAC Match</div>
+            </div>
+        
+                    <div class="arch-flow-arrow">➔</div>
+                    
+            <div class="arch-flow-col role-col glowing">
+                <span class="card-badge accent-alt">Dynamic Entitlement</span>
+                <h4 class="card-title">Store Manager Role</h4>
+                <p class="card-body">Automatically granted upon criteria satisfaction without manual request workflows</p>
+            </div>
+        
+                    <div class="arch-flow-arrow">➔</div>
+                    
+            <div class="arch-flow-col prov-col">
+                <span class="card-badge">Automated Fulfillment</span>
+                <h4 class="card-title">Auto-Provisioned Target Access</h4>
+                <div class="arch-item-chips"><span class="arch-chip">POS Regional Admin Console</span><span class="arch-chip">Store Inventory Management System</span><span class="arch-chip">Shift Vault & Safe Authorizations</span></div>
+            </div>
+        
+                </div>
+            </div>
+        
+                        </div>
+                    </div>
+                
+                </div>
+            
+                <aside class="notes">Baseline Slide 5 illustrated dynamic role assignment for a Store Manager Role based on Training Status = Approved and Store Location = Boston/Houston. Multi-dimensional evaluation prevents static role explosion.</aside>
+            </section>
+        
+
+            <section class="deck-slide slide-6" data-role="architecture">
+                
+                <div class="slide-layout title-and-content">
+                    
+                <div class="slide-header">
+                    <div class="eyebrow-badge">Tenant Architecture</div>
+                    <h2 class="slide-title">The Smart iLab Proof-of-Value (PoV) Blueprint</h2>
+                    <h4 class="slide-subtitle">A 3-tier modular tenant stack accelerating customer use-case validation</h4>
+                </div>
+            
+                    
+                    <div class="architecture-slide-layout with-sidebar">
+                        <div class="arch-sidebar"><div class="arch-cards-stack">
+                            <div class="feature-card">
+                                
+                                <div class="card-header-row">
+                                    <div></div>
+                                    <span class="card-badge">Out of the Box</span>
+                                </div>
+                            
+                                <h3 class="card-title">Rapid PoV Acceleration</h3>
+                                <p class="card-body">Pre-loaded tenant baseline eliminates weeks of manual setup, enabling realistic governance simulations on day one.</p>
+                            </div>
+                        
+                            <div class="feature-card glowing">
+                                
+                                <div class="card-header-row">
+                                    <div></div>
+                                    <span class="card-badge">Tailored Demos</span>
+                                </div>
+                            
+                                <h3 class="card-title">Modular Extensibility</h3>
+                                <p class="card-body">Clean separation between foundational schemas and client-specific add-ons lets teams rapidly prototype custom scenarios.</p>
+                            </div>
+                        </div>
+                        <div class="arch-icon-badge">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIGlkPSJJY29uc19QdXp6bGVfTSIgb3ZlcmZsb3c9ImhpZGRlbiI+PGcgaWQ9Ikljb25zIj48cGF0aCBkPSJNNTMuMiA4Ny40MTQgMzUuNDkzIDY5LjcwN0MzNC45NTUzIDY5LjE0NTQgMzQuMTA2MiA2OS4wMTc2IDMzLjQyNyA2OS4zOTYgMzEuNDYwMyA3MC40NDA2IDMwLjE5NDIgNzIuNDQ5MSAzMC4xIDc0LjY3NCAzMC4yNDMzIDc3LjcwOTUgMjguNDcyNSA4MC41MTA0IDI1LjY2OSA4MS42ODMgMjIuMTA0NSA4My4xODg1IDE3Ljk4NTIgODIuNDE2MyAxNS4yMDggNzkuNzIyTDE0LjQ5MyA3OS4wMDdDMTEuNzE5NyA3Ni4xNTUgMTAuOTIyOCA3MS45MTk5IDEyLjQ3IDY4LjI1NSAxMy42MTM0IDY1LjUwNTIgMTYuMzU1MSA2My43NjQ3IDE5LjMzIDYzLjkgMjEuNTUwMyA2My43OTM0IDIzLjU1MjMgNjIuNTMwOCAyNC42MDUgNjAuNTczIDI0Ljk4MjcgNTkuODkzNSAyNC44NTQ2IDU5LjA0NDcgMjQuMjkzIDU4LjUwN0w2LjU4OSA0MC44IDE5LjM5IDI3LjlDMjAuNTA2NyAyNi43NjAyIDIyLjIyNzYgMjYuNDYyOSAyMy42NjIgMjcuMTYyIDI2LjM3NSAyOC41MzYgMjguMTE3IDMxLjI4NjEgMjguMiAzNC4zMjYgMjguMDg2OCAzNi40OTAxIDI5LjM1OSAzOC40ODc2IDMxLjM2OCAzOS4zIDM0LjI4NTcgNDAuNDkyOCAzNy42MzIyIDM5Ljg1NiAzOS45MDggMzcuNjc1TDQwLjU5MyAzNi45OUM0Mi43MjEyIDM0LjgwMjIgNDMuMzM2MSAzMS41NTQ0IDQyLjE1NSAyOC43NCA0MS4zMTE2IDI2LjY3ODMgMzkuMjU0MiAyNS4zNzc2IDM3LjAzIDI1LjUgMzMuOTg3MSAyNS40MjExIDMxLjIzMjggMjMuNjc4OCAyOS44NTggMjAuOTYzIDI5LjE1ODggMTkuNTI5OCAyOS40NTQ4IDE3LjgxIDMwLjU5MyAxNi42OTNMNDIuOCA0LjU4OSA2MC41IDIyLjI4OUM2MS4wMzgxIDIyLjg0OTkgNjEuODg2NiAyMi45Nzc2IDYyLjU2NiAyMi42IDY0LjUzMzggMjEuNTU3NSA2NS44MDI0IDE5LjU1MDggNjUuOSAxNy4zMjYgNjUuNzU2MyAxNC4yOTA3IDY3LjUyNjYgMTEuNDg5NyA3MC4zMyAxMC4zMTcgNzMuODk0OCA4LjgxMTA2IDc4LjAxNDYgOS41ODMyOCA4MC43OTIgMTIuMjc4TDgxLjUwNiAxMi45OTNDODQuMjc5NyAxNS44NDQ4IDg1LjA3NjkgMjAuMDc5OSA4My41MyAyMy43NDUgODIuMzg5IDI2LjQ5NjggNzkuNjQ1NyAyOC4yMzgzIDc2LjY3IDI4LjEgNzQuNDQ3NiAyOC4xOTU4IDcyLjQ0MjIgMjkuNDYxOCA3MS40IDMxLjQyNyA3MS4wMjI0IDMyLjEwNjQgNzEuMTUwMSAzMi45NTQ5IDcxLjcxMSAzMy40OTNMODkuNDE0IDUxLjIgNzcuMzA3IDYzLjMwN0M3Ni4xOTA5IDY0LjQ0NjkgNzQuNDY5OSA2NC43NDMxIDczLjAzNyA2NC4wNDIgNzAuMzIyOSA2Mi42Njc0IDY4LjU4MSA1OS45MTUzIDY4LjUgNTYuODc0IDY4LjYxMjggNTQuNzEwNCA2Ny4zNDEyIDUyLjcxMzIgNjUuMzMzIDUxLjkgNjIuNDE1NCA1MC43MDU5IDU5LjA2ODIgNTEuMzQyOCA1Ni43OTMgNTMuNTI1TDU2LjEwNyA1NC4yMUM1My45Nzg4IDU2LjM5NzggNTMuMzYzOSA1OS42NDU2IDU0LjU0NSA2Mi40NiA1NS4zOTAxIDY0LjUyMDMgNTcuNDQ2NCA2NS44MjAyIDU5LjY3IDY1LjdMNTkuNjcgNjUuN0M2Mi43MTYyIDY1LjczNzggNjUuNDg2IDY3LjQ3NDUgNjYuODQ3IDcwLjIgNjcuNTQ4OSA3MS42NDQ0IDY3LjI0OSA3My4zNzU5IDY2LjEwMiA3NC41Wk0zNC4zMjIgNjcuMTkyQzM1LjI5NzEgNjcuMTkzNSAzNi4yMjk5IDY3LjU5MDQgMzYuOTA3IDY4LjI5Mkw1My4yIDg0LjU4NiA2NC42OTMgNzMuMDkzQzY1LjI2NDggNzIuNTQ3MyA2NS4zOTY3IDcxLjY4NDYgNjUuMDE0IDcwLjk5MyA2My45NzgxIDY5LjAxODQgNjEuOTU1MSA2Ny43NTg2IDU5LjcyNiA2Ny43IDU2LjY5MTYgNjcuODM5MSA1My44OTI5IDY2LjA2OTggNTIuNzE3IDYzLjI2OSA1MS4yMTEgNTkuNzA0NiA1MS45ODMyIDU1LjU4NSA1NC42NzggNTIuODA4TDU1LjM5MyA1Mi4wOTNDNTguMjQ1IDQ5LjMxOTcgNjIuNDgwMSA0OC41MjI4IDY2LjE0NSA1MC4wNyA2OC44OTQ2IDUxLjIxMzYgNzAuNjM1IDUzLjk1NTEgNzAuNSA1Ni45MyA3MC41OTUzIDU5LjE1MzkgNzEuODYxMiA2MS4xNjA5IDczLjgyNyA2Mi4yMDUgNzQuNTA2NiA2Mi41ODI0IDc1LjM1NTIgNjIuNDU0MiA3NS44OTMgNjEuODkzTDg2LjU4NiA1MS4yIDcwLjI5MyAzNC45MDdDNjkuMTU0OCAzMy43OSA2OC44NTg4IDMyLjA3MDIgNjkuNTU4IDMwLjYzNyA3MC45Mjc5IDI3LjkxODEgNzMuNjgzNCAyNi4xNzQzIDc2LjcyNyAyNi4xIDc4Ljg5MDkgMjYuMjEzNCA4MC44ODgyIDI0Ljk0MSA4MS43IDIyLjkzMiA4Mi44OTMzIDIwLjAxNDMgODIuMjU2NSAxNi42Njc1IDgwLjA3NSAxNC4zOTJMNzkuMzkgMTMuNzA3Qzc3LjIwMjIgMTEuNTc5NSA3My45NTUxIDEwLjk2NDYgNzEuMTQxIDEyLjE0NSA2OS4wNzc3IDEyLjk4NjYgNjcuNzc1OSAxNS4wNDUxIDY3LjkgMTcuMjcgNjcuODIwMSAyMC4zMTI2IDY2LjA3OCAyMy4wNjYzIDYzLjM2MyAyNC40NDIgNjEuOTMwMSAyNS4xNDMxIDYwLjIwOSAyNC44NDY5IDU5LjA5MyAyMy43MDdMNDIuOCA3LjQxMSAzMiAxOC4xMUMzMS40NDA5IDE4LjY0OCAzMS4zMTQ1IDE5LjQ5NTEgMzEuNjkyIDIwLjE3MyAzMi43MzQ0IDIyLjE0MzcgMzQuNzQ2NCAyMy40MTEgMzYuOTc0IDIzLjUgNDAuMDA4NCAyMy4zNjA5IDQyLjgwNzEgMjUuMTMwMiA0My45ODMgMjcuOTMxIDQ1LjQ4OSAzMS40OTU0IDQ0LjcxNjggMzUuNjE1IDQyLjAyMiAzOC4zOTJMNDEuMzA3IDM5LjEwN0MzOC40NTUyIDQxLjg3OTkgMzQuMjIwNyA0Mi42NzY3IDMwLjU1NiA0MS4xMyAyNy44MDU2IDM5Ljk4NzIgMjYuMDY0NiAzNy4yNDUzIDI2LjIgMzQuMjcgMjYuMTAyNCAzMi4wNDgxIDI0LjgzNjkgMzAuMDQzNiAyMi44NzMgMjkgMjIuMTkzNCAyOC42MjI2IDIxLjM0NDggMjguNzUwOCAyMC44MDcgMjkuMzEyTDkuNDExIDQwLjggMjUuNzExIDU3LjFDMjYuODUwOSA1OC4yMTYgMjcuMTQ3MSA1OS45MzcgMjYuNDQ2IDYxLjM3IDI1LjA2NTggNjQuMDc5OSAyMi4zMTQgNjUuODE3OSAxOS4yNzQgNjUuOSAxNy4xMTE2IDY1Ljc5MzIgMTUuMTE3NSA2Ny4wNjMzIDE0LjMgNjkuMDY4IDEzLjEwNjcgNzEuOTg1NyAxMy43NDM1IDc1LjMzMjUgMTUuOTI1IDc3LjYwOEwxNi42MSA3OC4yOTNDMTguNzk4MSA4MC40MjA3IDIyLjA0NTYgODEuMDM1NiAyNC44NiA3OS44NTUgMjYuOTIyNyA3OS4wMTI4IDI4LjIyMzkgNzYuOTU0NiAyOC4xIDc0LjczIDI4LjE3OTUgNzEuNjg3NSAyOS45MjEyIDY4LjkzMzggMzIuNjM2IDY3LjU1OCAzMy4xNjcyIDY3LjMyMjUgMzMuNzQwOSA2Ny4xOTggMzQuMzIyIDY3LjE5MloiLz48L2c+PC9zdmc+" alt="Modular Tenant Blueprint" />
+                            <span>Modular Sandbox Stack</span>
+                        </div>
+                    </div>
+                        <div class="arch-diagram-canvas">
+                            
+            <div class="native-arch-wrapper layered-stack-wrapper">
+                <div class="native-arch-header">
+                    <span class="native-arch-title"><span class="arch-icon">⬡</span> 3-Tier Demonstration & PoV Stack</span>
+                    <span class="native-arch-badge">Proof-of-Value Stack</span>
+                </div>
+                <div class="arch-layered-stack">
+                    
+                <div class="arch-layer-card orchid">
+                    <div class="arch-layer-tier">Tier 03</div>
+                    <div class="arch-layer-info">
+                        <span class="card-badge orchid">PoV iLab Tailoring</span>
+                        <h4 class="card-title">Customer Use Cases Layer</h4>
+                    </div>
+                    <div class="arch-layer-desc">
+                        <p>Custom client scenarios, bespoke target connectors, tailored approval workflows, and executive PoV demonstration storylines.</p>
+                    </div>
+                </div>
+            
+                <div class="arch-layer-card cyan glowing">
+                    <div class="arch-layer-tier">Tier 02</div>
+                    <div class="arch-layer-info">
+                        <span class="card-badge cyan">Imported Test Data & Config</span>
+                        <h4 class="card-title">Content & Sandbox Engine</h4>
+                    </div>
+                    <div class="arch-layer-desc">
+                        <p>Pre-populated HR sources, active directory schemas, multi-tier roles, certification campaigns, and simulated lifecycle events.</p>
+                    </div>
+                </div>
+            
+                <div class="arch-layer-card blue">
+                    <div class="arch-layer-tier">Tier 01</div>
+                    <div class="arch-layer-info">
+                        <span class="card-badge blue">Identity Security Cloud</span>
+                        <h4 class="card-title">Core Foundation Layer</h4>
+                    </div>
+                    <div class="arch-layer-desc">
+                        <p>Production-grade SailPoint Identity Security Cloud tenant baseline with hardened tenant isolation and security policies.</p>
+                    </div>
+                </div>
+            
+                </div>
+            </div>
+        
+                        </div>
+                    </div>
+                
+                </div>
+            
+                <aside class="notes">Baseline Slide 6 defined the 3-layer Smart iLab tenant architecture: Foundation (clean ISC tenant), Content (imported data, sources, roles, configurations), and Customer Use Cases (hands-on exploration and tailored PoV extensions).</aside>
+            </section>
+        
+        </div>
+    </div>
+
+    <!-- Reveal.js Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/notes/notes.min.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'dark',
+            securityLevel: 'loose',
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+            fontSize: 14,
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            themeVariables: {
+                darkMode: true,
+                background: '#0B111E',
+                primaryColor: '#0F1A2E',
+                primaryBorderColor: '#54C0E8',
+                primaryTextColor: '#FFFFFF',
+                lineColor: '#54C0E8',
+                secondaryColor: '#1A2942',
+                tertiaryColor: '#111827'
+            }
+        });
+
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            width: 1920,
+            height: 1080,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 2.0,
+            transition: 'slide',
+            plugins: [ RevealNotes ]
+        }).then(() => {
+            mermaid.run();
+        });
+
+        Reveal.on('slidechanged', () => {
+            window.dispatchEvent(new Event('resize'));
+        });
+    </script>
+</body>
+</html>

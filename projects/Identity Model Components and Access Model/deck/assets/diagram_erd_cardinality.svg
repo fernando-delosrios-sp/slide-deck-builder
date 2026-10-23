@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="erdCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B111E" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#011C48" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="identityCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0033A1" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0B111E" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="roleCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B111E" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#3b0764" stop-opacity="0.7"/>
+    </linearGradient>
+    <filter id="glowAqua4" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <marker id="erdArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#54C0E8"/>
+    </marker>
+    <marker id="erdArrowAlt" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#D60EB5"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="540" rx="16" fill="#070C16" stroke="#415364" stroke-width="1.5"/>
+
+  <!-- Top Ingestion Contract: Authoritative Source -> Identity Profile -> Central Identity -->
+  <g transform="translate(40, 45)">
+    <!-- Auth Source Node -->
+    <rect width="180" height="80" rx="10" fill="url(#erdCard)" stroke="#415364" stroke-width="1.5"/>
+    <text x="14" y="24" fill="#93D500" font-family="Poppins, sans-serif" font-size="9" font-weight="600">SYSTEM OF RECORD</text>
+    <text x="14" y="46" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="14" font-weight="700">Authoritative Source</text>
+    <text x="14" y="66" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Workday, HR feeds</text>
+  </g>
+
+  <!-- Cardinality 1 : 1 -->
+  <path d="M 220 85 L 290 85" stroke="#54C0E8" stroke-width="2" marker-end="url(#erdArrow)" fill="none"/>
+  <rect x="236" y="68" width="40" height="18" rx="4" fill="#070C16" stroke="#54C0E8" stroke-width="1"/>
+  <text x="256" y="81" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="700" text-anchor="middle">1 : 1</text>
+
+  <!-- Identity Profile Node -->
+  <g transform="translate(295, 45)">
+    <rect width="190" height="80" rx="10" fill="url(#erdCard)" stroke="#415364" stroke-width="1.5"/>
+    <text x="14" y="24" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="9" font-weight="600">TEMPLATE BLUEPRINT</text>
+    <text x="14" y="46" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="14" font-weight="700">Identity Profile</text>
+    <text x="14" y="66" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Mappings &amp; Priority</text>
+  </g>
+
+  <!-- Cardinality 1 : N -->
+  <path d="M 485 85 L 565 85" stroke="#54C0E8" stroke-width="2" marker-end="url(#erdArrow)" fill="none"/>
+  <rect x="505" y="68" width="40" height="18" rx="4" fill="#070C16" stroke="#54C0E8" stroke-width="1"/>
+  <text x="525" y="81" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="700" text-anchor="middle">1 : N</text>
+
+  <!-- Central Master Identity Core (Anchor) -->
+  <g transform="translate(570, 30)">
+    <rect width="350" height="110" rx="14" fill="url(#identityCard)" stroke="#54C0E8" stroke-width="2" filter="url(#glowAqua4)"/>
+    <rect x="16" y="14" width="130" height="22" rx="11" fill="#54C0E8" fill-opacity="0.2" stroke="#54C0E8" stroke-width="1"/>
+    <text x="81" y="29" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="700" text-anchor="middle">MASTER IDENTITY CORE</text>
+    <text x="16" y="58" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="18" font-weight="700">Central Digital Identity</text>
+    <text x="16" y="78" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="12">Anchor for all Accounts, Roles, and Lifecycle States</text>
+    <text x="16" y="98" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Correlates 1..N Accounts across Disparate Sources</text>
+  </g>
+
+  <!-- Middle Tier: Identity connects to Roles (0..N) and Accounts (1..N) -->
+  <path d="M 745 140 L 745 185" stroke="#54C0E8" stroke-width="2" marker-end="url(#erdArrow)" fill="none"/>
+  <rect x="715" y="150" width="60" height="18" rx="4" fill="#070C16" stroke="#54C0E8" stroke-width="1"/>
+  <text x="745" y="163" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="700" text-anchor="middle">0 .. N</text>
+
+  <!-- Role Hierarchy Box -->
+  <g transform="translate(530, 190)">
+    <rect width="390" height="115" rx="12" fill="url(#roleCard)" stroke="#D60EB5" stroke-width="2"/>
+    <rect x="16" y="14" width="140" height="22" rx="11" fill="#D60EB5" fill-opacity="0.2" stroke="#D60EB5" stroke-width="1"/>
+    <text x="86" y="29" fill="#D60EB5" font-family="Poppins, sans-serif" font-size="10" font-weight="700" text-anchor="middle">CROSS-SYSTEM BUNDLE</text>
+    <text x="16" y="56" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="16" font-weight="700">Business / IT Role (N : M Rule)</text>
+    <text x="16" y="76" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">• Combines 1..N Access Profiles across applications</text>
+    <text x="16" y="96" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">• Can grant direct standalone entitlements</text>
+  </g>
+
+  <!-- Role connects to Access Profile (1..N) -->
+  <path d="M 725 305 L 725 350" stroke="#D60EB5" stroke-width="2" marker-end="url(#erdArrowAlt)" fill="none"/>
+  <rect x="695" y="315" width="60" height="18" rx="4" fill="#070C16" stroke="#D60EB5" stroke-width="1"/>
+  <text x="725" y="328" fill="#D60EB5" font-family="Poppins, sans-serif" font-size="10" font-weight="700" text-anchor="middle">1 .. N</text>
+
+  <!-- Access Profile Box -->
+  <g transform="translate(530, 355)">
+    <rect width="390" height="120" rx="12" fill="url(#erdCard)" stroke="#54C0E8" stroke-width="2"/>
+    <rect x="16" y="14" width="130" height="22" rx="11" fill="#54C0E8" fill-opacity="0.15" stroke="#54C0E8" stroke-width="1"/>
+    <text x="81" y="29" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="700" text-anchor="middle">SINGLE-SOURCE BUNDLE</text>
+    <text x="16" y="56" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="16" font-weight="700">Access Profile (1 : N Rule)</text>
+    <text x="16" y="76" fill="#93D500" font-family="Poppins, sans-serif" font-size="11" font-weight="600">⚡ STRICT 1:1 SOURCE BINDING</text>
+    <text x="16" y="96" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Aggregates N Entitlements within that isolated source</text>
+  </g>
+
+  <!-- Left Branch: Identity to Accounts (1..N) -->
+  <path d="M 570 95 L 340 95 L 340 220" stroke="#54C0E8" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#erdArrow)" fill="none"/>
+  <rect x="365" y="115" width="60" height="18" rx="4" fill="#070C16" stroke="#54C0E8" stroke-width="1"/>
+  <text x="395" y="128" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="700" text-anchor="middle">1 .. N</text>
+
+  <!-- Account Node -->
+  <g transform="translate(230, 225)">
+    <rect width="220" height="100" rx="12" fill="url(#erdCard)" stroke="#415364" stroke-width="1.5"/>
+    <text x="14" y="24" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="9" font-weight="600">TARGET REPRESENTATION</text>
+    <text x="14" y="48" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">Account (Target)</text>
+    <text x="14" y="70" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Native system credential</text>
+    <text x="14" y="88" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11">Strict 1:1 binding to Source</text>
+  </g>
+
+  <!-- Bottom Target Source Application -->
+  <g transform="translate(40, 365)">
+    <rect width="220" height="110" rx="12" fill="url(#erdCard)" stroke="#415364" stroke-width="1.5"/>
+    <text x="14" y="24" fill="#93D500" font-family="Poppins, sans-serif" font-size="9" font-weight="600">CONNECTED REPOSITORY</text>
+    <text x="14" y="48" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">Target Source System</text>
+    <text x="14" y="70" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Active Directory, AWS, SAP</text>
+    <text x="14" y="90" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11">Hosts Accounts &amp; Entitlements</text>
+  </g>
+
+  <!-- Link Account -> Source System (1:1) -->
+  <path d="M 280 325 L 200 365" stroke="#415364" stroke-width="2" marker-end="url(#erdArrow)" fill="none"/>
+
+  <!-- Link Access Profile -> Source System (1:1) -->
+  <path d="M 530 420 L 260 420" stroke="#54C0E8" stroke-width="2" marker-end="url(#erdArrow)" fill="none"/>
+  <rect x="360" y="405" width="80" height="18" rx="4" fill="#070C16" stroke="#54C0E8" stroke-width="1"/>
+  <text x="400" y="418" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="700" text-anchor="middle">1 : 1 SOURCE</text>
+
+  <!-- Legend Footer -->
+  <g transform="translate(50, 505)">
+    <text x="0" y="15" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11" font-weight="600">KEY ARCHITECTURAL RULE:</text>
+    <text x="175" y="15" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11">Access Profiles can only reference ONE Source. Roles transcend Sources to bundle multiple Access Profiles.</text>
+  </g>
+</svg>

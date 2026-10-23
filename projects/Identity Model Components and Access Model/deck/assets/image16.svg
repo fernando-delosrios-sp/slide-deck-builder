@@ -1,0 +1,6 @@
+<svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" overflow="hidden"><style>
+.MsftOfcThm_Background1_Fill_v2 {
+ fill:#FFFFFF; 
+}
+</style>
+<path d="M272 304 176 304C78.8 304 0 382.8 0 480 0 497.67 14.33 512 32 512L416 512C433.67 512 448 497.67 448 480 448 382.8 369.2 304 272 304ZM48.99 464C56.89 400.9 110.8 352 176 352L272 352C337.16 352 391.1 400.95 399 464L48.99 464ZM224 256C294.69 256 352 198.69 352 128 352 57.31 294.69 0 224 0 153.31 0 96 57.31 96 128 96 198.7 153.3 256 224 256ZM224 48C268.11 48 304 83.89 304 128 304 172.11 268.11 208 224 208 179.89 208 144 172.1 144 128 144 83.89 179.9 48 224 48Z" class="MsftOfcThm_Background1_Fill_v2" stroke="none" stroke-width="1" fill="#FFFFFF" fill-opacity="1"/></svg>

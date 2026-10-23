@@ -4,6 +4,7 @@ name: SailPoint Corporate 2026
 description: Official 2026 SailPoint brand standard optimized for dark mode presentations. Deep gradient blending black, deep cobalt (#011C48), and cobalt (#0033A1) with glowing accents in aqua (#54C0E8) and hot pink (#D60EB5), paired with monoline tech iconography.
 template_file: "templates/SailPoint PowerPoint Template 2026.pptx"
 assets_dir: "assets/themes/sailpoint"
+logo_path: "assets/themes/sailpoint/logo.svg"
 
 colors:
   primary: "#FFFFFF"
@@ -116,6 +117,16 @@ components:
     textColor: "{colors.accent}"
     rounded: "{rounded.full}"
     padding: "4px 12px"
+  iconography:
+    library: "lucide"
+    strokeWidth: "1.75px"
+    color: "{colors.accent}"
+    colorHighlight: "{colors.accent-alt}"
+    size: "26px"
+    container: "badge"
+    badgeBackground: "rgba(84, 192, 232, 0.12)"
+    badgeBorder: "rgba(84, 192, 232, 0.25)"
+    badgeGlow: "var(--sp-glow-aqua)"
 ---
 
 ## Overview

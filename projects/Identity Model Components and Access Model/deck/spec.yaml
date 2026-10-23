@@ -1,0 +1,902 @@
+title: 'Building Access in IdentityNow: Identity Model Components and Access Model'
+goal: Deliver a faithful, authoritative architectural guide to constructing identities, configuring identity profiles, correlating
+  target accounts, modeling access hierarchies, and governing dynamic lifecycle transitions in SailPoint IdentityNow.
+theme: sailpoint-corporate-2026-design
+slide_count: 33
+baseline: ../Identity Model Components and Access Model.pptx
+options:
+  language: en
+  audience: Solution Architects, IAM Engineers & System Administrators
+  tone: authoritative, technical, structured, and procedural
+  length: long
+baseline_cuts:
+- media: image1.png
+  reason: PPTX slide master decorative element replaced by SailPoint 2026 design system tokens
+  approved_by_user: true
+- media: image2.png
+  reason: PPTX slide master background shape replaced by CSS dark gradient tokens
+  approved_by_user: true
+- media: image3.png
+  reason: PPTX slide master header banner replaced by typography header component
+  approved_by_user: true
+- media: image4.png
+  reason: PPTX slide master full-bleed canvas replaced by Reveal.js dark theme background
+  approved_by_user: true
+- media: image5.png
+  reason: PPTX slide master accent icon replaced by modern Lucide SVG icons
+  approved_by_user: true
+- media: image6.png
+  reason: PPTX slide master accent icon replaced by modern Lucide SVG icons
+  approved_by_user: true
+- media: image7.png
+  reason: PPTX slide master accent icon replaced by modern Lucide SVG icons
+  approved_by_user: true
+- media: image8.png
+  reason: PPTX slide master layout graphic replaced by CSS grid layouts
+  approved_by_user: true
+- media: image9.png
+  reason: PPTX slide master layout graphic replaced by CSS grid layouts
+  approved_by_user: true
+- media: image10.png
+  reason: PPTX slide master cover background replaced by high-presence cover illustration
+  approved_by_user: true
+- media: image11.png
+  reason: PPTX slide master layout background replaced by CSS grid layouts
+  approved_by_user: true
+- media: image12.png
+  reason: PPTX slide master footer element replaced by theme footer tokens
+  approved_by_user: true
+- media: image13.png
+  reason: PPTX slide master template graphic replaced by CSS layout grid
+  approved_by_user: true
+- media: image14.png
+  reason: PPTX slide master template graphic replaced by CSS layout grid
+  approved_by_user: true
+slides:
+- slide_number: 1
+  layout: Title Slide
+  role: cover
+  baseline_slides:
+  - 1
+  badge: SailPoint IdentityNow Architecture
+  title: Building Access in IdentityNow
+  subtitle: Identity Model Components and Access Model
+  content:
+    image:
+      src: assets/hero_cover.png
+      alt: SailPoint Identity Security Core
+      caption: SailPoint Identity Security Core Architecture
+    body: A comprehensive architectural blueprint detailing identity generation, profile configuration, account correlation,
+      access modeling, role engineering, and dynamic lifecycle governance.
+    presenter: Enterprise IAM Architecture Team
+    date: '2026'
+  notes: 'Welcome to Building Access in IdentityNow: Identity Model Components and Access Model. This presentation provides
+    an end-to-end technical breakdown of how identities are modeled, aggregated from authoritative sources, correlated with
+    target accounts, structured into access profiles and roles, and dynamically governed through lifecycle state transitions.'
+  additions:
+  - Architecture
+  - Core
+  - Team
+- slide_number: 2
+  layout: Three Columns
+  role: architecture
+  baseline_slides:
+  - 2
+  redrawn_media:
+  - image15.png
+  - image17.png
+  - image19.png
+  badge: Core Entities
+  title: Identity Model Components
+  subtitle: The fundamental building blocks governing digital persona and target system permissions
+  content:
+    cards:
+    - title: Identity
+      badge: Who You Are
+      icon: user
+      body: A representation of a person or service and all the information associated with them. This includes security-relevant
+        information as well as current status in the organization.
+    - title: Account
+      badge: Where You Exist
+      icon: key
+      body: A representation of an identity on a source system. This user account contains information about the identity
+        and may also contain accesses as well.
+    - title: Access
+      badge: What You Can Do
+      icon: shield
+      body: Securities which grant accounts an ability to perform actions. They define what a user can and can't do in a system.
+        On a source these may be known as entitlements, authorizations, groups, rights, permissions. Access can also be defined
+        through roles and access profiles.
+      highlight: true
+  notes: 'Baseline Slide 2 defines the three core pillars: Identity, Account, and Access. Identities represent the human or
+    service entity, accounts represent presence on individual systems, and access defines effective operational rights.'
+  additions:
+  - Exist
+- slide_number: 3
+  layout: Title and Content
+  role: architecture
+  baseline_slides:
+  - 3
+  redrawn_media:
+  - image21.png
+  - image23.png
+  - image25.png
+  badge: Entity Relationships
+  title: Identity, Account & Access Architecture
+  subtitle: Relational mapping connecting central identities to target accounts and granular access
+  content:
+    diagram:
+      kind: svg
+      src: assets/diagram_identity_model_components.svg
+      title: Identity Model Components Architecture
+    body: Central identities govern accounts across target sources. Users never log into target systems as identities; identities
+      govern accounts which hold native access permissions.
+  notes: 'Baseline Slide 3 visualizes the foundational relationship: an identity links to 0..N target accounts, which hold
+    native permissions and entitlements. Roles and access profiles govern how access is packaged and assigned.'
+  additions:
+  - Architecture
+  - Relationships
+- slide_number: 4
+  layout: Title and Content
+  role: architecture
+  baseline_slides:
+  - 4
+  redrawn_media:
+  - image27.png
+  - image28.png
+  - image29.png
+  badge: Ingestion Pipeline
+  title: Reading from Leading HR Source
+  subtitle: Source System Schema, Account Aggregation, and Identity Profile Attribute Mapping
+  content:
+    diagram:
+      kind: svg
+      src: assets/diagram_reading_from_hr.svg
+      title: Authoritative Ingestion Architecture
+    body: Authoritative systems serve as Systems of Record. The ingestion pipeline reads raw source data (id, firstName, lastName,
+      email, active, location, country, ssn), generates account objects, applies identity mappings, and populates the central
+      identity.
+  notes: 'Baseline Slide 4 details the authoritative ingestion flow. Presenter note: Authoritative Source = Systems of Record.
+    Demonstrates the worked example mapping HR attributes to standard identity attributes for user John Cooper (jcooper).'
+  additions:
+  - Architecture
+  - Ingestion
+  - Pipeline
+  - Schema
+- slide_number: 5
+  layout: Four Tiles
+  role: process
+  baseline_slides:
+  - 5
+  badge: Setup Sequence
+  title: Building Identities
+  subtitle: Four-step administrative workflow for establishing authoritative identity ingestion
+  content:
+    cards:
+    - title: 1. Create Authoritative Source
+      badge: Connections
+      icon: database
+      body: Navigate to Admin > Connections > Sources > +New. Establish connection parameters and service account credentials
+        to the primary HR system of record.
+    - title: 2. Create Identity Profile
+      badge: Identities
+      icon: user-plus
+      body: Navigate to Admin > Identities > Identity Profiles > +New. Generate the governance template that binds source
+        accounts to identity records.
+    - title: 3. Configure Identity Profile
+      badge: Policy & Mappings
+      icon: sliders
+      body: Associate Identity Profile with Source. Define identity mappings, transform logic, sign-in methods, and authentication
+        policies.
+    - title: 4. Aggregate Accounts
+      badge: Data Import
+      icon: refresh-cw
+      body: Navigate to Admin > Connections > Sources > Import Data tab > Import Accounts. Ingest source records to trigger
+        initial identity generation.
+  notes: 'Baseline Slide 5 outlines the step-by-step procedural sequence to build identities in IdentityNow: create source,
+    create profile, configure mappings, aggregate accounts.'
+  additions:
+  - Sequence
+- slide_number: 6
+  layout: Four Tiles
+  role: architecture
+  baseline_slides:
+  - 6
+  badge: Governance Rules
+  title: Identity Profiles
+  subtitle: Core governance configuration rules and priority ordering mechanics
+  content:
+    cards:
+    - title: Identity Template & Policy
+      badge: Foundation
+      icon: file-text
+      body: An identity profile is a template for creating identities, and a central place where identity policy is defined.
+    - title: Identity Type Alignment
+      badge: Personas
+      icon: users
+      body: Commonly aligned to identity type (e.g. Employees, Contractors, Students, Faculty) to define distinct lifecycle paths.
+    - title: Single-Profile Assignment
+      badge: Exclusivity
+      icon: user-check
+      body: An identity can only be assigned by a single identity profile at any given time. Configured in Admin > Identities > Identity Profiles.
+    - title: Priority & Ordering
+      badge: Precedence
+      icon: list-ordered
+      body: Enforces implicit priority / ordering in the user interface. Precedence can also be adjusted programmatically via REST APIs.
+  notes: 'Baseline Slide 6 defines the strict single-profile constraint: an identity can only be assigned by one identity
+    profile. Highlight that ordering in the UI dictates precedence during account evaluation.'
+  additions:
+  - Alignment
+  - APIs
+  - Assignment
+  - Exclusivity
+  - Foundation
+  - Ordering
+  - Personas
+  - Policy
+  - Precedence
+  - Rules
+  - Template
+- slide_number: 7
+  layout: Four Tiles
+  role: security
+  baseline_slides:
+  - 7
+  badge: Policy Definition
+  title: Identity Profile Settings
+  subtitle: Authentication parameters, network access boundaries, and credential policies
+  content:
+    cards:
+    - title: Account Source
+      badge: System of Record
+      icon: database
+      body: Defines the authoritative account source that seeds identity records and establishes profile identity mappings.
+    - title: Sign-in Method
+      badge: Authentication
+      icon: lock
+      body: Defines authentication for the user (e.g. IdentityNow direct sign-in or delegated Active Directory).
+    - title: Network Boundaries
+      badge: Access Policy
+      icon: globe
+      body: Enforces Off-Network sign-in restrictions, conditional access, and Untrusted Geographies blocking or step-up verification.
+    - title: Strong Authentication
+      badge: MFA Enforcement
+      icon: shield-check
+      body: Enforces multi-factor authentication (MFA) and strong credential requirements during user sign-in.
+  notes: 'Baseline Slide 7 establishes settings policies: account source binding, sign-in method, off-network access rules,
+    untrusted geographies filtering, and strong authentication enforcement.'
+  additions:
+  - Boundaries
+  - Definition
+  - Enforcement
+  - MFA
+  - Policy
+  - Record
+  - System
+- slide_number: 8
+  layout: Picture with Caption
+  role: walkthrough
+  baseline_slides:
+  - 8
+  badge: Console Interface
+  title: Identity Profile Settings Console
+  subtitle: Administrative configuration for employee identity profiles and sign-in policy
+  content:
+    image:
+      src: assets/image31.png
+      alt: Identity Profile Settings UI
+      caption: 'IdentityNow Console: Identity Profile Employees Settings Interface'
+    body: 'Direct view of the Identity Profile: Employees configuration interface. Shows Account Source selection, Sign-in
+      Method selection, network boundary controls, and MFA policies.'
+  notes: Baseline Slide 8 provides the actual IdentityNow console screenshot for configuring Identity Profile Settings for
+    Employees.
+  additions:
+  - Console
+- slide_number: 9
+  layout: Picture with Caption
+  role: walkthrough
+  baseline_slides:
+  - 9
+  badge: Console Interface
+  title: Identity Profile Mappings Console
+  subtitle: Mapping raw authoritative source attributes to standardized identity attributes
+  content:
+    image:
+      src: assets/image32.png
+      alt: Identity Profile Mappings UI
+      caption: 'IdentityNow Console: Attribute Mappings and Transform Configuration'
+    body: Direct view of the Mappings tab for Employees identity profile. Demonstrates how source attributes are mapped to
+      identity attributes, transform expressions are applied, and system update warnings are handled.
+  notes: Baseline Slide 9 displays the attribute mappings interface. Note that recent mapping changes require system updates
+    to identity data before changes take effect across all identities.
+  additions:
+  - Configuration
+  - Console
+- slide_number: 10
+  layout: Picture with Caption
+  role: walkthrough
+  baseline_slides:
+  - 10
+  badge: Testing & Validation
+  title: Identity Preview Console
+  subtitle: Validating transform logic and attribute resolution against aggregated source data
+  content:
+    image:
+      src: assets/image34.png
+      alt: Identity Preview UI
+      caption: 'IdentityNow Console: Identity Preview and Transform Testing'
+    body: Direct view of the Identity Preview interface. Allows administrators to inspect transform results against real aggregated
+      account data before committing identity profile updates across the organization.
+  notes: Baseline Slide 10 highlights that Preview Mappings is excellent for transform testing and requires aggregated account
+    data to simulate production identity calculations.
+  additions:
+  - Console
+  - Validation
+- slide_number: 11
+  layout: Picture with Caption
+  role: walkthrough
+  baseline_slides:
+  - 11
+  badge: Administrative Perspective
+  title: Administrative View of an Identity
+  subtitle: Complete 360-degree identity profile showing accounts, access details, and governance context
+  content:
+    image:
+      src: assets/image35.png
+      alt: Administrative View UI
+      caption: 'IdentityNow Console: Administrative Profile for Sterling Archer'
+    body: Comprehensive administrator interface displaying Identity Details, correlated Account Details across connected systems,
+      and assigned Access Details (roles, access profiles, entitlements).
+  notes: 'Baseline Slide 11 shows the administrative view of sample user Sterling Archer. Emphasize the three critical panes:
+    Identity Details, Account Details, and Access Details.'
+  additions:
+  - Archer
+  - Console
+  - Perspective
+  - Sterling
+- slide_number: 12
+  layout: Picture with Caption
+  role: walkthrough
+  baseline_slides:
+  - 12
+  badge: Search & Audit
+  title: Search View of an Identity
+  subtitle: Enterprise search query syntax, attribute filtering, and historical audit trail
+  content:
+    image:
+      src: assets/image36.png
+      alt: Search View UI
+      caption: 'IdentityNow Console: Search Interface querying attributes.department: Finance'
+    body: 'Search view illustrating query syntax execution (''attributes.department: Finance''), faceted search results, general
+      policy evaluation, and complete audit trail visibility for compliance.'
+  notes: Baseline Slide 12 demonstrates the search interface with query filters, search result counts, and identity details
+    for reporting and certification campaigns.
+  additions:
+  - Audit
+  - Console
+  - Finance
+- slide_number: 13
+  layout: Picture with Caption
+  role: walkthrough
+  baseline_slides:
+  - 13
+  badge: End-User Persona
+  title: Public View of an Identity
+  subtitle: Self-service user portal, Request Center approvals, and organizational directory persona
+  content:
+    image:
+      src: assets/image37.png
+      alt: Public View UI
+      caption: 'IdentityNow Console: End-User Request Center and Public Profile'
+    body: End-user facing portal showing Public Identity Attributes, Request Center approval queues, self-service access catalog,
+      and active certification campaigns.
+  notes: 'Baseline Slide 13 illustrates the public view and end-user experience: public identity attributes, Request Center
+    access requests, approvals, and user certifications.'
+  additions:
+  - Console
+  - Persona
+- slide_number: 14
+  layout: Title and Content
+  role: architecture
+  baseline_slides:
+  - 14
+  redrawn_media:
+  - image38.png
+  - image39.png
+  badge: Target Aggregation
+  title: Target Accounts Correlation to Identities
+  subtitle: Matching uncorrelated accounts from downstream applications to central identities
+  content:
+    diagram:
+      kind: svg
+      src: assets/diagram_correlation_flow.svg
+      title: Target Account Correlation Flow
+    body: Target application accounts are ingested and processed through the correlation engine. Deterministic correlation
+      rules (e.g. employeeId, email, username) bind uncorrelated accounts to central identities. Unmatched accounts remain
+      uncorrelated for administrative remediation.
+  notes: 'Baseline Slide 14 covers correlation mechanics: reading accounts from non-authoritative target sources, matching
+    via correlation rules, and maintaining uncorrelated account governance using sample records like E001 Malory Archer.'
+  additions:
+  - Flow
+- slide_number: 15
+  layout: Title and Content
+  role: architecture
+  baseline_slides:
+  - 15
+  redrawn_media:
+  - image40.png
+  badge: Model Hierarchy
+  title: Access Model Components Overview
+  subtitle: Bridging the Business Access Model with native IT source system permissions
+  content:
+    diagram:
+      kind: svg
+      src: assets/diagram_access_model_overview.svg
+      title: Access Model Architecture
+    body: 'The access model establishes a two-tier governance bridge: Business Access Model (Roles and Access Profiles) maps
+      down to target accounts and granular entitlements, enabling scalable administration.'
+  notes: 'Baseline Slide 15 introduces the full Access Model hierarchy: Identity -> Business Access Model (Roles -> Access
+    Profiles) -> Target Accounts -> Entitlements and Attributes.'
+  additions:
+  - Architecture
+  - Hierarchy
+  - Overview
+- slide_number: 16
+  layout: Four Tiles
+  role: architecture
+  baseline_slides:
+  - 16
+  redrawn_media:
+  - image41.png
+  badge: Building Blocks
+  title: 'Building Blocks: Entitlements'
+  subtitle: Granular permissions, group memberships, and allocate-able access units
+  content:
+    cards:
+    - title: Source Aggregation
+      badge: Ingestion
+      icon: database
+      body: Aggregated directly from connected target sources (Active Directory, SAP, SaaS).
+    - title: Operational Access
+      badge: Permissions
+      icon: key
+      body: Represent individual allocate-able points of operational access and granular rights.
+    - title: Profile Bundling
+      badge: Containers
+      icon: layers
+      body: Bundled into access profiles strictly for a single connected target source system.
+    - title: Role Assignment Criteria
+      badge: Governance
+      icon: user-check
+      body: Evaluated as membership criteria during automated role assignment and account scanning.
+  notes: 'Baseline Slide 16 defines Entitlements: aggregated from source, individual points of access, bundled into APs for
+    a single source, evaluated as role criteria, and detected via account scanning.'
+  additions:
+  - Aggregation
+  - Assignment
+  - Bundling
+  - Containers
+  - Criteria
+  - Ingestion
+  - Operational
+  - Permissions
+  - SaaS
+- slide_number: 17
+  layout: Title and Content
+  role: process
+  baseline_slides:
+  - 17
+  redrawn_media:
+  - image42.png
+  badge: Catalog Aggregation
+  title: Read Entitlements from Sources
+  subtitle: Extracting native group objects and permissions into the IdentityNow catalog
+  content:
+    diagram:
+      kind: svg
+      src: assets/diagram_read_entitlements.svg
+      title: Entitlement Catalog Aggregation
+    body: Source systems expose native groups and permissions (e.g. Group1 'FieldOps'). Connectors map these via entitlement
+      schemas into the central IdentityNow catalog, making them governable.
+  notes: 'Baseline Slide 17 diagrams the entitlement discovery pipeline: native groups on source systems (e.g. id Group1,
+    groupname FieldOps) are read into IdentityNow schema objects.'
+  additions:
+  - Catalog
+  - FieldOps
+- slide_number: 18
+  layout: Two Content
+  role: architecture
+  baseline_slides:
+  - 18
+  redrawn_media:
+  - image43.png
+  badge: Building Blocks
+  title: 'Building Blocks: Access Profiles'
+  subtitle: Single-source entitlement bundling, request governance, and equivalency detection
+  content:
+    bullets:
+    - Bundle one or more entitlements strictly from a single source system.
+    - Represent cohesive combinations of allocate-able operational access.
+    - Can be requested directly by end users through the IdentityNow Request Center.
+    - Support optional approval workflows configured on the access profile.
+    - 'Detection Engine: IDN compares aggregated accounts and entitlements against access profiles.'
+    - If an identity holds all bundled entitlements, the profile is automatically detected and marked active.
+  notes: 'Baseline Slide 18 details Access Profiles: must be single-source, requestable in Request Center with optional approval,
+    and automatically detected when an identity holds all component entitlements.'
+  additions:
+  - Engine
+- slide_number: 19
+  layout: Two Content
+  role: architecture
+  baseline_slides:
+  - 19
+  redrawn_media:
+  - image44.png
+  - image45.png
+  badge: Building Blocks
+  title: 'Building Blocks: Roles'
+  subtitle: Multi-source business packaging and automated membership assignment criteria
+  content:
+    bullets:
+    - Bundle access profiles across single or multiple connected sources.
+    - Represent recognizable jobs, business personas, and organizational functions.
+    - Support model-based assignment via automated membership matching criteria.
+    - 'Example criteria: title == ''Accountant'' automatically assigns the Accountant Role.'
+    - Roles grant all included access profiles simultaneously across connected systems.
+  notes: 'Baseline Slide 19 introduces Roles: multi-source bundling, representing business jobs, and assigned automatically
+    via membership criteria (e.g. title == ''Accountant'').'
+  additions:
+  - Accountant
+- slide_number: 20
+  layout: Two Content
+  role: governance
+  baseline_slides:
+  - 20
+  redrawn_media:
+  - image46.png
+  badge: Role Management
+  title: 'Roles: Business Definition & Assignment'
+  subtitle: Business context, automated membership criteria, and zero-approval provisioning
+  content:
+    bullets:
+    - 'Business Name and Description: describes role purpose in clear business-friendly context.'
+    - 'Membership (Assignment) based on criteria: standard match of entitlement, identity, or account attributes.'
+    - 'Automated Fulfillment: once criteria match, IdentityNow automatically provisions component access profiles.'
+    - NO approval process is initiated for automated criteria-based assignments.
+    - Roles can also be made requestable in the Request Center with configured approval chains.
+  notes: Baseline Slide 20 emphasizes that criteria-based role assignment requires NO approval process, automatically provisioning
+    access profiles when users meet attribute criteria.
+  additions:
+  - Assignment
+  - Definition
+  - Description
+  - Fulfillment
+  - Name
+- slide_number: 21
+  layout: Two Content
+  role: lifecycle
+  baseline_slides:
+  - 21
+  redrawn_media:
+  - image47.png
+  badge: Building Blocks
+  title: 'Building Blocks: Lifecycle States'
+  subtitle: State-driven access transitions and multi-source access profile automation
+  content:
+    bullets:
+    - Defined within Identity Profiles to represent user employment states (e.g. Pre-hire, Active, Leave, Terminated).
+    - Combine and grant access profiles across multiple sources based on current lifecycle state.
+    - Enforce model-based automated provisioning and deprovisioning as users transition between states.
+    - Drive immediate access suspension or revocation when moving to inactive or terminated states.
+  notes: 'Baseline Slide 21 covers Lifecycle States: defined in identity profiles, combining access profiles from multiple
+    sources, and triggering automated access changes on state shifts.'
+  additions:
+  - Leave
+  - Terminated
+- slide_number: 22
+  layout: Title and Content
+  role: architecture
+  baseline_slides:
+  - 22
+  redrawn_media:
+  - image48.png
+  badge: Role Architecture
+  title: Role Concept & Management Architecture
+  subtitle: Hierarchical relationship connecting Business Roles, Technical Roles, and Applications
+  content:
+    diagram:
+      kind: svg
+      src: assets/diagram_role_management.svg
+      title: Role Concept and Management Blueprint
+    body: Business Roles (R1, R2, R3) map to organizational attributes (OrgUnit, Job Role). Technical Roles (Access Profiles
+      AP1, AP2, AP3) combine entitlements (E1..E6) from single sources, bounded by Application containers like Active Directory.
+  notes: 'Baseline Slide 22 breaks down Role Concept & Management: Business Roles depend on OrgUnit/Job/User Type; Technical
+    Roles are single-source Access Profiles; Applications serve as structuring containers.'
+  additions:
+  - Applications
+  - Architecture
+  - Blueprint
+- slide_number: 23
+  layout: Title and Content
+  role: lifecycle
+  baseline_slides:
+  - 23
+  - 24
+  redrawn_media:
+  - image49.png
+  - image50.png
+  badge: State Transitions
+  title: 'Building Block Relationships: Lifecycle States'
+  subtitle: Dynamic access assignment across Lifecycle State 1 (Active) and Lifecycle State 2 (Leave)
+  content:
+    diagram:
+      kind: svg
+      src: assets/diagram_lifecycle_states.svg
+      title: Lifecycle State Transition Blueprint
+    body: Identity Profiles define distinct lifecycle states. Transitioning between State 1 (Active) and State 2 (Leave) automatically
+      adjusts assigned Access Profiles and Roles, revoking unnecessary access while maintaining identity integrity.
+  notes: 'Consolidates Baseline Slides 23 and 24: visualizes how moving between Lifecycle State 1 and Lifecycle State 2 dynamically
+    alters assigned access profiles.'
+  additions:
+  - Blueprint
+  - Leave
+  - Relationships
+  - Transition
+  - Transitions
+- slide_number: 24
+  layout: Title and Content
+  role: governance
+  baseline_slides:
+  - 25
+  - 26
+  - 27
+  redrawn_media:
+  - image51.png
+  - image52.png
+  - image53.png
+  badge: Core Mechanics
+  title: Assignment vs Detection
+  subtitle: Differentiating top-down governed provisioning from bottom-up source aggregation
+  content:
+    diagram:
+      kind: svg
+      src: assets/diagram_assignment_vs_detection.svg
+      title: Assignment vs Detection Architecture
+    body: Assigned access flows top-down via Role criteria or approved requests to trigger provisioning. Detected access is
+      discovered bottom-up when source account aggregation reveals existing entitlements that match access profile bundles.
+  notes: 'Consolidates Baseline Slides 25, 26, and 27: the 3-stage visual build (Build Identity Foundation -> Add Access Model
+    -> Assigned vs Detected) into a unified architectural comparison.'
+  additions:
+  - Architecture
+  - Mechanics
+- slide_number: 25
+  layout: Title and Content
+  role: process
+  baseline_slides:
+  - 28
+  redrawn_media:
+  - image54.png
+  badge: End-to-End Flow
+  title: Example Provisioning Scenario
+  subtitle: HR Source change triggering identity update, role evaluation, and directory provisioning
+  content:
+    diagram:
+      kind: svg
+      src: assets/diagram_provisioning_scenario.svg
+      title: End-to-End Provisioning Scenario
+    body: A record change in the HR System (e.g. John Doe becomes Accountant) is aggregated by IdentityNow. The Identity Profile
+      recalculates, role criteria match, and target accounts/groups are automatically provisioned in Active Directory.
+  notes: 'Baseline Slide 28 traces an end-to-end provisioning scenario: HR source change -> Identity update -> Role trigger
+    -> Target Active Directory provisioning.'
+  additions:
+  - Accountant
+  - Flow
+  - Provisioning
+  - Scenario
+- slide_number: 26
+  layout: Two Content
+  role: governance
+  baseline_slides:
+  - 29
+  redrawn_media:
+  - image55.png
+  badge: Governance Rules
+  title: 'Assignment: Special Circumstances'
+  subtitle: Approval bypass for criteria assignments and certification campaign boundaries
+  content:
+    bullets:
+    - 'Zero-Approval Automation: When assigned via role membership criteria, no approval process is used.'
+    - 'Audited Consistency: System assumes HR attribute changes reflect authorized business events.'
+    - 'Certification Campaign Boundary: Access profiles granted to users by roles are not included in certification campaigns.'
+    - 'Role-Level Certification: Only the top-level Role is certified, preventing redundant review of individual component
+      profiles.'
+  notes: 'Baseline Slide 29 covers critical governance edge cases: criteria-based assignments bypass approvals, and access
+    profiles granted via roles are excluded from individual certification campaigns.'
+  additions:
+  - Automation
+  - Boundary
+  - Campaign
+  - Certification
+  - Circumstances
+  - Consistency
+  - Level
+  - Rules
+  - Special
+- slide_number: 27
+  layout: Two Content
+  role: governance
+  baseline_slides:
+  - 30
+  redrawn_media:
+  - image56.png
+  - image57.png
+  - image58.png
+  badge: Deprovisioning
+  title: Access Removal via Role & Edge Cases
+  subtitle: Understanding automated deprovisioning triggers and critical non-deprovisioning behaviors
+  content:
+    bullets:
+    - 'Deprovisioning Triggers: Role-based deprovisioning removes entitlements when criteria no longer match or user is removed
+      from identity list.'
+    - 'CRITICAL: No deprovisioning is triggered when a Role is edited to remove an Access Profile.'
+    - Previously granted access remains intact on the user account if an access profile is removed from a role definition.
+    - 'CRITICAL: Deleting a Role does NOT deprovision access that was previously assigned through it.'
+    - Removal requires explicit de-assignment or lifecycle transition to trigger target account cleanup.
+  notes: 'Baseline Slide 30 highlights critical deprovisioning gotchas: editing a role to remove an access profile leaves
+    existing access intact; deleting a role does NOT automatically deprovision granted access.'
+  additions:
+  - Cases
+  - Deleting
+  - Edge
+  - Removal
+  - Triggers
+- slide_number: 28
+  layout: Two Content
+  role: architecture
+  baseline_slides:
+  - 31
+  redrawn_media:
+  - image59.png
+  badge: Mapping Matrix
+  title: Access Profiles and Roles Matrix
+  subtitle: Cross-allocation relationships between multiple business roles and technical access profiles
+  content:
+    bullets:
+    - Roles R1 and R2 can share underlying Access Profiles (e.g. AP1, AP2) across different business departments.
+    - Access profiles package application-specific privileges into cohesive units.
+    - Decouples business role definitions from underlying IT infrastructure changes.
+    - Modifying an access profile updates permissions for all parent business roles seamlessly.
+  notes: Baseline Slide 31 diagrams the mapping matrix between Roles (R1, R2) and Access Profiles (AP1, AP2, AP3).
+  additions:
+  - Matrix
+- slide_number: 29
+  layout: Two Content
+  role: architecture
+  baseline_slides:
+  - 32
+  redrawn_media:
+  - image60.png
+  badge: Lifecycle Integration
+  title: Access Component Relationships of IdentityNow
+  subtitle: How lifecycle states dynamically govern access profile and role assignments
+  content:
+    bullets:
+    - Lifecycle states (defined in identity profiles) grant 1..N Access Profiles upon state transition.
+    - Moving into a new lifecycle state automatically provisions required access and revokes obsolete access.
+    - Identity profiles serve as the master templates describing how identities are created from authoritative sources.
+    - Ensures strict alignment between authoritative HR status and active IT permissions.
+  notes: Baseline Slide 32 details how lifecycle states in identity profiles govern access profiles and roles dynamically.
+  additions:
+  - Integration
+  - Relationships
+- slide_number: 30
+  layout: Title and Content
+  role: architecture
+  baseline_slides:
+  - 33
+  redrawn_media:
+  - image61.png
+  badge: Composite Model
+  title: Access Profiles, Roles, Sources & Lifecycle States
+  subtitle: The unified architecture connecting authoritative sources, governance models, and target applications
+  content:
+    diagram:
+      kind: svg
+      src: assets/diagram_composite_architecture.svg
+      title: Unified Access and Lifecycle Blueprint
+    body: Comprehensive composite blueprint illustrating how Authoritative Sources generate Identity Profiles with Lifecycle
+      States, which in turn drive Business Roles, Technical Access Profiles, and target system accounts.
+  notes: Baseline Slide 33 is the comprehensive architectural summary connecting sources, lifecycle states, roles, access
+    profiles, and target accounts.
+  additions:
+  - Blueprint
+- slide_number: 31
+  layout: Three Columns
+  role: architecture
+  baseline_slides:
+  - 34
+  redrawn_media:
+  - image62.png
+  badge: Cardinality Rules
+  title: Each ONE Identity Can...
+  subtitle: Core cardinality ratios governing identity relationships across the SailPoint platform
+  content:
+    cards:
+    - title: Accounts & Sources
+      badge: '1 : 0..N'
+      icon: database
+      body: Each ONE Identity can possess multiple accounts across different connected target sources, but exactly ONE identity
+        profile binds it to its authoritative source.
+    - title: Roles & Access Profiles
+      badge: '1 : 0..N'
+      icon: users
+      body: Each ONE Identity can be assigned multiple Business Roles and multiple Access Profiles, granted via criteria,
+        lifecycle state, or request.
+    - title: Entitlements
+      badge: '1 : 0..N'
+      icon: shield-check
+      body: Each ONE Identity can hold numerous individual entitlements, both assigned through governed access profiles and
+        detected through direct account aggregation.
+      highlight: true
+  notes: 'Baseline Slide 34 summarizes cardinality: Each ONE Identity can have multiple accounts, roles, access profiles,
+    and entitlements.'
+  additions:
+  - Rules
+  - SailPoint
+- slide_number: 32
+  layout: Title and Content
+  role: architecture
+  baseline_slides:
+  - 35
+  - 36
+  redrawn_media:
+  - image63.png
+  - image64.png
+  - image65.png
+  - image66.png
+  - image67.png
+  - image68.png
+  - image69.png
+  - image70.png
+  badge: ER Foundations
+  title: 'Authorizations Model: Building Blocks'
+  subtitle: Entity relationships connecting Authoritative Sources, Identity Profiles, and Target Systems
+  content:
+    diagram:
+      kind: svg
+      src: assets/diagram_building_blocks.svg
+      title: Authorizations Model Building Blocks
+    body: 'Core entity relationships: Authoritative Sources generate Accounts mapped by Identity Profiles into central Identities.
+      Identities associate with 0..N Roles, which package Access Profiles across target applications.'
+  notes: 'Consolidates Baseline Slides 35 and 36: details the authorizations model entities, distinguishing authoritative
+    sources and identity profiles from target systems.'
+  additions:
+  - Foundations
+  - Target
+- slide_number: 33
+  layout: Title and Content
+  role: architecture
+  baseline_slides:
+  - 37
+  redrawn_media:
+  - image63.png
+  - image65.png
+  - image66.png
+  - image68.png
+  badge: Complete Blueprint
+  title: 'Authorizations Model: Cardinality Blueprint'
+  subtitle: Definitive entity-relationship diagram with strict mathematical cardinalities
+  content:
+    diagram:
+      kind: svg
+      src: assets/diagram_erd_cardinality.svg
+      title: Authorizations Model ER & Cardinalities Blueprint
+    body: 'Comprehensive architectural contract: Identity (1..1) to Source via Identity Profile (1..1); Identity to Role (0..N);
+      Role to Access Profile (1..N); Access Profile to Entitlement (1..N); Entitlement to Source (0..N); Account to Source
+      (1..1).'
+  notes: Baseline Slide 37 provides the definitive ER model with all formal cardinalities (0..N, 1..N, 1..1) connecting Identity,
+    Role, Access Profile, Entitlement, Account, and Source.
+  additions:
+  - Blueprint
+  - Cardinalities
+  - Cardinality

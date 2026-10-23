@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spec Preview: SailPoint Smart iLab: Identity Model & PoV Blueprint</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --surface: #000000;
+            --card-bg: #0B111E;
+            --card-border: #415364;
+            --accent: #54C0E8;
+            --accent-alt: #D60EB5;
+            --ink: #FFFFFF;
+            --ink-muted: #DAE1E9;
+            --font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: radial-gradient(circle at 85% 15%, #54C0E833 0%, #000000 45%, #000000 100%), #000000;
+            color: var(--ink);
+            font-family: var(--font-family);
+            padding: 2rem 2.5rem;
+            min-height: 100vh;
+        }
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: rgba(11, 17, 30, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        .header-info h1 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+            color: var(--ink);
+        }
+        .header-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            align-items: center;
+        }
+        .pill {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .theme-pill { background: rgba(37, 99, 235, 0.1); border: 1px solid var(--accent); color: var(--accent); }
+        .count-pill { background: rgba(214, 14, 181, 0.1); border: 1px solid var(--accent-alt); color: var(--accent-alt); }
+        .layout-pill { background: rgba(0, 0, 0, 0.04); border: 1px solid var(--card-border); color: var(--ink-muted); }
+        .role-pill { background: rgba(37, 99, 235, 0.08); color: var(--accent); }
+
+        .goal-banner {
+            padding: 1rem 1.5rem;
+            background: rgba(1, 28, 72, 0.4);
+            border-left: 4px solid var(--accent);
+            border-radius: 8px;
+            margin-bottom: 2.5rem;
+            font-size: 0.95rem;
+            color: var(--ink-muted);
+        }
+        .goal-banner strong { color: var(--ink); }
+
+        .deck-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 2rem;
+        }
+        .slide-card {
+            background: linear-gradient(145deg, #0B111E 0%, #000000 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+        .slide-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.15);
+        }
+        .slide-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .slide-num {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+        .slide-canvas {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            min-height: 220px;
+        }
+        .mini-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--accent);
+            letter-spacing: 0.08em;
+        }
+        .slide-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--ink);
+            line-height: 1.3;
+        }
+        .slide-subtitle {
+            font-size: 0.82rem;
+            color: var(--ink-muted);
+            margin-top: 0.25rem;
+        }
+        .slide-content-area {
+            flex: 1;
+            font-size: 0.82rem;
+            color: var(--ink-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .mini-image-card {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            max-height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0,0,0,0.02);
+        }
+        .mini-image-thumb {
+            max-width: 100%;
+            max-height: 110px;
+            object-fit: cover;
+        }
+        .mini-image-caption {
+            font-size: 0.68rem;
+            color: var(--ink-muted);
+            padding: 2px 6px;
+        }
+        .mini-bullets {
+            padding-left: 1.2rem;
+            line-height: 1.6;
+        }
+        .mini-bullets li { margin-bottom: 0.3rem; }
+        .mini-body { line-height: 1.5; }
+
+        .mini-metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 0.6rem;
+            margin-top: 0.5rem;
+        }
+        .mini-metric-card {
+            background: rgba(0,0,0,0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 0.6rem;
+            text-align: center;
+        }
+        .mini-metric-card.glowing {
+            border-color: var(--accent);
+        }
+        .metric-val {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .metric-lbl {
+            font-size: 0.75rem;
+            color: var(--ink);
+        }
+
+        .mini-cards-grid, .mini-regions-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.6rem;
+            margin-top: 0.5rem;
+        }
+        .mini-content-card {
+            background: rgba(0,0,0,0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 0.65rem;
+        }
+        .mini-content-card.glowing { border-color: var(--accent-alt); }
+        .mini-content-card strong { display: block; font-size: 0.85rem; color: var(--ink); margin-bottom: 0.2rem; }
+        .mini-content-card p { font-size: 0.78rem; color: var(--ink-muted); line-height: 1.4; }
+        .mini-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.35rem;
+        }
+        .mini-card-icon {
+            display: inline-flex;
+            align-items: center;
+            color: var(--accent);
+        }
+        .mini-metric-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0.25rem;
+            color: var(--accent);
+        }
+        .card-tag {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-bottom: 0;
+            text-transform: uppercase;
+        }
+
+        .mini-comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            margin-top: 0.5rem;
+        }
+
+        .mini-diagram-box, .mini-mermaid-box {
+            background: rgba(0,0,0,0.02);
+            border: 1px dashed var(--accent);
+            border-radius: 8px;
+            padding: 0.6rem;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        .mini-mermaid-box .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+        .mini-mermaid-box .mermaid svg {
+            max-width: 100% !important;
+            max-height: 220px !important;
+            height: auto !important;
+        }
+        .diagram-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.4rem;
+        }
+        .diagram-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+        .diagram-chip {
+            background: rgba(0,0,0,0.04);
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 0.72rem;
+            color: var(--ink);
+        }
+
+        .slide-notes {
+            margin-top: 0.85rem;
+            padding-top: 0.65rem;
+            border-top: 1px dashed var(--card-border);
+            font-size: 0.75rem;
+            color: var(--ink-muted);
+            line-height: 1.4;
+        }
+        .notes-tag {
+            font-weight: 600;
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="header-bar">
+        <div class="header-info">
+            <h1>SailPoint Smart iLab: Identity Model & PoV Blueprint</h1>
+            <div class="header-meta">
+                <span class="pill theme-pill">sailpoint-corporate-2026-design (dark)</span>
+                <span class="pill count-pill">6 Slides</span>
+                <span><strong>Audience:</strong> Solution Architects, Technical Evaluators & Customer Security Teams</span>
+                <span><strong>Tone:</strong> Authoritative, architectural, and concise</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="goal-banner"><strong>Goal:</strong> Modernize the Smart iLab architectural presentation, preserving and elevating all original diagrams, identity models, dynamic role flows, and tenant blueprints into high-fidelity visual diagrams and semantic components.</div>
+
+    <div class="deck-grid">
+        
+        <div class="slide-card">
+            <div class="slide-card-header">
+                <span class="slide-num">#1</span>
+                <span class="pill layout-pill">Title Slide</span>
+                <span class="pill role-pill">cover</span>
+            </div>
+            <div class="slide-canvas">
+                <div class="slide-title-area">
+                    <h3 class="slide-title">SailPoint Smart iLab</h3>
+                    <div class="slide-subtitle">Identity Model Architecture & Proof-of-Value Blueprint</div>
+                </div>
+                <div class="slide-content-area">
+                    <div class="mini-badge">SailPoint Architecture Series</div>
+                <div class="mini-image-card">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTk4My4wMyA3MDMuNTUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjwvZGVmcz48ZyBpZD0iTGF5ZXJfMiI+PGcgaWQ9IkNvbG9yIj48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTk4My4wMyIgaGVpZ2h0PSI3MDMuNTUiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNNjQ3Ljc3IDM1Ni40NUM2MjkuNTkgMzUxLjMgNjIwLjIyIDM0Mi40IDYyMC4yMiAzMzAgNjIwLjIyIDMxNC43IDYzNC4yMiAzMDMuODkgNjUzLjQzIDMwMy44OSA2NzMuMyAzMDMuODkgNjg1Ljg4IDMxNC40NSA2ODYuNjEgMzMxLjQ0TDczNS4wOSAzMzEuNDRDNzM0LjMgMjg4LjU5IDcwMS44OSAyNTkuODIgNjU0LjAxIDI1OS44MiA2MDYuMTMgMjU5LjgyIDU3MS4zNyAyODkuODcgNTcxLjM3IDMzMS4zMiA1NzEuMzcgMzY0LjE5IDU5Mi4yNSAzODcuMjQgNjMzLjM3IDQwMC4wM0w2NjMuMDkgNDA4LjNDNjg1LjA5IDQxNC42IDY5NC4yMSA0MjMuMiA2OTMuNjkgNDM3LjY1IDY5My4zNiA0NTQuMyA2NzguNzkgNDY1LjIgNjU2LjIzIDQ2NS4yIDYzMS43NCA0NjUuMiA2MTkuNSA0NTAuNjYgNjE4LjE1IDQzNS43NUw1NjkuMTUgNDM1Ljc1QzU3MC4wNCA0NzguNiA2MDUuNTcgNTA4LjA1IDY1Ni4yNiA1MDguMDUgNjk3LjI2IDUwOC4wNSA3NDEuOTYgNDg2LjA1IDc0Mi42NyA0MzcuOTYgNzQzLjY3IDQwMi45NiA3MjEuNTIgMzc4LjU4IDY3Ni42NyAzNjUuNjlaIiBmaWxsPSIjMDAzM0ExIi8+PHBhdGggZD0iTTgzOC40MyAzMzguMDVDNzkxLjY5IDMzOS4yOTUgNzU0LjgwOSAzNzguMTk0IDc1Ni4wNTQgNDI0LjkzNCA3NTcuMjUyIDQ2OS45MjMgNzkzLjQ0IDUwNi4xMTIgODM4LjQzIDUwNy4zMSA4NTIuMDIgNTA3LjMxIDg3NS43MSA1MDAuNzMgODg1LjMyIDQ4Ni4wNEw4ODguMzggNDgxLjM5IDg4OC4zOCA1MDQgOTM0LjExIDUwNCA5MzQuMTEgMzQxLjU3IDg4OC41MyAzNDEuNTcgODg4LjUzIDM2My41NyA4ODUuNDcgMzU5LjI1Qzg3MSAzMzguNjYgODQxLjcgMzM4LjA1IDgzOC40MyAzMzguMDVaTTg0My4zMiA0NjMuNzZDODIyLjU0IDQ2My43NiA4MDAuMTQgNDQ4LjA2IDgwMC4xNCA0MjIuNzYgODAwLjE0IDM5Ny40NiA4MjIuNTEgMzgxLjc2IDg0My4zMiAzODEuNzYgODY0LjEzIDM4MS43NiA4ODUuMDcgMzk2LjE0IDg4NS4wNyA0MjIuNzYgODg1LjA3IDQ0OS4zOCA4NjMuNTMgNDYzLjc2IDg0My4zMiA0NjMuNzZaIiBmaWxsPSIjMDAzM0ExIi8+PHBhdGggZD0iTTEwMDcuMTQgMzQxLjYgOTYxLjQ0IDM0MS42IDk2MS40NCA1MDQuMTYgMTAwNy4xNCA1MDQuMTZaIiBmaWxsPSIjMDAzM0ExIi8+PHBhdGggZD0iTTEwODAuNzIgMjYzIDEwMzQuODEgMjYzIDEwMzQuODEgNTA0LjEgMTA4MC43MiA1MDQuMVoiIGZpbGw9IiMwMDMzQTEiLz48cGF0aCBkPSJNMTIwNS44MSAyNjIuNzYgMTEwNyAyNjIuNzYgMTEwNyA1MDQuMSAxMTU2IDUwNC4xIDExNTYgNDE5LjYyIDEyMDUuOTIgNDE5LjYyQzEyNjQuMDggNDE5LjYyIDEyODQuODYgMzc3LjQ3IDEyODQuODYgMzQxLjMgMTI4NC43NSAyODcuMDkgMTI0NS4xMSAyNjIuNzYgMTIwNS44MSAyNjIuNzZaTTEyMDMuMyAzNzcuNDcgMTE1NS44OSAzNzcuNDcgMTE1NS44OSAzMDUuMjEgMTIwNC44OSAzMDUuMjFDMTIyNi4zMiAzMDUuMjEgMTIzNi4wMiAzMjYuMyAxMjM2LjAyIDM0MS4yNiAxMjM2LjAyIDM1OS4xNCAxMjIzLjc4IDM3Ny40NyAxMjAzLjQ2IDM3Ny40N1oiIGZpbGw9IiMwMDMzQTEiLz48cGF0aCBkPSJNMTM2NiAzMzguMDVDMTMxNy4xOCAzMzguMDUgMTI4MS43MyAzNzMuNDkgMTI4MS43MyA0MjIuMzUgMTI4MS43MyA0NzEuMjEgMTMxNyA1MDcgMTM2NiA1MDcgMTQxNSA1MDcgMTQ1MC40NyA0NzEuNCAxNDUwLjQ3IDQyMi4zNyAxNDUwLjQ3IDM3My4zNCAxNDE1IDMzOC4wNSAxMzY2IDMzOC4wNVpNMTM2NiA0NjJDMTM0NC4yIDQ2Mi4xMzcgMTMyNi40MSA0NDQuNTczIDEzMjYuMjcgNDIyLjc3IDEzMjYuMTMgNDAwLjk2NiAxMzQzLjcgMzgzLjE3OSAxMzY1LjUgMzgzLjA0MiAxMzg3LjI4IDM4Mi45MDQgMTQwNS4wNiA0MDAuNDMxIDE0MDUuMjMgNDIyLjIxIDE0MDYuMTUgNDQzLjI2NSAxMzg5LjgzIDQ2MS4wNzkgMTM2OC43NyA0NjEuOTk5IDEzNjguNzcgNDYyIDEzNjguNzYgNDYyIDEzNjguNzYgNDYyIDEzNjcuODUgNDYyIDEzNjYuOTMgNDYyIDEzNjYgNDYyWiIgZmlsbD0iIzAwMzNBMSIvPjxwYXRoIGQ9Ik0xNTEzLjY3IDM0MS42IDE0NjcuOTQgMzQxLjYgMTQ2Ny45NCA1MDQuMTYgMTUxMy42NyA1MDQuMTZaIiBmaWxsPSIjMDAzM0ExIi8+PHBhdGggZD0iTTE1ODkuNyAzNjQuODYgMTU4Ni42NCAzNzAuNjggMTU4Ni42NCAzNDEuNTcgMTU0MC40OCAzNDEuNTcgMTU0MC40OCA1MDQuMDcgMTU4Ni4zOSA1MDQuMDcgMTU4Ni4zOSA0MThDMTU4Ni4zOSAzOTQuODYgMTU5Ny41OSAzODIuNjIgMTYxOC41NiAzODIuNjIgMTYzNy40NSAzODIuNjIgMTY0OC45NSAzOTUuOSAxNjQ4Ljk1IDQxNy4yTDE2NDguOTUgNTA0IDE2OTUgNTA0IDE2OTUgNDA2LjZDMTY5NS4yMSAzNjIuMzcgMTY3NC4yNSAzMzcuODkgMTYzNi4xNyAzMzcuODkgMTYxNi45NyAzMzcuODYgMTU5OS4yMiAzNDguMTI3IDE1ODkuNjggMzY0Ljc5WiIgZmlsbD0iIzAwMzNBMSIvPjxwYXRoIGQ9Ik05ODQuMjcgMzE4LjQ5QzEwMDAuMDMgMzE4LjUyOSAxMDEyLjgzIDMwNS43ODcgMTAxMi44NyAyOTAuMDMgMTAxMi45MSAyNzQuMjczIDEwMDAuMTcgMjYxLjQ2OSA5ODQuNDEgMjYxLjQzIDk2OC42NTMgMjYxLjM5MiA5NTUuODQ5IDI3NC4xMzMgOTU1LjgxIDI4OS44OSA5NTUuODEgMjg5Ljg5MyA5NTUuODEgMjg5Ljg5NyA5NTUuODEgMjg5LjlMOTU1LjgxIDI5MEM5NTUuNzk3IDI5My43NDEgOTU2LjU0MiAyOTcuNDQ1IDk1OCAzMDAuODkgOTYyLjQxMiAzMTEuNTM1IDk3Mi43OTcgMzE4LjQ3OSA5ODQuMzIgMzE4LjQ5WiIgZmlsbD0iIzAwMzNBMSIvPjxwYXRoIGQ9Ik0xNDkwLjc0IDMxOC40OUMxNTA2LjUgMzE4LjUyOSAxNTE5LjMgMzA1Ljc4NyAxNTE5LjM0IDI5MC4wMyAxNTE5LjM4IDI3NC4yNzMgMTUwNi42NCAyNjEuNDY5IDE0OTAuODggMjYxLjQzIDE0NzUuMTIgMjYxLjM5MiAxNDYyLjMyIDI3NC4xMzMgMTQ2Mi4yOCAyODkuODkgMTQ2Mi4yOCAyODkuODkzIDE0NjIuMjggMjg5Ljg5NyAxNDYyLjI4IDI4OS45TDE0NjIuMjggMjkwQzE0NjIuMjUgMjkzLjczNyAxNDYyLjk4IDI5Ny40NDIgMTQ2NC40MiAzMDAuODkgMTQ2OC44MyAzMTEuNTM3IDE0NzkuMjIgMzE4LjQ4MiAxNDkwLjc0IDMxOC40OVoiIGZpbGw9IiMwMDMzQTEiLz48cGF0aCBkPSJNMTgxNC4yNCAzNDEuNDggMTc4Mi4yNCAzNDEuNDggMTc4Mi4yNCAyNzguMDkgMTczNi4zMyAyNzguMDkgMTczNi4zMyAzNDEuNDggMTcwNS43MiAzNDEuNDggMTcwNS43MiAzODAuMTcgMTczNi4zMyAzODAuMTcgMTczNi4zMyA1MDQuMSAxNzgyLjI0IDUwNC4xIDE3ODIuMjQgMzgwLjE3IDE4MTQuMjQgMzgwLjE3WiIgZmlsbD0iIzAwMzNBMSIvPjxwYXRoIGQ9Ik0zNzkuNzUgMTcyLjcxIDQyMy44MyA0MzUuNzYgMTY4Ljc0IDQzNS43NiAzNzkuNzUgMTcyLjcxWiIgZmlsbD0iIzAwMzNBMSIvPjxwYXRoIGQ9Ik0zNzkuNzUgMTcyLjcxIDUzNS45OCA0MzUuNzYgNDIzLjgzIDQzNS43NiAzNzkuNzUgMTcyLjcxWiIgZmlsbD0iI0NDMjdCMCIvPjxwYXRoIGQ9Ik0xNjguNzQgNDM1Ljc2IDQyMy44MyA0MzUuNzYgNDM5Ljc3IDUzMC44MyAxNjguNzQgNDM1Ljc2WiIgZmlsbD0iIzAwNzFDRSIvPjxwYXRoIGQ9Ik00MjMuODMgNDM1Ljc2IDUzNS45OCA0MzUuNzYgNDM5Ljc3IDUzMC44MyA0MjMuODMgNDM1Ljc2WiIgZmlsbD0iI0UxN0ZEMiIvPjxwYXRoIGQ9Ik0xODI2LjQgNDczQzE4MjkuMDUgNDc0LjU0MyAxODMxLjIzIDQ3Ni43ODQgMTgzMi43IDQ3OS40OCAxODM0LjI1IDQ4Mi4zMiAxODM1LjA0IDQ4NS41MTQgMTgzNSA0ODguNzUgMTgzNS4wNSA0OTEuOTcxIDE4MzQuMjYgNDk1LjE0OSAxODMyLjcgNDk3Ljk3IDE4MzEuMjIgNTAwLjY0OCAxODI5LjA1IDUwMi44NzQgMTgyNi40IDUwNC40MSAxODIzLjYyIDUwNS45OTkgMTgyMC40NyA1MDYuODA3IDE4MTcuMjcgNTA2Ljc1IDE4MTQuMDYgNTA2LjgwNCAxODEwLjg5IDUwNS45OTYgMTgwOC4wOSA1MDQuNDEgMTgwNS40MiA1MDIuODg1IDE4MDMuMjMgNTAwLjY1NyAxODAxLjc0IDQ5Ny45NyAxODAwLjE5IDQ5NS4xNDggMTc5OS40IDQ5MS45NyAxNzk5LjQ1IDQ4OC43NSAxNzk5LjQgNDg1LjUxNCAxODAwLjE5IDQ4Mi4zMjEgMTgwMS43NCA0NzkuNDggMTgwMy4yMiA0NzYuNzc1IDE4MDUuNDIgNDc0LjUzMiAxODA4LjA5IDQ3MyAxODEwLjg5IDQ3MS40MTQgMTgxNC4wNiA0NzAuNjA2IDE4MTcuMjcgNDcwLjY2IDE4MjAuNDcgNDcwLjYwMyAxODIzLjYyIDQ3MS40MTEgMTgyNi40IDQ3M1pNMTgyNy43NSA0OTkuNTVDMTgzMy4xIDQ5My4zNDIgMTgzMy4xIDQ4NC4xNTggMTgyNy43NSA0NzcuOTUgMTgyMS44NiA0NzIuMzA5IDE4MTIuNTggNDcyLjMwOSAxODA2LjY5IDQ3Ny45NSAxODAxLjM2IDQ4NC4xNjIgMTgwMS4zNiA0OTMuMzM4IDE4MDYuNjkgNDk5LjU1IDE4MTIuNTggNTA1LjE5MSAxODIxLjg2IDUwNS4xOTEgMTgyNy43NSA0OTkuNTVaTTE4MjMuODQgNDg4LjU1QzE4MjIuOTMgNDg5LjU4IDE4MjEuNjkgNDkwLjI2NSAxODIwLjMzIDQ5MC40OUwxODI1LjczIDQ5OC4yMyAxODIxLjE0IDQ5OC4zMiAxODE2LjE0IDQ5MC42NyAxODE0LjA3IDQ5MC42NyAxODE0LjA3IDQ5OC4zMiAxODEwLjIgNDk4LjMyIDE4MTAuMiA0NzguOTIgMTgxOC41NyA0NzguOTJDMTgyMC4yOSA0NzguODI4IDE4MjEuOTcgNDc5LjM4OSAxODIzLjI5IDQ4MC40OSAxODI0LjQ4IDQ4MS41ODYgMTgyNS4xMyA0ODMuMTUzIDE4MjUuMDUgNDg0Ljc3IDE4MjUuMTEgNDg2LjExOSAxODI0LjY4IDQ4Ny40NDUgMTgyMy44NCA0ODguNVpNMTgxNC4xMiA0ODcuNDMgMTgxOC4zNSA0ODcuNDNDMTgxOS4wOSA0ODcuNDYxIDE4MTkuODIgNDg3LjIzOSAxODIwLjQyIDQ4Ni44IDE4MjAuOTggNDg2LjMzNyAxODIxLjI4IDQ4NS42MzQgMTgyMS4yMyA0ODQuOTEgMTgyMS4yOSA0ODQuMTk2IDE4MjAuOTggNDgzLjUwMSAxODIwLjQyIDQ4My4wNiAxODE5LjgxIDQ4Mi42NTEgMTgxOS4wOCA0ODIuNDQ4IDE4MTguMzUgNDgyLjQ4TDE4MTQuMTIgNDgyLjQ4WiIgZmlsbD0iIzAwMzNBMSIvPjwvZz48L2c+PC9zdmc+" alt="SailPoint Logo" class="mini-image-thumb" />
+                    <span class="mini-image-caption">SailPoint Identity Security Cloud</span>
+                </div>
+            <p class="mini-body">A foundational visual guide to identity object hierarchies, non-human identity governance, dynamic role modeling, and demonstration tenant architecture.</p>
+                </div>
+            </div>
+            <div class="slide-notes"><span class="notes-tag">Notes:</span> Welcome to the modernized SailPoint Smart iLab architectural presentation. In this deck, we walk through the core identity model, machine identity governance, dynamic role assignment, and how our demonstration tenant accelerates customer proof-of-value engagements.</div>
+        </div>
+        
+        <div class="slide-card">
+            <div class="slide-card-header">
+                <span class="slide-num">#2</span>
+                <span class="pill layout-pill">Title and Content</span>
+                <span class="pill role-pill">architecture</span>
+            </div>
+            <div class="slide-canvas">
+                <div class="slide-title-area">
+                    <h3 class="slide-title">The SailPoint Identity Object Hierarchy</h3>
+                    <div class="slide-subtitle">Establishing authoritative lineage across all enterprise systems and sources</div>
+                </div>
+                <div class="slide-content-area">
+                    <div class="mini-badge">Core Architecture</div>
+                <div class="mini-image-card">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTE2IDExNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgaWQ9Ikljb24iIG92ZXJmbG93PSJoaWRkZW4iPjxzdHlsZT4NCi5Nc2Z0T2ZjVGhtX0FjY2VudDRfU3Ryb2tlX3YyIHsNCiBzdHJva2U6IzU0QzBFODsgDQp9DQo8L3N0eWxlPg0KPGRlZnM+PC9kZWZzPjxwYXRoIGQ9Ik0xNy43MSA4MyAxNy43MSA5MEMxNy42OTk5IDk4LjY1NjQgMjAuNTA4IDEwNy4wODEgMjUuNzEgMTE0IiBjbGFzcz0iY2xzLTEgTXNmdE9mY1RobV9BY2NlbnQ0X1N0cm9rZV92MiIgc3Ryb2tlPSIjNTRDMEU4IiBzdHJva2Utd2lkdGg9IjQuNjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjEiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMzEuNzEgMjcuNkMyMi44MTQ2IDM1LjE5MjYgMTcuNjk3MSA0Ni4zMDQ5IDE3LjcxIDU4TDE3LjcxIDY2IiBjbGFzcz0iY2xzLTEgTXNmdE9mY1RobV9BY2NlbnQ0X1N0cm9rZV92MiIgc3Ryb2tlPSIjNTRDMEU4IiBzdHJva2Utd2lkdGg9IjQuNjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjEiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNNTcuNzEgMTggNTcuNzEgMThDNTEuMDc3MiAxNy45OTQyIDQ0LjU0NzMgMTkuNjQwNCAzOC43MSAyMi43OSIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTk3LjcxIDY1IDk3LjcxIDU4Qzk3LjcxNDIgNDEuMzA1IDg3LjM0OSAyNi4zNjMzIDcxLjcxIDIwLjUyIiBjbGFzcz0iY2xzLTEgTXNmdE9mY1RobV9BY2NlbnQ0X1N0cm9rZV92MiIgc3Ryb2tlPSIjNTRDMEU4IiBzdHJva2Utd2lkdGg9IjQuNjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjEiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNODkuNzIgMTE0Qzk0LjkyMjYgMTA3LjA4MSA5Ny43MzA5IDk4LjY1NjYgOTcuNzIgOTBMOTcuNzIgNzkiIGNsYXNzPSJjbHMtMSBNc2Z0T2ZjVGhtX0FjY2VudDRfU3Ryb2tlX3YyIiBzdHJva2U9IiM1NEMwRTgiIHN0cm9rZS13aWR0aD0iNC42NCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utb3BhY2l0eT0iMSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0zLjcgNDRDMi41NjgxMiA0OC40ODIgMS45OTcwOSA1My4wODczIDIgNTcuNzFMMiA5MC4yOUMxLjk4NzMzIDk4LjQ4NjMgMy43OTA1MiAxMDYuNTg0IDcuMjggMTE0IiBjbGFzcz0iY2xzLTEgTXNmdE9mY1RobV9BY2NlbnQ0X1N0cm9rZV92MiIgc3Ryb2tlPSIjNTRDMEU4IiBzdHJva2Utd2lkdGg9IjQuNjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjEiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMzAuNzEgOUMyMS40ODI3IDE0LjEyMzEgMTMuODkxIDIxLjc0OTUgOC44MSAzMSIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTg4LjA5IDExQzc5LjA1MzMgNS4xMTExMiA2OC40OTYxIDEuOTgzNiA1Ny43MSAyTDU3LjcxIDJDNTEuNTU5MiAxLjk5NjUgNDUuNDUwMSAzLjAxMDE4IDM5LjYzIDUiIGNsYXNzPSJjbHMtMSBNc2Z0T2ZjVGhtX0FjY2VudDRfU3Ryb2tlX3YyIiBzdHJva2U9IiM1NEMwRTgiIHN0cm9rZS13aWR0aD0iNC42NCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utb3BhY2l0eT0iMSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0xMTMuNDMgOTAuMjkgMTEzLjQzIDU3LjcxQzExMy40NSA0My4yNjE3IDEwNy44MzYgMjkuMzc0OSA5Ny43OCAxOSIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTEwOC4xNCAxMTRDMTA5LjkzMyAxMTAuMTY4IDExMS4yNzUgMTA2LjE0MSAxMTIuMTQgMTAyIiBjbGFzcz0iY2xzLTEgTXNmdE9mY1RobV9BY2NlbnQ0X1N0cm9rZV92MiIgc3Ryb2tlPSIjNTRDMEU4IiBzdHJva2Utd2lkdGg9IjQuNjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjEiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNODEuNzEgOTAgODEuNzEgNThDODEuNzEgNDQuNzQ1MiA3MC45NjQ4IDM0IDU3LjcxIDM0TDU3LjcxIDM0QzQ5LjU1NDQgMzQuMDAxNCA0MS45NTc2IDM4LjE0NDQgMzcuNTQgNDUiIGNsYXNzPSJjbHMtMSBNc2Z0T2ZjVGhtX0FjY2VudDRfU3Ryb2tlX3YyIiBzdHJva2U9IiM1NEMwRTgiIHN0cm9rZS13aWR0aD0iNC42NCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utb3BhY2l0eT0iMSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik01Ny43MSAxMTQgNTcuNzEgMTE0QzY2LjI4NjMgMTE0LjAwMiA3NC4yMTE5IDEwOS40MjcgNzguNSAxMDIiIGNsYXNzPSJjbHMtMSBNc2Z0T2ZjVGhtX0FjY2VudDRfU3Ryb2tlX3YyIiBzdHJva2U9IiM1NEMwRTgiIHN0cm9rZS13aWR0aD0iNC42NCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utb3BhY2l0eT0iMSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0zMy43MSA1OCAzMy43MSA5MEMzMy43MDkyIDk4LjA0MzUgMzcuNzM3OCAxMDUuNTUzIDQ0LjQ0IDExMCIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTU4LjcxIDk3Ljk0QzYyLjcxMSA5Ny40MzU5IDY1LjcxMTQgOTQuMDMyNyA2NS43MSA5MEw2NS43MSA2OSIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTY1LjcxIDU4QzY1LjcxIDUzLjU4MTcgNjIuMTI4MyA1MCA1Ny43MSA1MEw1Ny43MSA1MEM1My4yOTE3IDUwIDQ5LjcxIDUzLjU4MTcgNDkuNzEgNThMNDkuNzEgOTBDNDkuNzA5NSA5MS40MDQxIDUwLjA3ODUgOTIuNzgzNyA1MC43OCA5NCIgY2xhc3M9ImNscy0xIE1zZnRPZmNUaG1fQWNjZW50NF9TdHJva2VfdjIiIHN0cm9rZT0iIzU0QzBFOCIgc3Ryb2tlLXdpZHRoPSI0LjY0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1vcGFjaXR5PSIxIiBmaWxsPSJub25lIi8+PC9zdmc+" alt="Identity Core" class="mini-image-thumb" />
+                    <span class="mini-image-caption">Authoritative Biometric Core</span>
+                </div>
+            <div class="mini-cards-grid">
+                    <div class="mini-content-card">
+                        <div class="mini-card-top">
+                            <span class="mini-card-icon"><svg
+  class="lucide-icon lucide-shield-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="18px"
+  height="18px"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+  <path d="m9 12 2 2 4-4" />
+</svg></span>
+                            <span class="card-tag">Single Source of Truth</span>
+                        </div>
+                        <strong>Authoritative Identity Core</strong>
+                        <p>Central identity record correlated to disparate target accounts, maintaining lifecycle state and audit trails.</p>
+                    </div>
+                
+                    <div class="mini-content-card">
+                        <div class="mini-card-top">
+                            <span class="mini-card-icon"><svg
+  class="lucide-icon lucide-layers"
+  xmlns="http://www.w3.org/2000/svg"
+  width="18px"
+  height="18px"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" />
+  <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" />
+  <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" />
+</svg></span>
+                            <span class="card-tag">Entitlements to Roles</span>
+                        </div>
+                        <strong>Deterministic Hierarchy</strong>
+                        <p>Granular entitlements grouped into single-source Access Profiles, then bundled into multi-source business roles.</p>
+                    </div>
+                </div>
+                <div class="mini-diagram-box">
+                    <div class="diagram-title">⬡ Deterministic Identity-to-Entitlement Lineage (PIPELINE)</div>
+                    <div class="diagram-chips"><span class="diagram-chip">Identity Core</span><span class="diagram-chip">Accounts</span><span class="diagram-chip">Entitlements</span><span class="diagram-chip">Access Profiles</span><span class="diagram-chip">Business Roles</span></div>
+                </div>
+            
+                </div>
+            </div>
+            <div class="slide-notes"><span class="notes-tag">Notes:</span> Baseline Slide 2 established the core object hierarchy: Identity, Accounts, Access Profiles, Roles, Entitlements, Events, and Ownership. This diagram maps the exact lineage from identity to target entitlements.</div>
+        </div>
+        
+        <div class="slide-card">
+            <div class="slide-card-header">
+                <span class="slide-num">#3</span>
+                <span class="pill layout-pill">Title and Content</span>
+                <span class="pill role-pill">comparison</span>
+            </div>
+            <div class="slide-canvas">
+                <div class="slide-title-area">
+                    <h3 class="slide-title">Governing Human and Non-Human Identities Alike</h3>
+                    <div class="slide-subtitle">Applying identical governance rigor across human workforces and machine workloads</div>
+                </div>
+                <div class="slide-content-area">
+                    <div class="mini-badge">Identity Convergence</div>
+                <div class="mini-image-card">
+                    <img src="data:image/png;base64,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" alt="Machine Governance" class="mini-image-thumb" />
+                    <span class="mini-image-caption">Non-Human Identity Governance</span>
+                </div>
+            <div class="mini-cards-grid">
+                    <div class="mini-content-card">
+                        <div class="mini-card-top">
+                            
+                            <span class="card-tag">Employees & Contractors</span>
+                        </div>
+                        <strong>Human Workforce Identities</strong>
+                        <p>Lifecycle driven by HR joiner-mover-leaver events, interactive logins, MFA, and manager certification reviews.</p>
+                    </div>
+                
+                    <div class="mini-content-card">
+                        <div class="mini-card-top">
+                            
+                            <span class="card-tag">Service Accounts, Bots, IoT</span>
+                        </div>
+                        <strong>Non-Human Machine Identities</strong>
+                        <p>Programmatic tokens, API keys, and machine workloads outnumbering humans 40:1, governed under identical policy rules.</p>
+                    </div>
+                </div>
+                <div class="mini-diagram-box">
+                    <div class="diagram-title">⬡ Unified Multi-Track Governance Architecture (CONVERGENCE)</div>
+                    <div class="diagram-chips"><span class="diagram-chip">Human Workforce Track</span><span class="diagram-chip">Non-Human Machine Track</span><span class="diagram-chip">SailPoint Unified Policy & Audit Engine</span></div>
+                </div>
+            
+                </div>
+            </div>
+            <div class="slide-notes"><span class="notes-tag">Notes:</span> Baseline Slide 3 explicitly introduced Service Accounts, ChatBots, and IoT Devices alongside human identities. Non-human identities are not managed in a silo—they follow identical access profiling, role bundling, and certification audits.</div>
+        </div>
+        
+        <div class="slide-card">
+            <div class="slide-card-header">
+                <span class="slide-num">#4</span>
+                <span class="pill layout-pill">Title and Content</span>
+                <span class="pill role-pill">architecture</span>
+            </div>
+            <div class="slide-canvas">
+                <div class="slide-title-area">
+                    <h3 class="slide-title">Entitlements, Access Profiles, and Composite Roles</h3>
+                    <div class="slide-subtitle">Architectural cardinality rules governing source aggregation and role composition</div>
+                </div>
+                <div class="slide-content-area">
+                    <div class="mini-badge">Data Model Cardinality</div><div class="mini-cards-grid">
+                    <div class="mini-content-card">
+                        <div class="mini-card-top">
+                            
+                            <span class="card-tag">Strict Boundary</span>
+                        </div>
+                        <strong>Access Profile Rule (1 : N)</strong>
+                        <p>An Access Profile maps to strictly one source, aggregating N entitlements within that isolated system.</p>
+                    </div>
+                
+                    <div class="mini-content-card">
+                        <div class="mini-card-top">
+                            
+                            <span class="card-tag">Cross-System Composite</span>
+                        </div>
+                        <strong>Role Architecture (N : M)</strong>
+                        <p>A Role transcends application boundaries, combining N Access Profiles and standalone entitlements across any number of sources.</p>
+                    </div>
+                </div>
+                <div class="mini-diagram-box">
+                    <div class="diagram-title">⬡ Access Profile (1:N) & Composite Role (N:M) Cardinality Rules (CARDINALITY)</div>
+                    <div class="diagram-chips"><span class="diagram-chip">Source 1: Active Directory</span><span class="diagram-chip">Source 2: Salesforce CRM</span><span class="diagram-chip">Access Profiles</span><span class="diagram-chip">Composite Business Roles</span></div>
+                </div>
+            
+                </div>
+            </div>
+            <div class="slide-notes"><span class="notes-tag">Notes:</span> Baseline Slide 4 defined the mathematical relationships: 1 source per profile with n entitlements from that source; Roles can encompass n entitlements across n sources and include n Access Profiles.</div>
+        </div>
+        
+        <div class="slide-card">
+            <div class="slide-card-header">
+                <span class="slide-num">#5</span>
+                <span class="pill layout-pill">Title and Content</span>
+                <span class="pill role-pill">solution</span>
+            </div>
+            <div class="slide-canvas">
+                <div class="slide-title-area">
+                    <h3 class="slide-title">Multi-Dimensional Dynamic Roles & ABAC Evaluation</h3>
+                    <div class="slide-subtitle">Automating role assignments via real-time multi-dimensional attribute evaluation</div>
+                </div>
+                <div class="slide-content-area">
+                    <div class="mini-badge">Dynamic Policy Engine</div><div class="mini-cards-grid">
+                    <div class="mini-content-card">
+                        <div class="mini-card-top">
+                            
+                            <span class="card-tag">Compliance & Location</span>
+                        </div>
+                        <strong>Attribute-Based Criteria</strong>
+                        <p>Combines compliance prerequisites (Training = Approved) and multi-value location attributes (Boston OR Houston).</p>
+                    </div>
+                
+                    <div class="mini-content-card">
+                        <div class="mini-card-top">
+                            
+                            <span class="card-tag">Zero Manual Tickets</span>
+                        </div>
+                        <strong>Autonomous Role Assignment</strong>
+                        <p>When attributes align, the Store Manager Role is automatically granted, immediately provisioning regional access.</p>
+                    </div>
+                </div>
+                <div class="mini-diagram-box">
+                    <div class="diagram-title">⬡ Attribute-Based Dynamic Role Assignment Flow (POLICY_FLOW)</div>
+                    <div class="diagram-chips"><span class="diagram-chip">Attributes</span><span class="diagram-chip">Policy Engine</span><span class="diagram-chip">Store Manager Role</span><span class="diagram-chip">Provisioning</span></div>
+                </div>
+            
+                </div>
+            </div>
+            <div class="slide-notes"><span class="notes-tag">Notes:</span> Baseline Slide 5 illustrated dynamic role assignment for a Store Manager Role based on Training Status = Approved and Store Location = Boston/Houston. Multi-dimensional evaluation prevents static role explosion.</div>
+        </div>
+        
+        <div class="slide-card">
+            <div class="slide-card-header">
+                <span class="slide-num">#6</span>
+                <span class="pill layout-pill">Title and Content</span>
+                <span class="pill role-pill">architecture</span>
+            </div>
+            <div class="slide-canvas">
+                <div class="slide-title-area">
+                    <h3 class="slide-title">The Smart iLab Proof-of-Value (PoV) Blueprint</h3>
+                    <div class="slide-subtitle">A 3-tier modular tenant stack accelerating customer use-case validation</div>
+                </div>
+                <div class="slide-content-area">
+                    <div class="mini-badge">Tenant Architecture</div>
+                <div class="mini-image-card">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIGlkPSJJY29uc19QdXp6bGVfTSIgb3ZlcmZsb3c9ImhpZGRlbiI+PGcgaWQ9Ikljb25zIj48cGF0aCBkPSJNNTMuMiA4Ny40MTQgMzUuNDkzIDY5LjcwN0MzNC45NTUzIDY5LjE0NTQgMzQuMTA2MiA2OS4wMTc2IDMzLjQyNyA2OS4zOTYgMzEuNDYwMyA3MC40NDA2IDMwLjE5NDIgNzIuNDQ5MSAzMC4xIDc0LjY3NCAzMC4yNDMzIDc3LjcwOTUgMjguNDcyNSA4MC41MTA0IDI1LjY2OSA4MS42ODMgMjIuMTA0NSA4My4xODg1IDE3Ljk4NTIgODIuNDE2MyAxNS4yMDggNzkuNzIyTDE0LjQ5MyA3OS4wMDdDMTEuNzE5NyA3Ni4xNTUgMTAuOTIyOCA3MS45MTk5IDEyLjQ3IDY4LjI1NSAxMy42MTM0IDY1LjUwNTIgMTYuMzU1MSA2My43NjQ3IDE5LjMzIDYzLjkgMjEuNTUwMyA2My43OTM0IDIzLjU1MjMgNjIuNTMwOCAyNC42MDUgNjAuNTczIDI0Ljk4MjcgNTkuODkzNSAyNC44NTQ2IDU5LjA0NDcgMjQuMjkzIDU4LjUwN0w2LjU4OSA0MC44IDE5LjM5IDI3LjlDMjAuNTA2NyAyNi43NjAyIDIyLjIyNzYgMjYuNDYyOSAyMy42NjIgMjcuMTYyIDI2LjM3NSAyOC41MzYgMjguMTE3IDMxLjI4NjEgMjguMiAzNC4zMjYgMjguMDg2OCAzNi40OTAxIDI5LjM1OSAzOC40ODc2IDMxLjM2OCAzOS4zIDM0LjI4NTcgNDAuNDkyOCAzNy42MzIyIDM5Ljg1NiAzOS45MDggMzcuNjc1TDQwLjU5MyAzNi45OUM0Mi43MjEyIDM0LjgwMjIgNDMuMzM2MSAzMS41NTQ0IDQyLjE1NSAyOC43NCA0MS4zMTE2IDI2LjY3ODMgMzkuMjU0MiAyNS4zNzc2IDM3LjAzIDI1LjUgMzMuOTg3MSAyNS40MjExIDMxLjIzMjggMjMuNjc4OCAyOS44NTggMjAuOTYzIDI5LjE1ODggMTkuNTI5OCAyOS40NTQ4IDE3LjgxIDMwLjU5MyAxNi42OTNMNDIuOCA0LjU4OSA2MC41IDIyLjI4OUM2MS4wMzgxIDIyLjg0OTkgNjEuODg2NiAyMi45Nzc2IDYyLjU2NiAyMi42IDY0LjUzMzggMjEuNTU3NSA2NS44MDI0IDE5LjU1MDggNjUuOSAxNy4zMjYgNjUuNzU2MyAxNC4yOTA3IDY3LjUyNjYgMTEuNDg5NyA3MC4zMyAxMC4zMTcgNzMuODk0OCA4LjgxMTA2IDc4LjAxNDYgOS41ODMyOCA4MC43OTIgMTIuMjc4TDgxLjUwNiAxMi45OTNDODQuMjc5NyAxNS44NDQ4IDg1LjA3NjkgMjAuMDc5OSA4My41MyAyMy43NDUgODIuMzg5IDI2LjQ5NjggNzkuNjQ1NyAyOC4yMzgzIDc2LjY3IDI4LjEgNzQuNDQ3NiAyOC4xOTU4IDcyLjQ0MjIgMjkuNDYxOCA3MS40IDMxLjQyNyA3MS4wMjI0IDMyLjEwNjQgNzEuMTUwMSAzMi45NTQ5IDcxLjcxMSAzMy40OTNMODkuNDE0IDUxLjIgNzcuMzA3IDYzLjMwN0M3Ni4xOTA5IDY0LjQ0NjkgNzQuNDY5OSA2NC43NDMxIDczLjAzNyA2NC4wNDIgNzAuMzIyOSA2Mi42Njc0IDY4LjU4MSA1OS45MTUzIDY4LjUgNTYuODc0IDY4LjYxMjggNTQuNzEwNCA2Ny4zNDEyIDUyLjcxMzIgNjUuMzMzIDUxLjkgNjIuNDE1NCA1MC43MDU5IDU5LjA2ODIgNTEuMzQyOCA1Ni43OTMgNTMuNTI1TDU2LjEwNyA1NC4yMUM1My45Nzg4IDU2LjM5NzggNTMuMzYzOSA1OS42NDU2IDU0LjU0NSA2Mi40NiA1NS4zOTAxIDY0LjUyMDMgNTcuNDQ2NCA2NS44MjAyIDU5LjY3IDY1LjdMNTkuNjcgNjUuN0M2Mi43MTYyIDY1LjczNzggNjUuNDg2IDY3LjQ3NDUgNjYuODQ3IDcwLjIgNjcuNTQ4OSA3MS42NDQ0IDY3LjI0OSA3My4zNzU5IDY2LjEwMiA3NC41Wk0zNC4zMjIgNjcuMTkyQzM1LjI5NzEgNjcuMTkzNSAzNi4yMjk5IDY3LjU5MDQgMzYuOTA3IDY4LjI5Mkw1My4yIDg0LjU4NiA2NC42OTMgNzMuMDkzQzY1LjI2NDggNzIuNTQ3MyA2NS4zOTY3IDcxLjY4NDYgNjUuMDE0IDcwLjk5MyA2My45NzgxIDY5LjAxODQgNjEuOTU1MSA2Ny43NTg2IDU5LjcyNiA2Ny43IDU2LjY5MTYgNjcuODM5MSA1My44OTI5IDY2LjA2OTggNTIuNzE3IDYzLjI2OSA1MS4yMTEgNTkuNzA0NiA1MS45ODMyIDU1LjU4NSA1NC42NzggNTIuODA4TDU1LjM5MyA1Mi4wOTNDNTguMjQ1IDQ5LjMxOTcgNjIuNDgwMSA0OC41MjI4IDY2LjE0NSA1MC4wNyA2OC44OTQ2IDUxLjIxMzYgNzAuNjM1IDUzLjk1NTEgNzAuNSA1Ni45MyA3MC41OTUzIDU5LjE1MzkgNzEuODYxMiA2MS4xNjA5IDczLjgyNyA2Mi4yMDUgNzQuNTA2NiA2Mi41ODI0IDc1LjM1NTIgNjIuNDU0MiA3NS44OTMgNjEuODkzTDg2LjU4NiA1MS4yIDcwLjI5MyAzNC45MDdDNjkuMTU0OCAzMy43OSA2OC44NTg4IDMyLjA3MDIgNjkuNTU4IDMwLjYzNyA3MC45Mjc5IDI3LjkxODEgNzMuNjgzNCAyNi4xNzQzIDc2LjcyNyAyNi4xIDc4Ljg5MDkgMjYuMjEzNCA4MC44ODgyIDI0Ljk0MSA4MS43IDIyLjkzMiA4Mi44OTMzIDIwLjAxNDMgODIuMjU2NSAxNi42Njc1IDgwLjA3NSAxNC4zOTJMNzkuMzkgMTMuNzA3Qzc3LjIwMjIgMTEuNTc5NSA3My45NTUxIDEwLjk2NDYgNzEuMTQxIDEyLjE0NSA2OS4wNzc3IDEyLjk4NjYgNjcuNzc1OSAxNS4wNDUxIDY3LjkgMTcuMjcgNjcuODIwMSAyMC4zMTI2IDY2LjA3OCAyMy4wNjYzIDYzLjM2MyAyNC40NDIgNjEuOTMwMSAyNS4xNDMxIDYwLjIwOSAyNC44NDY5IDU5LjA5MyAyMy43MDdMNDIuOCA3LjQxMSAzMiAxOC4xMUMzMS40NDA5IDE4LjY0OCAzMS4zMTQ1IDE5LjQ5NTEgMzEuNjkyIDIwLjE3MyAzMi43MzQ0IDIyLjE0MzcgMzQuNzQ2NCAyMy40MTEgMzYuOTc0IDIzLjUgNDAuMDA4NCAyMy4zNjA5IDQyLjgwNzEgMjUuMTMwMiA0My45ODMgMjcuOTMxIDQ1LjQ4OSAzMS40OTU0IDQ0LjcxNjggMzUuNjE1IDQyLjAyMiAzOC4zOTJMNDEuMzA3IDM5LjEwN0MzOC40NTUyIDQxLjg3OTkgMzQuMjIwNyA0Mi42NzY3IDMwLjU1NiA0MS4xMyAyNy44MDU2IDM5Ljk4NzIgMjYuMDY0NiAzNy4yNDUzIDI2LjIgMzQuMjcgMjYuMTAyNCAzMi4wNDgxIDI0LjgzNjkgMzAuMDQzNiAyMi44NzMgMjkgMjIuMTkzNCAyOC42MjI2IDIxLjM0NDggMjguNzUwOCAyMC44MDcgMjkuMzEyTDkuNDExIDQwLjggMjUuNzExIDU3LjFDMjYuODUwOSA1OC4yMTYgMjcuMTQ3MSA1OS45MzcgMjYuNDQ2IDYxLjM3IDI1LjA2NTggNjQuMDc5OSAyMi4zMTQgNjUuODE3OSAxOS4yNzQgNjUuOSAxNy4xMTE2IDY1Ljc5MzIgMTUuMTE3NSA2Ny4wNjMzIDE0LjMgNjkuMDY4IDEzLjEwNjcgNzEuOTg1NyAxMy43NDM1IDc1LjMzMjUgMTUuOTI1IDc3LjYwOEwxNi42MSA3OC4yOTNDMTguNzk4MSA4MC40MjA3IDIyLjA0NTYgODEuMDM1NiAyNC44NiA3OS44NTUgMjYuOTIyNyA3OS4wMTI4IDI4LjIyMzkgNzYuOTU0NiAyOC4xIDc0LjczIDI4LjE3OTUgNzEuNjg3NSAyOS45MjEyIDY4LjkzMzggMzIuNjM2IDY3LjU1OCAzMy4xNjcyIDY3LjMyMjUgMzMuNzQwOSA2Ny4xOTggMzQuMzIyIDY3LjE5MloiLz48L2c+PC9zdmc+" alt="Modular Tenant Blueprint" class="mini-image-thumb" />
+                    <span class="mini-image-caption">Modular Sandbox Stack</span>
+                </div>
+            <div class="mini-cards-grid">
+                    <div class="mini-content-card">
+                        <div class="mini-card-top">
+                            
+                            <span class="card-tag">Out of the Box</span>
+                        </div>
+                        <strong>Rapid PoV Acceleration</strong>
+                        <p>Pre-loaded tenant baseline eliminates weeks of manual setup, enabling realistic governance simulations on day one.</p>
+                    </div>
+                
+                    <div class="mini-content-card">
+                        <div class="mini-card-top">
+                            
+                            <span class="card-tag">Tailored Demos</span>
+                        </div>
+                        <strong>Modular Extensibility</strong>
+                        <p>Clean separation between foundational schemas and client-specific add-ons lets teams rapidly prototype custom scenarios.</p>
+                    </div>
+                </div>
+                <div class="mini-diagram-box">
+                    <div class="diagram-title">⬡ 3-Tier Demonstration & PoV Stack (LAYERED_STACK)</div>
+                    <div class="diagram-chips"><span class="diagram-chip">Tier 03: Customer Use Cases Layer</span><span class="diagram-chip">Tier 02: Content & Sandbox Engine</span><span class="diagram-chip">Tier 01: Core Foundation Layer</span></div>
+                </div>
+            
+                </div>
+            </div>
+            <div class="slide-notes"><span class="notes-tag">Notes:</span> Baseline Slide 6 defined the 3-layer Smart iLab tenant architecture: Foundation (clean ISC tenant), Content (imported data, sources, roles, configurations), and Customer Use Cases (hands-on exploration and tailored PoV extensions).</div>
+        </div>
+        
+    </div>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            securityLevel: 'loose',
+            themeVariables: {
+                darkMode: true,
+                background: '#0B111E',
+                primaryColor: '#0F1A2E',
+                primaryBorderColor: '#54C0E8',
+                primaryTextColor: '#FFFFFF',
+                lineColor: '#54C0E8',
+                secondaryColor: '#1A2942',
+                tertiaryColor: '#111827',
+                fontFamily: 'Poppins, system-ui, sans-serif'
+            }
+        });
+    </script>
+</body>
+</html>

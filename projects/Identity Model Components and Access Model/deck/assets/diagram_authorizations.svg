@@ -1,0 +1,126 @@
+<svg viewBox="0 0 940 450" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="auth-box-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <filter id="auth-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <style>
+    .auth-entity-title { font-family: system-ui, -apple-system, sans-serif; font-size: 16px; font-weight: 700; fill: #FFFFFF; }
+    .auth-entity-desc { font-family: system-ui, -apple-system, sans-serif; font-size: 11px; fill: #94A3B8; }
+    .auth-badge { font-family: system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; }
+    .cardinality-tag { font-family: system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 700; fill: #F43F5E; }
+    .cardinality-box { fill: rgba(244, 63, 94, 0.15); stroke: rgba(244, 63, 94, 0.4); stroke-width: 1; }
+    .rel-line { fill: none; stroke: #38BDF8; stroke-width: 2; }
+    .rel-line-dashed { fill: none; stroke: #64748B; stroke-width: 2; stroke-dasharray: 4 4; }
+  </style>
+
+  <!-- Entity 1: Identity (Top Left) -->
+  <g transform="translate(40, 50)" filter="url(#auth-shadow)">
+    <rect width="180" height="90" rx="10" fill="url(#auth-box-bg)" stroke="#38BDF8" stroke-width="2" />
+    <text x="16" y="28" class="auth-badge" fill="#38BDF8">CORE PERSONA</text>
+    <text x="16" y="54" class="auth-entity-title">Identity</text>
+    <text x="16" y="74" class="auth-entity-desc">Master Human/Service Record</text>
+  </g>
+
+  <!-- Identity to Role (Horizontal Right) -->
+  <path d="M 220 95 L 360 95" class="rel-line" />
+  <g transform="translate(265, 83)">
+    <rect width="50" height="24" rx="4" class="cardinality-box" />
+    <text x="25" y="16" class="cardinality-tag" text-anchor="middle">0 .. N</text>
+  </g>
+
+  <!-- Entity 2: Role (Top Middle) -->
+  <g transform="translate(360, 50)" filter="url(#auth-shadow)">
+    <rect width="180" height="90" rx="10" fill="url(#auth-box-bg)" stroke="#818CF8" stroke-width="2" />
+    <text x="16" y="28" class="auth-badge" fill="#818CF8">BUSINESS BUNDLE</text>
+    <text x="16" y="54" class="auth-entity-title">Role</text>
+    <text x="16" y="74" class="auth-entity-desc">Cross-Source Package</text>
+  </g>
+
+  <!-- Role to Access Profile (Horizontal Right) -->
+  <path d="M 540 95 L 680 95" class="rel-line" />
+  <g transform="translate(585, 83)">
+    <rect width="50" height="24" rx="4" class="cardinality-box" />
+    <text x="25" y="16" class="cardinality-tag" text-anchor="middle">1 .. N</text>
+  </g>
+
+  <!-- Entity 3: Access Profile (Top Right) -->
+  <g transform="translate(680, 50)" filter="url(#auth-shadow)">
+    <rect width="210" height="90" rx="10" fill="url(#auth-box-bg)" stroke="#A855F7" stroke-width="2" />
+    <text x="16" y="28" class="auth-badge" fill="#A855F7">SINGLE SOURCE BUNDLE</text>
+    <text x="16" y="54" class="auth-entity-title">Access Profile</text>
+    <text x="16" y="74" class="auth-entity-desc">Application Privilege Unit</text>
+  </g>
+
+  <!-- Access Profile Down to Entitlement -->
+  <path d="M 785 140 L 785 240" class="rel-line" />
+  <g transform="translate(760, 175)">
+    <rect width="50" height="24" rx="4" class="cardinality-box" />
+    <text x="25" y="16" class="cardinality-tag" text-anchor="middle">1 .. N</text>
+  </g>
+
+  <!-- Entity 4: Entitlement (Middle Right) -->
+  <g transform="translate(680, 240)" filter="url(#auth-shadow)">
+    <rect width="210" height="85" rx="10" fill="url(#auth-box-bg)" stroke="#EC4899" stroke-width="2" />
+    <text x="16" y="26" class="auth-badge" fill="#EC4899">GRANULAR SECURITY</text>
+    <text x="16" y="50" class="auth-entity-title">Entitlement</text>
+    <text x="16" y="70" class="auth-entity-desc">Group / Permission / Right</text>
+  </g>
+
+  <!-- Identity Down to Account -->
+  <path d="M 130 140 L 130 240" class="rel-line" />
+  <g transform="translate(105, 175)">
+    <rect width="50" height="24" rx="4" class="cardinality-box" />
+    <text x="25" y="16" class="cardinality-tag" text-anchor="middle">1 .. N</text>
+  </g>
+
+  <!-- Entity 5: Account (Middle Left) -->
+  <g transform="translate(40, 240)" filter="url(#auth-shadow)">
+    <rect width="180" height="85" rx="10" fill="url(#auth-box-bg)" stroke="#10B981" stroke-width="2" />
+    <text x="16" y="26" class="auth-badge" fill="#10B981">SYSTEM ACCOUNT</text>
+    <text x="16" y="50" class="auth-entity-title">Account</text>
+    <text x="16" y="70" class="auth-entity-desc">Native User Representation</text>
+  </g>
+
+  <!-- Account to Entitlement (Dashed Horizontal) -->
+  <path d="M 220 282 L 680 282" class="rel-line-dashed" />
+  <g transform="translate(425, 270)">
+    <rect width="50" height="24" rx="4" class="cardinality-box" />
+    <text x="25" y="16" class="cardinality-tag" text-anchor="middle">0 .. N</text>
+  </g>
+
+  <!-- Entity 6: Source System (Bottom Center) -->
+  <g transform="translate(350, 345)" filter="url(#auth-shadow)">
+    <rect width="240" height="85" rx="10" fill="url(#auth-box-bg)" stroke="#38BDF8" stroke-width="2" />
+    <text x="16" y="26" class="auth-badge" fill="#38BDF8">TARGET APPLICATION</text>
+    <text x="16" y="50" class="auth-entity-title">Source System</text>
+    <text x="16" y="70" class="auth-entity-desc">AD, SAP, AWS, Salesforce, etc.</text>
+  </g>
+
+  <!-- Links into Source System -->
+  <!-- From Account: Account to Source is 1:1 -->
+  <path d="M 130 325 L 130 387 L 350 387" class="rel-line" />
+  <g transform="translate(240, 375)">
+    <rect width="50" height="24" rx="4" class="cardinality-box" />
+    <text x="25" y="16" class="cardinality-tag" text-anchor="middle">1 .. 1</text>
+  </g>
+
+  <!-- From Entitlement: Entitlement to Source is 1:1 -->
+  <path d="M 785 325 L 785 387 L 590 387" class="rel-line" />
+  <g transform="translate(660, 375)">
+    <rect width="50" height="24" rx="4" class="cardinality-box" />
+    <text x="25" y="16" class="cardinality-tag" text-anchor="middle">1 .. 1</text>
+  </g>
+
+  <!-- Access Profile to Source (1:1 Single Source Rule) -->
+  <path d="M 680 120 L 520 120 L 520 345" class="rel-line" stroke="#A855F7" />
+  <g transform="translate(495, 205)">
+    <rect width="50" height="24" rx="4" class="cardinality-box" />
+    <text x="25" y="16" class="cardinality-tag" text-anchor="middle">1 .. 1</text>
+  </g>
+</svg>

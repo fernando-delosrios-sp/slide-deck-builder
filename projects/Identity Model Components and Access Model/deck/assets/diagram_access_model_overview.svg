@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="100%" height="100%">
+  <defs>
+    <marker id="arr15" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#54C0E8"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="520" rx="16" fill="#070C16" stroke="#415364" stroke-width="1.5"/>
+
+  <!-- Left: Business Access Model -->
+  <g transform="translate(40, 40)">
+    <rect width="440" height="440" rx="14" fill="#0B111E" stroke="#54C0E8" stroke-width="1.5"/>
+    <text x="25" y="35" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="12" font-weight="700">BUSINESS ACCESS MODEL (GOVERNANCE)</text>
+    
+    <!-- Identity -->
+    <rect x="25" y="60" width="390" height="70" rx="10" fill="#0033A1" fill-opacity="0.4" stroke="#54C0E8" stroke-width="1.2"/>
+    <text x="45" y="90" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">Identity Persona</text>
+    <text x="45" y="112" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Correlated user profile with organizational attributes</text>
+
+    <path d="M 220 130 L 220 160" stroke="#54C0E8" stroke-width="2" marker-end="url(#arr15)"/>
+
+    <!-- Roles -->
+    <rect x="25" y="160" width="390" height="85" rx="10" fill="#002266" fill-opacity="0.5" stroke="#415364" stroke-width="1.2"/>
+    <text x="45" y="190" fill="#93D500" font-family="Poppins, sans-serif" font-size="11" font-weight="700">BUSINESS &amp; TECHNICAL ROLES</text>
+    <text x="45" y="210" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">Roles</text>
+    <text x="45" y="230" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Multi-source bundles matching job titles or requestable in Request Center</text>
+
+    <path d="M 220 245 L 220 275" stroke="#54C0E8" stroke-width="2" marker-end="url(#arr15)"/>
+
+    <!-- Access Profiles -->
+    <rect x="25" y="275" width="390" height="85" rx="10" fill="#001633" fill-opacity="0.6" stroke="#415364" stroke-width="1.2"/>
+    <text x="45" y="305" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11" font-weight="700">SINGLE-SOURCE PACKAGING</text>
+    <text x="45" y="325" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">Access Profiles</text>
+    <text x="45" y="345" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Bundles one or more entitlements from a single target source</text>
+  </g>
+
+  <!-- Transition Arrow -->
+  <path d="M 480 320 L 520 320" stroke="#54C0E8" stroke-width="2.5" marker-end="url(#arr15)"/>
+
+  <!-- Right: IT Target Execution Model -->
+  <g transform="translate(520, 40)">
+    <rect width="440" height="440" rx="14" fill="#0B111E" stroke="#415364" stroke-width="1.5"/>
+    <text x="25" y="35" fill="#93D500" font-family="Poppins, sans-serif" font-size="12" font-weight="700">TARGET SYSTEM EXECUTION (IT REALITY)</text>
+
+    <!-- Entitlements -->
+    <rect x="25" y="60" width="390" height="130" rx="10" fill="#070C16" stroke="#93D500" stroke-width="1.2"/>
+    <text x="45" y="90" fill="#93D500" font-family="Poppins, sans-serif" font-size="11" font-weight="700">NATIVE PERMISSIONS</text>
+    <text x="45" y="112" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">Entitlements (E1, E2, E3)</text>
+    <text x="45" y="132" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">• Fine-grained access permissions, AD groups, DB roles</text>
+    <text x="45" y="152" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">• Aggregated directly from connected target source</text>
+    <text x="45" y="172" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">• Detected through entitlement equivalency</text>
+
+    <path d="M 220 190 L 220 225" stroke="#93D500" stroke-width="2" marker-end="url(#arr15)"/>
+
+    <!-- Accounts -->
+    <rect x="25" y="225" width="390" height="135" rx="10" fill="#070C16" stroke="#415364" stroke-width="1.2"/>
+    <text x="45" y="255" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11" font-weight="700">SYSTEM ACCOUNTS</text>
+    <text x="45" y="277" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">Source Accounts</text>
+    <text x="45" y="297" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">• Active Directory, SAP, ServiceNow, Workday</text>
+    <text x="45" y="317" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">• Holds native user credentials, IDs, and attributes</text>
+    <text x="45" y="337" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">• Correlated back to central Identity</text>
+
+    <!-- Source System -->
+    <rect x="25" y="380" width="390" height="50" rx="8" fill="#0033A1" fill-opacity="0.3" stroke="#415364" stroke-width="1"/>
+    <text x="45" y="410" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="13" font-weight="600">Connected Target Sources (Direct Integrations)</text>
+  </g>
+</svg>

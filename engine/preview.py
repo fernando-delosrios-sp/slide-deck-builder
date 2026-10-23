@@ -4,6 +4,7 @@ import sys
 import yaml
 import base64
 from style_parser import parse_style
+from icons import get_icon_svg
 
 def resolve_image_src(src, spec_dir):
     if not src:
@@ -127,8 +128,12 @@ def generate_preview(spec_path, output_path=None):
                 val = m.get("value", "")
                 lbl = m.get("label", "")
                 glow = ' glowing' if m.get("highlight", False) else ''
+                m_icon = m.get("icon")
+                m_icon_svg = get_icon_svg(m_icon, stroke_width="1.75", size="18px") if m_icon else ""
+                m_icon_html = f'<div class="mini-metric-icon">{m_icon_svg}</div>' if m_icon_svg else ''
                 m_items.append(f'''
                     <div class="mini-metric-card{glow}">
+                        {m_icon_html}
                         <div class="metric-val">{val}</div>
                         <div class="metric-lbl">{lbl}</div>
                     </div>
@@ -143,9 +148,15 @@ def generate_preview(spec_path, output_path=None):
                 c_title = c.get("title", "")
                 c_body = c.get("body", "")
                 c_badge = c.get("badge", "")
+                c_icon = c.get("icon")
+                icon_svg = get_icon_svg(c_icon, stroke_width="1.75", size="18px") if c_icon else ""
+                icon_html = f'<span class="mini-card-icon">{icon_svg}</span>' if icon_svg else ''
                 c_items.append(f'''
                     <div class="mini-content-card">
-                        {f'<span class="card-tag">{c_badge}</span>' if c_badge else ''}
+                        <div class="mini-card-top">
+                            {icon_html}
+                            {f'<span class="card-tag">{c_badge}</span>' if c_badge else ''}
+                        </div>
                         <strong>{c_title}</strong>
                         <p>{c_body}</p>
                     </div>
@@ -189,16 +200,48 @@ def generate_preview(spec_path, output_path=None):
                 ''')
             content_preview_html.append(f'<div class="mini-regions-grid">{"".join(r_items)}</div>')
 
-        # Diagram
+        # Mermaid / SVG / Diagram
         diagram = content.get("diagram", {})
-        if diagram:
-            d_kind = diagram.get("kind", "diagram")
-            d_elems = diagram.get("elements", [])
-            chips = "".join([f'<span class="diagram-chip">{e}</span>' for e in d_elems[:4]])
+        svg_code = content.get("svg") or (diagram.get("svg") if isinstance(diagram, dict) else "")
+        svg_src = diagram.get("src") or diagram.get("file") if isinstance(diagram, dict) else ""
+        mermaid_code = content.get("mermaid") or (diagram.get("mermaid") if isinstance(diagram, dict) else "")
+        if svg_code or svg_src or (isinstance(diagram, dict) and diagram.get("kind") == "svg"):
+            d_title = diagram.get("title", "Architecture SVG Diagram") if isinstance(diagram, dict) else "Architecture SVG Diagram"
             content_preview_html.append(f'''
                 <div class="mini-diagram-box">
-                    <div class="diagram-title">⬡ Diagram ({d_kind.upper()})</div>
-                    <div class="diagram-chips">{chips}</div>
+                    <div class="diagram-title">⬡ {d_title} (SVG ARCHITECTURE)</div>
+                    <div class="diagram-chips"><span class="diagram-chip">High-Fidelity SVG</span><span class="diagram-chip">Vector Diagram</span></div>
+                </div>
+            ''')
+        elif diagram:
+            d_kind = diagram.get("kind", "diagram")
+            d_title = diagram.get("title", f"{d_kind.title()} Architecture")
+            chips = []
+            if d_kind == "pipeline":
+                chips = [s.get("title", "") for s in diagram.get("stages", [])]
+            elif d_kind in ["dual_track", "convergence"]:
+                chips = [t.get("name", "") for t in diagram.get("tracks", [])] + [diagram.get("hub", {}).get("title", "Unified Hub")]
+            elif d_kind == "cardinality":
+                chips = [s.get("name", "") for s in diagram.get("sources", [])] + [diagram.get("profiles", {}).get("title", "Access Profiles"), diagram.get("roles", {}).get("title", "Roles")]
+            elif d_kind in ["policy_flow", "abac"]:
+                chips = ["Attributes", "Policy Engine", diagram.get("role", {}).get("title", "Role"), "Provisioning"]
+            elif d_kind == "layered_stack":
+                chips = [f"{l.get('tier')}: {l.get('title')}" for l in diagram.get("layers", [])]
+            else:
+                chips = diagram.get("elements", [])
+
+            chips_html = "".join([f'<span class="diagram-chip">{c}</span>' for c in chips[:5]])
+            content_preview_html.append(f'''
+                <div class="mini-diagram-box">
+                    <div class="diagram-title">⬡ {d_title} ({d_kind.upper()})</div>
+                    <div class="diagram-chips">{chips_html}</div>
+                </div>
+            ''')
+        elif mermaid_code:
+            content_preview_html.append(f'''
+                <div class="mini-mermaid-box">
+                    <div class="diagram-title">⬡ Mermaid Architecture Diagram</div>
+                    <pre class="mermaid">{mermaid_code.strip()}</pre>
                 </div>
             ''')
 
@@ -408,10 +451,26 @@ def generate_preview(spec_path, output_path=None):
             padding: 2px 6px;
         }}
         .mini-bullets {{
-            padding-left: 1.2rem;
-            line-height: 1.6;
+            list-style: none;
+            padding-left: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 0.4rem;
+            line-height: 1.35;
         }}
-        .mini-bullets li {{ margin-bottom: 0.3rem; }}
+        .mini-bullets li {{
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            padding: 0.4rem 0.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 0.72rem;
+        }}
+        .mini-bullets li::before {{
+            display: none;
+        }}
         .mini-body {{ line-height: 1.5; }}
 
         .mini-metrics-grid {{
@@ -455,6 +514,24 @@ def generate_preview(spec_path, output_path=None):
         .mini-content-card.glowing {{ border-color: var(--accent-alt); }}
         .mini-content-card strong {{ display: block; font-size: 0.85rem; color: var(--ink); margin-bottom: 0.2rem; }}
         .mini-content-card p {{ font-size: 0.78rem; color: var(--ink-muted); line-height: 1.4; }}
+        .mini-card-top {{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.35rem;
+        }}
+        .mini-card-icon {{
+            display: inline-flex;
+            align-items: center;
+            color: var(--accent);
+        }}
+        .mini-metric-icon {{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0.25rem;
+            color: var(--accent);
+        }}
         .card-tag {{
             display: inline-block;
             font-size: 0.65rem;
@@ -463,7 +540,7 @@ def generate_preview(spec_path, output_path=None):
             border: 1px solid var(--accent);
             padding: 1px 6px;
             border-radius: 4px;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0;
             text-transform: uppercase;
         }}
 
@@ -474,12 +551,22 @@ def generate_preview(spec_path, output_path=None):
             margin-top: 0.5rem;
         }}
 
-        .mini-diagram-box {{
+        .mini-diagram-box, .mini-mermaid-box {{
             background: rgba(0,0,0,0.02);
             border: 1px dashed var(--accent);
             border-radius: 8px;
             padding: 0.6rem;
             margin-top: 0.5rem;
+            overflow: hidden;
+        }}
+        .mini-mermaid-box .mermaid {{
+            display: flex;
+            justify-content: center;
+        }}
+        .mini-mermaid-box .mermaid svg {{
+            max-width: 100% !important;
+            max-height: 220px !important;
+            height: auto !important;
         }}
         .diagram-title {{
             font-size: 0.72rem;
@@ -533,6 +620,26 @@ def generate_preview(spec_path, output_path=None):
     <div class="deck-grid">
         {cards_joined}
     </div>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({{
+            startOnLoad: true,
+            theme: 'dark',
+            securityLevel: 'loose',
+            themeVariables: {{
+                darkMode: true,
+                background: '#0B111E',
+                primaryColor: '#0F1A2E',
+                primaryBorderColor: '#54C0E8',
+                primaryTextColor: '#FFFFFF',
+                lineColor: '#54C0E8',
+                secondaryColor: '#1A2942',
+                tertiaryColor: '#111827',
+                fontFamily: 'Poppins, system-ui, sans-serif'
+            }}
+        }});
+    </script>
 </body>
 </html>
 '''

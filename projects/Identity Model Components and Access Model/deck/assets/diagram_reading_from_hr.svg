@@ -1,0 +1,237 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 620" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B111E" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#011C48" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="schemaBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0071CE" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0033A1" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="profileBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B111E" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#002266" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="identityGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0033A1" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0B111E" stop-opacity="0.95"/>
+    </linearGradient>
+    <filter id="glowAquaHr" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <marker id="arrowAquaHr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#54C0E8"/>
+    </marker>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1080" height="620" rx="16" fill="#070C16" stroke="#415364" stroke-width="1.5"/>
+
+  <!-- ================= TOP PIPELINE OVERVIEW BANNER ================= -->
+  <g transform="translate(30, 25)">
+    <rect width="1020" height="95" rx="12" fill="#0B111E" stroke="#415364" stroke-width="1"/>
+    
+    <!-- Step 1: Source -->
+    <g transform="translate(25, 16)">
+      <circle cx="28" cy="32" r="22" fill="#0033A1" fill-opacity="0.5" stroke="#54C0E8" stroke-width="1.5"/>
+      <path d="M 18 25 C 18 20, 38 20, 38 25 C 38 30, 18 30, 18 25 M 18 25 L 18 38 C 18 43, 38 43, 38 38 L 38 25 M 18 32 C 18 36, 38 36, 38 32" stroke="#54C0E8" stroke-width="1.75" fill="none"/>
+      <text x="65" y="28" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="600">INPUT SOURCE</text>
+      <text x="65" y="46" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="13" font-weight="700">Source</text>
+    </g>
+
+    <path d="M 190 48 L 225 48" stroke="#54C0E8" stroke-width="2" marker-end="url(#arrowAquaHr)" fill="none"/>
+
+    <!-- Step 2: Source Definition & Schema -->
+    <g transform="translate(240, 12)">
+      <rect width="210" height="70" rx="8" fill="#070C16" stroke="#415364" stroke-width="1"/>
+      <text x="14" y="24" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="600">SOURCE DEFINITION</text>
+      <text x="14" y="42" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="13" font-weight="700">Schema Configuration</text>
+      <text x="14" y="58" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Filters &amp; aggregates raw attributes</text>
+    </g>
+
+    <path d="M 465 48 L 500 48" stroke="#54C0E8" stroke-width="2" marker-end="url(#arrowAquaHr)" fill="none"/>
+
+    <!-- Step 3: Identity Profile -->
+    <g transform="translate(515, 12)">
+      <rect width="260" height="70" rx="8" fill="#0033A1" fill-opacity="0.35" stroke="#54C0E8" stroke-width="1.5"/>
+      <text x="14" y="22" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="600">GOVERNANCE TEMPLATE</text>
+      <text x="14" y="38" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="13" font-weight="700">Identity Profile</text>
+      <text x="14" y="54" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">• User Protocols  • Identity Attributes  • Provisioning Instructions</text>
+    </g>
+
+    <path d="M 790 48 L 825 48" stroke="#54C0E8" stroke-width="2" marker-end="url(#arrowAquaHr)" fill="none"/>
+
+    <!-- Step 4: Identity -->
+    <g transform="translate(840, 12)">
+      <rect width="155" height="70" rx="8" fill="#070C16" stroke="#93D500" stroke-width="1.5"/>
+      <text x="14" y="24" fill="#93D500" font-family="Poppins, sans-serif" font-size="10" font-weight="600">CENTRAL PERSONA</text>
+      <text x="14" y="44" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="14" font-weight="700">Identity</text>
+      <text x="14" y="60" fill="#93D500" font-family="Poppins, sans-serif" font-size="10">✓ Single Master Record</text>
+    </g>
+  </g>
+
+  <!-- ================= BOTTOM DETAILED DATA FLOW ================= -->
+
+  <!-- Top Ingestion Flow Bar: Source System -> IdentityNow -->
+  <g transform="translate(35, 140)">
+    <text x="10" y="20" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="13" font-weight="700">Source System (HR)</text>
+    <path d="M 175 15 L 435 15" stroke="#54C0E8" stroke-width="2.5" marker-end="url(#arrowAquaHr)" fill="none"/>
+    <text x="450" y="20" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="13" font-weight="700">IdentityNow Cloud Platform</text>
+  </g>
+
+  <!-- 1. Raw Source Data Card (HR System) -->
+  <g transform="translate(30, 180)">
+    <rect width="190" height="395" rx="12" fill="url(#cardBg)" stroke="#415364" stroke-width="1.5"/>
+    <rect x="12" y="14" width="90" height="22" rx="11" fill="#415364" fill-opacity="0.5"/>
+    <text x="57" y="29" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10" font-weight="600" text-anchor="middle">SOURCE DATA</text>
+    <text x="14" y="58" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="14" font-weight="700">HR System Record</text>
+    <line x1="14" y1="70" x2="176" y2="70" stroke="#415364" stroke-width="1"/>
+
+    <!-- Key-Value Pairs -->
+    <g font-family="Courier, monospace" font-size="11">
+      <text x="14" y="98" fill="#54C0E8">id:</text><text x="95" y="98" fill="#FFFFFF">E001</text>
+      <text x="14" y="128" fill="#54C0E8">firstName:</text><text x="95" y="128" fill="#FFFFFF">Malory</text>
+      <text x="14" y="158" fill="#54C0E8">lastName:</text><text x="95" y="158" fill="#FFFFFF">Archer</text>
+      <text x="14" y="188" fill="#54C0E8">email:</text><text x="95" y="188" fill="#94A3B8">[null]</text>
+      <text x="14" y="218" fill="#54C0E8">access:</text><text x="95" y="218" fill="#FFFFFF">FieldOps</text>
+      <text x="14" y="248" fill="#54C0E8">active:</text><text x="95" y="248" fill="#93D500">true</text>
+      <text x="14" y="278" fill="#54C0E8">location:</text><text x="95" y="278" fill="#FFFFFF">Austin</text>
+      <text x="14" y="308" fill="#54C0E8">country:</text><text x="95" y="308" fill="#FFFFFF">US</text>
+      <text x="14" y="338" fill="#D60EB5">ssn:</text><text x="95" y="338" fill="#D60EB5">111-11-1111</text>
+    </g>
+    <rect x="14" y="360" width="162" height="22" rx="4" fill="#D60EB5" fill-opacity="0.15" stroke="#D60EB5" stroke-width="1"/>
+    <text x="95" y="375" fill="#D60EB5" font-family="Poppins, sans-serif" font-size="10" font-weight="600" text-anchor="middle">ssn excluded by Schema</text>
+  </g>
+
+  <!-- Connectors: Source Data -> Schema -->
+  <g stroke="#54C0E8" stroke-width="1.5">
+    <line x1="220" y1="278" x2="250" y2="278" marker-end="url(#arrowAquaHr)"/>
+    <line x1="220" y1="308" x2="250" y2="308" marker-end="url(#arrowAquaHr)"/>
+    <line x1="220" y1="338" x2="250" y2="338" marker-end="url(#arrowAquaHr)"/>
+    <line x1="220" y1="368" x2="250" y2="368" marker-end="url(#arrowAquaHr)"/>
+    <line x1="220" y1="398" x2="250" y2="398" marker-end="url(#arrowAquaHr)"/>
+    <line x1="220" y1="428" x2="250" y2="428" marker-end="url(#arrowAquaHr)"/>
+    <line x1="220" y1="458" x2="250" y2="458" marker-end="url(#arrowAquaHr)"/>
+    <line x1="220" y1="488" x2="250" y2="488" marker-end="url(#arrowAquaHr)"/>
+  </g>
+
+  <!-- 2. Schema Box (Blue Column) -->
+  <g transform="translate(255, 230)">
+    <rect width="125" height="295" rx="10" fill="url(#schemaBg)" stroke="#54C0E8" stroke-width="2" filter="url(#glowAquaHr)"/>
+    <text x="62" y="26" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="13" font-weight="700" text-anchor="middle">Schema</text>
+    <line x1="10" y1="36" x2="115" y2="36" stroke="#54C0E8" stroke-width="1"/>
+    <g font-family="Poppins, sans-serif" font-size="11" font-weight="500" fill="#FFFFFF">
+      <text x="14" y="60">id</text>
+      <text x="14" y="90">firstName</text>
+      <text x="14" y="120">lastName</text>
+      <text x="14" y="150">email</text>
+      <text x="14" y="180">access</text>
+      <text x="14" y="210">active</text>
+      <text x="14" y="240">location</text>
+      <text x="14" y="270">country</text>
+    </g>
+  </g>
+
+  <!-- Connectors: Schema -> Account -->
+  <g stroke="#54C0E8" stroke-width="1.5">
+    <line x1="380" y1="288" x2="405" y2="288" marker-end="url(#arrowAquaHr)"/>
+    <line x1="380" y1="318" x2="405" y2="318" marker-end="url(#arrowAquaHr)"/>
+    <line x1="380" y1="348" x2="405" y2="348" marker-end="url(#arrowAquaHr)"/>
+    <line x1="380" y1="378" x2="405" y2="378" marker-end="url(#arrowAquaHr)"/>
+    <line x1="380" y1="408" x2="405" y2="408" marker-end="url(#arrowAquaHr)"/>
+    <line x1="380" y1="438" x2="405" y2="438" marker-end="url(#arrowAquaHr)"/>
+    <line x1="380" y1="468" x2="405" y2="468" marker-end="url(#arrowAquaHr)"/>
+    <line x1="380" y1="498" x2="405" y2="498" marker-end="url(#arrowAquaHr)"/>
+  </g>
+
+  <!-- 3. Account Record in IdentityNow -->
+  <g transform="translate(410, 180)">
+    <rect width="190" height="395" rx="12" fill="url(#cardBg)" stroke="#54C0E8" stroke-width="1.5"/>
+    <rect x="12" y="14" width="80" height="22" rx="11" fill="#0033A1" fill-opacity="0.4" stroke="#54C0E8" stroke-width="1"/>
+    <text x="52" y="29" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="600" text-anchor="middle">ACCOUNT</text>
+    <text x="14" y="58" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="14" font-weight="700">Source Account</text>
+    <line x1="14" y1="70" x2="176" y2="70" stroke="#415364" stroke-width="1"/>
+
+    <g font-family="Courier, monospace" font-size="11">
+      <text x="14" y="98" fill="#54C0E8">id:</text><text x="95" y="98" fill="#FFFFFF">E001</text>
+      <text x="14" y="128" fill="#54C0E8">firstName:</text><text x="95" y="128" fill="#FFFFFF">Malory</text>
+      <text x="14" y="158" fill="#54C0E8">lastName:</text><text x="95" y="158" fill="#FFFFFF">Archer</text>
+      <text x="14" y="188" fill="#54C0E8">email:</text><text x="95" y="188" fill="#94A3B8">[null]</text>
+      <text x="14" y="218" fill="#54C0E8">access:</text><text x="95" y="218" fill="#FFFFFF">FieldOps</text>
+      <text x="14" y="248" fill="#54C0E8">active:</text><text x="95" y="248" fill="#93D500">true</text>
+      <text x="14" y="278" fill="#54C0E8">location:</text><text x="95" y="278" fill="#FFFFFF">Austin</text>
+      <text x="14" y="308" fill="#54C0E8">country:</text><text x="95" y="308" fill="#FFFFFF">US</text>
+    </g>
+    <rect x="14" y="360" width="162" height="22" rx="4" fill="#0033A1" fill-opacity="0.3"/>
+    <text x="95" y="375" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Filtered Account Object</text>
+  </g>
+
+  <!-- Connector: Account -> Identity Profile: Mappings -->
+  <path d="M 600 375 L 635 375" stroke="#54C0E8" stroke-width="2.5" marker-end="url(#arrowAquaHr)" fill="none"/>
+
+  <!-- 4. Identity Profile: Mappings Table -->
+  <g transform="translate(645, 180)">
+    <rect width="250" height="395" rx="12" fill="url(#profileBg)" stroke="#54C0E8" stroke-width="2" filter="url(#glowAquaHr)"/>
+    <rect x="14" y="14" width="180" height="22" rx="11" fill="#54C0E8" fill-opacity="0.15" stroke="#54C0E8" stroke-width="1"/>
+    <text x="104" y="29" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="600" text-anchor="middle">IDENTITY PROFILE: MAPPINGS</text>
+    <text x="14" y="58" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="13" font-weight="700">Attribute Mapping Rules</text>
+    <line x1="14" y1="70" x2="236" y2="70" stroke="#415364" stroke-width="1"/>
+
+    <!-- Table Header -->
+    <rect x="10" y="78" width="230" height="22" fill="#011C48"/>
+    <text x="14" y="93" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="600">Identity Attribute</text>
+    <text x="125" y="93" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="600">Mapped Source</text>
+    <line x1="10" y1="100" x2="240" y2="100" stroke="#415364" stroke-width="1"/>
+
+    <!-- Table Rows -->
+    <g font-family="Poppins, sans-serif" font-size="10.5">
+      <text x="14" y="122" fill="#FFFFFF">User Name</text><text x="125" y="122" fill="#DAE1E9">HR: name</text>
+      <line x1="10" y1="130" x2="240" y2="130" stroke="#415364" stroke-width="0.5"/>
+      <text x="14" y="148" fill="#FFFFFF">First Name</text><text x="125" y="148" fill="#DAE1E9">HR: givenName</text>
+      <line x1="10" y1="156" x2="240" y2="156" stroke="#415364" stroke-width="0.5"/>
+      <text x="14" y="174" fill="#FFFFFF">Last Name</text><text x="125" y="174" fill="#DAE1E9">HR: familyName</text>
+      <line x1="10" y1="182" x2="240" y2="182" stroke="#415364" stroke-width="0.5"/>
+      <text x="14" y="200" fill="#FFFFFF">Lifecycle</text><text x="125" y="200" fill="#DAE1E9">None</text>
+      <line x1="10" y1="208" x2="240" y2="208" stroke="#415364" stroke-width="0.5"/>
+      <text x="14" y="226" fill="#FFFFFF">Country</text><text x="125" y="226" fill="#DAE1E9">HR: country</text>
+      <line x1="10" y1="234" x2="240" y2="234" stroke="#415364" stroke-width="0.5"/>
+      <text x="14" y="252" fill="#FFFFFF">Manager</text><text x="125" y="252" fill="#DAE1E9">HR: manager</text>
+      <line x1="10" y1="260" x2="240" y2="260" stroke="#415364" stroke-width="0.5"/>
+      <text x="14" y="278" fill="#FFFFFF">Work Email</text><text x="125" y="278" fill="#DAE1E9">HR: email</text>
+      <line x1="10" y1="286" x2="240" y2="286" stroke="#415364" stroke-width="0.5"/>
+    </g>
+
+    <rect x="14" y="340" width="222" height="42" rx="6" fill="#0033A1" fill-opacity="0.3"/>
+    <text x="125" y="356" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Mappings Transform Rule</text>
+    <text x="125" y="372" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="9" text-anchor="middle">Normalizes &amp; generates UPN/email</text>
+  </g>
+
+  <!-- Connector: Identity Profile Mappings -> Identity -->
+  <path d="M 895 375 L 915 375" stroke="#93D500" stroke-width="2.5" marker-end="url(#arrowAquaHr)" fill="none"/>
+
+  <!-- 5. Resulting Central Identity -->
+  <g transform="translate(925, 180)">
+    <rect width="125" height="395" rx="12" fill="url(#identityGlow)" stroke="#93D500" stroke-width="2"/>
+    <rect x="10" y="14" width="70" height="22" rx="11" fill="#93D500" fill-opacity="0.2" stroke="#93D500" stroke-width="1"/>
+    <text x="45" y="29" fill="#93D500" font-family="Poppins, sans-serif" font-size="10" font-weight="600" text-anchor="middle">IDENTITY</text>
+    <text x="10" y="58" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="13" font-weight="700">Identity Persona</text>
+    <line x1="10" y1="70" x2="115" y2="70" stroke="#415364" stroke-width="1"/>
+
+    <!-- Resolved Values -->
+    <g font-family="Poppins, sans-serif" font-size="10" fill="#FFFFFF">
+      <text x="10" y="98" font-weight="600" fill="#93D500">jcooper</text>
+      <text x="10" y="128">John</text>
+      <text x="10" y="158">Cooper</text>
+      <text x="10" y="188" fill="#93D500">Active</text>
+      <text x="10" y="218">USA</text>
+      <text x="10" y="248">Alice Woods</text>
+      <text x="10" y="278" font-size="9" fill="#54C0E8">john.cooper@</text>
+      <text x="10" y="290" font-size="9" fill="#54C0E8">acme.com</text>
+    </g>
+
+    <rect x="10" y="340" width="105" height="42" rx="6" fill="#93D500" fill-opacity="0.15" stroke="#93D500" stroke-width="1"/>
+    <text x="62" y="358" fill="#93D500" font-family="Poppins, sans-serif" font-size="10" font-weight="700" text-anchor="middle">✓ SINGLE</text>
+    <text x="62" y="372" fill="#93D500" font-family="Poppins, sans-serif" font-size="9" text-anchor="middle">RECORD</text>
+  </g>
+</svg>

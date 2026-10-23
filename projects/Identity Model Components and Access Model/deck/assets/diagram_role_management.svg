@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="100%" height="100%">
+  <defs>
+    <marker id="arr22" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#54C0E8"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="520" rx="16" fill="#070C16" stroke="#415364" stroke-width="1.5"/>
+
+  <!-- Left: Business Roles -->
+  <g transform="translate(30, 40)">
+    <rect width="280" height="440" rx="12" fill="#0B111E" stroke="#54C0E8" stroke-width="1.5"/>
+    <text x="20" y="35" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11" font-weight="700">BUSINESS ROLES</text>
+    <text x="20" y="55" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">Organizational Persona</text>
+    <text x="20" y="75" fill="#94A3B8" font-family="Poppins, sans-serif" font-size="10">Mapped to OrgUnit, Dept, Job Title</text>
+
+    <!-- Role R1 -->
+    <rect x="20" y="95" width="240" height="65" rx="8" fill="#0033A1" fill-opacity="0.5" stroke="#54C0E8" stroke-width="1"/>
+    <text x="35" y="125" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="14" font-weight="700">Role R1: Accountant</text>
+    <text x="35" y="145" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">Criteria: title == 'Accountant'</text>
+
+    <!-- Role R2 -->
+    <rect x="20" y="175" width="240" height="65" rx="8" fill="#0033A1" fill-opacity="0.3" stroke="#415364" stroke-width="1"/>
+    <text x="35" y="205" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="14" font-weight="700">Role R2: Financial Analyst</text>
+    <text x="35" y="225" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">Criteria: dept == 'Finance'</text>
+
+    <!-- Role R3 -->
+    <rect x="20" y="255" width="240" height="65" rx="8" fill="#0033A1" fill-opacity="0.3" stroke="#415364" stroke-width="1"/>
+    <text x="35" y="285" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="14" font-weight="700">Role R3: Audit Specialist</text>
+    <text x="35" y="305" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">Criteria: Request Center</text>
+  </g>
+
+  <!-- Connectors -->
+  <path d="M 310 130 L 370 130" stroke="#54C0E8" stroke-width="2" marker-end="url(#arr22)"/>
+  <path d="M 310 210 L 370 210" stroke="#54C0E8" stroke-width="2" marker-end="url(#arr22)"/>
+
+  <!-- Middle: Access Profiles -->
+  <g transform="translate(370, 40)">
+    <rect width="280" height="440" rx="12" fill="#0B111E" stroke="#415364" stroke-width="1.5"/>
+    <text x="20" y="35" fill="#93D500" font-family="Poppins, sans-serif" font-size="11" font-weight="700">ACCESS PROFILES (TECHNICAL ROLES)</text>
+    <text x="20" y="55" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">Single-Source Bundles</text>
+    <text x="20" y="75" fill="#94A3B8" font-family="Poppins, sans-serif" font-size="10">Combines entitlements of 1 source</text>
+
+    <!-- AP1 -->
+    <rect x="20" y="95" width="240" height="95" rx="8" fill="#070C16" stroke="#54C0E8" stroke-width="1"/>
+    <text x="35" y="125" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="14" font-weight="700">AP1: General Ledger</text>
+    <text x="35" y="145" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">• Entitlement E1: Read Ledger</text>
+    <text x="35" y="165" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">• Entitlement E2: Write Journal</text>
+
+    <!-- AP2 -->
+    <rect x="20" y="205" width="240" height="95" rx="8" fill="#070C16" stroke="#93D500" stroke-width="1"/>
+    <text x="35" y="235" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="14" font-weight="700">AP2: Financial Reporting</text>
+    <text x="35" y="255" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">• Entitlement E3: Run Reports</text>
+    <text x="35" y="275" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">• Entitlement E4: Export Data</text>
+
+    <!-- AP3 -->
+    <rect x="20" y="315" width="240" height="95" rx="8" fill="#070C16" stroke="#415364" stroke-width="1"/>
+    <text x="35" y="345" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="14" font-weight="700">AP3: System Admin Access</text>
+    <text x="35" y="365" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">• Entitlement E5: Superuser</text>
+    <text x="35" y="385" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">• Entitlement E6: Audit Log View</text>
+  </g>
+
+  <!-- Connectors -->
+  <path d="M 650 140 L 710 140" stroke="#54C0E8" stroke-width="2" marker-end="url(#arr22)"/>
+  <path d="M 650 250 L 710 250" stroke="#54C0E8" stroke-width="2" marker-end="url(#arr22)"/>
+
+  <!-- Right: Application Container -->
+  <g transform="translate(710, 40)">
+    <rect width="260" height="440" rx="12" fill="#0B111E" stroke="#54C0E8" stroke-width="1.5"/>
+    <text x="20" y="35" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11" font-weight="700">APPLICATION CONTAINER</text>
+    <text x="20" y="55" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">Application A1</text>
+    <text x="20" y="75" fill="#94A3B8" font-family="Poppins, sans-serif" font-size="10">Target System (e.g. Active Directory)</text>
+
+    <rect x="20" y="100" width="220" height="150" rx="8" fill="#0033A1" fill-opacity="0.25" stroke="#415364" stroke-width="1"/>
+    <text x="35" y="130" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="13" font-weight="700">Active Directory Source</text>
+    <text x="35" y="155" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">• Organizes APs into 1 system</text>
+    <text x="35" y="175" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">• Enforces boundary</text>
+    <text x="35" y="195" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="10">• Groups entitlements by source</text>
+    <text x="35" y="215" fill="#93D500" font-family="Poppins, sans-serif" font-size="10">Prevents cross-system bundling</text>
+  </g>
+</svg>

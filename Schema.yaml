@@ -19,9 +19,33 @@ properties:
   theme:
     type: string
     description: Name or filename of the style to use (e.g. 'sailpoint-corporate-2026-design').
+  logo:
+    type: string
+    description: Optional custom path to cover brand logo, or 'none' to omit cover logo. Overrides theme default.
   slide_count:
     type: integer
     description: Total number of slides in this specification. Must match the length of the 'slides' array.
+  baseline:
+    type: string
+    description: Modernization only. Path to the baseline .pptx, relative to the spec file (e.g. '../deck.pptx'). Enables engine/check_coverage.py.
+  baseline_cuts:
+    type: array
+    description: Modernization only. Baseline slides or media intentionally NOT carried over. Every entry MUST reflect an explicit user approval at a consensus gate.
+    items:
+      type: object
+      required:
+        - reason
+      properties:
+        slide:
+          type: integer
+          description: Baseline slide number dropped entirely.
+        media:
+          type: string
+          description: Baseline media filename (e.g. 'image29.png') dropped.
+        reason:
+          type: string
+        approved_by_user:
+          type: boolean
   options:
     type: object
     properties:
@@ -101,6 +125,9 @@ properties:
                   highlight:
                     type: boolean
                     description: Whether to emphasize with accent glow.
+                  icon:
+                    type: string
+                    description: Lucide icon name (e.g. 'trending-up', 'zap', 'shield-check', 'gauge', 'users').
             cards:
               type: array
               items:
@@ -115,7 +142,7 @@ properties:
                     type: string
                   icon:
                     type: string
-                    description: Semantic icon name (e.g. 'shield', 'key', 'cloud', 'chart', 'user').
+                    description: Lucide icon name or variant (e.g. 'shield-check', 'user-round', 'key-round', 'database', 'cpu', 'cloud', 'bot').
                   badge:
                     type: string
                   highlight:
@@ -173,14 +200,20 @@ properties:
                         type: string
             diagram:
               type: object
-              description: Structural intent for a diagram or process flow.
-              required:
-                - kind
-                - elements
+              description: |
+                Structural intent for an architectural diagram or process flow.
+                Standard: Use high-fidelity SVG diagrams ('svg', 'src') or native architecture components ('pipeline', 'convergence', 'cardinality', 'policy_flow', 'layered_stack').
+                Embedded Mermaid is discouraged due to unpredictable layout and low contrast in dark presentations.
               properties:
                 kind:
                   type: string
                   enum:
+                    - svg
+                    - pipeline
+                    - convergence
+                    - cardinality
+                    - policy_flow
+                    - layered_stack
                     - flow
                     - comparison
                     - matrix
@@ -188,6 +221,19 @@ properties:
                     - timeline
                     - hierarchy
                     - cards
+                    - mermaid
+                title:
+                  type: string
+                  description: Diagram title displayed in the component header.
+                badge:
+                  type: string
+                  description: Optional badge tag in the diagram header.
+                svg:
+                  type: string
+                  description: Inline SVG markup for the diagram.
+                src:
+                  type: string
+                  description: Relative path to an SVG diagram asset (e.g. 'assets/pipeline_architecture.svg').
                 elements:
                   type: array
                   items:
@@ -196,17 +242,29 @@ properties:
                   type: array
                   items:
                     type: string
+                mermaid:
+                  type: string
+                  description: Deprecated. Raw Mermaid syntax. Prefer SVG diagrams or native architecture components.
                 emphasis:
                   type: string
+            svg:
+              type: string
+              description: Standalone inline SVG markup for rich architectural diagrams or flowcharts.
+            mermaid:
+              type: string
+              description: Deprecated. Prefer SVG diagrams ('svg', 'diagram.src') or native architecture components.
             image:
               type: object
-              description: Single visual asset (illustration, diagram, or screenshot) embedded in the slide.
+              description: |
+                Single visual asset (generated illustration, architectural diagram, or screenshot) embedded in the slide.
+                RULE: Icons must remain small (24px-48px). NEVER use an icon as a large picture or cover hero graphic.
+                When needing a picture to represent something bigger (e.g. cover slide or hero visual), generate one using generate_image.
               required:
                 - src
               properties:
                 src:
                   type: string
-                  description: Relative path to the image asset (e.g. 'assets/pipeline_architecture.png').
+                  description: Relative path to the image asset (e.g. 'assets/cover_hero.jpg').
                 alt:
                   type: string
                   description: Image description.
@@ -230,3 +288,21 @@ properties:
         notes:
           type: string
           description: Presenter notes visible in speaker view.
+        baseline_slides:
+          type: array
+          items:
+            type: integer
+          description: Modernization only. Baseline slide numbers this slide carries. REQUIRED for every slide unless 'new' is true.
+        new:
+          type: boolean
+          description: Modernization only. True when the slide has no baseline counterpart (must have been approved by the user).
+        redrawn_media:
+          type: array
+          items:
+            type: string
+          description: Modernization only. Baseline media filenames faithfully reproduced as an SVG/native component on this slide instead of being embedded.
+        additions:
+          type: array
+          items:
+            type: string
+          description: Modernization only. Facts, names, or claims on this slide that are NOT in the baseline (e.g. vendor names, examples). Surfaced to the user at the review gate; anything not listed is assumed to come from the baseline.

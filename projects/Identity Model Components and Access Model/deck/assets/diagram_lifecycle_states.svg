@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cardGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B111E" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#011C48" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="activeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0033A1" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0B111E" stop-opacity="0.95"/>
+    </linearGradient>
+    <filter id="glowAqua3" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="glowPink3" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <marker id="arrowAqua" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#54C0E8"/>
+    </marker>
+    <marker id="arrowPink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#D60EB5"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#93D500"/>
+    </marker>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="960" height="540" rx="16" fill="#070C16" stroke="#415364" stroke-width="1.5"/>
+
+  <!-- Flow Track: Left to Right across States -->
+
+  <!-- State 1: Pre-Hire (Top Left) -->
+  <g transform="translate(40, 60)">
+    <rect width="240" height="175" rx="14" fill="url(#cardGrad3)" stroke="#415364" stroke-width="1.5"/>
+    <rect x="16" y="16" width="90" height="24" rx="12" fill="#415364" fill-opacity="0.4"/>
+    <text x="61" y="32" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11" font-weight="600" text-anchor="middle">STAGE 01</text>
+    <text x="16" y="66" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="17" font-weight="700">Pre-Hire</text>
+    <text x="16" y="88" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="12" font-weight="500">Staged Account Lifecycle</text>
+    <line x1="16" y1="102" x2="220" y2="102" stroke="#415364" stroke-width="1"/>
+    <text x="16" y="124" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• HR offer letter accepted</text>
+    <text x="16" y="144" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Identity pre-provisioned</text>
+    <text x="16" y="164" fill="#94A3B8" font-family="Poppins, sans-serif" font-size="11">⏳ Awaiting Start Date</text>
+  </g>
+
+  <!-- Arrow: Pre-Hire -> Active -->
+  <path d="M 280 145 L 355 145" stroke="#93D500" stroke-width="2.5" marker-end="url(#arrowGreen)" fill="none"/>
+  <rect x="282" y="118" width="70" height="20" rx="4" fill="#070C16" stroke="#93D500" stroke-width="1"/>
+  <text x="317" y="132" fill="#93D500" font-family="Poppins, sans-serif" font-size="10" font-weight="600" text-anchor="middle">START DATE</text>
+
+  <!-- State 2: Active Core (Center) -->
+  <g transform="translate(365, 50)">
+    <rect width="270" height="205" rx="14" fill="url(#activeGrad)" stroke="#54C0E8" stroke-width="2.5" filter="url(#glowAqua3)"/>
+    <rect x="16" y="16" width="105" height="24" rx="12" fill="#54C0E8" fill-opacity="0.2" stroke="#54C0E8" stroke-width="1"/>
+    <text x="68" y="32" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11" font-weight="600" text-anchor="middle">ACTIVE CORE</text>
+    <text x="16" y="66" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="18" font-weight="700">Active State</text>
+    <text x="16" y="88" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="12" font-weight="500">Birthright &amp; Role Evaluation</text>
+    <line x1="16" y1="102" x2="250" y2="102" stroke="#415364" stroke-width="1"/>
+    <text x="16" y="124" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Baseline profiles auto-attached</text>
+    <text x="16" y="144" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Enterprise email &amp; VPN provisioned</text>
+    <text x="16" y="164" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Dynamic business roles calculated</text>
+    <text x="16" y="184" fill="#93D500" font-family="Poppins, sans-serif" font-size="11" font-weight="600">✓ Full Access &amp; Request Catalog</text>
+  </g>
+
+  <!-- State 3: Mover Transition Loop (Top Right) -->
+  <g transform="translate(680, 60)">
+    <rect width="240" height="175" rx="14" fill="url(#cardGrad3)" stroke="#54C0E8" stroke-width="1.5"/>
+    <rect x="16" y="16" width="120" height="24" rx="12" fill="#0033A1" fill-opacity="0.4" stroke="#54C0E8" stroke-width="1"/>
+    <text x="76" y="32" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11" font-weight="600" text-anchor="middle">DYNAMIC RECALC</text>
+    <text x="16" y="66" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="17" font-weight="700">Mover Event</text>
+    <text x="16" y="88" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">Department / Location Move</text>
+    <line x1="16" y1="102" x2="220" y2="102" stroke="#415364" stroke-width="1"/>
+    <text x="16" y="124" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Re-evaluate attribute rules</text>
+    <text x="16" y="144" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Revoke obsolete department roles</text>
+    <text x="16" y="164" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11" font-weight="600">⚡ Provision new entitlements</text>
+  </g>
+
+  <!-- Arrow: Active -> Mover -> Active (Bi-directional loop) -->
+  <path d="M 635 120 L 675 120" stroke="#54C0E8" stroke-width="2" marker-end="url(#arrowAqua)" fill="none"/>
+  <path d="M 680 180 Q 655 210 635 210" stroke="#54C0E8" stroke-width="2" marker-end="url(#arrowAqua)" fill="none"/>
+
+  <!-- State 4: Suspended / Leave (Bottom Left) -->
+  <g transform="translate(180, 310)">
+    <rect width="250" height="175" rx="14" fill="url(#cardGrad3)" stroke="#415364" stroke-width="1.5"/>
+    <rect x="16" y="16" width="130" height="24" rx="12" fill="#415364" fill-opacity="0.4"/>
+    <text x="81" y="32" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11" font-weight="600" text-anchor="middle">LEAVE OF ABSENCE</text>
+    <text x="16" y="66" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="17" font-weight="700">Suspended State</text>
+    <text x="16" y="88" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">Temporary Access Freeze</text>
+    <line x1="16" y1="102" x2="230" y2="102" stroke="#415364" stroke-width="1"/>
+    <text x="16" y="124" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Target accounts disabled</text>
+    <text x="16" y="144" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Tokens revoked, sign-in blocked</text>
+    <text x="16" y="164" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11">↺ Instant Reinstatement on Return</text>
+  </g>
+
+  <!-- Connectors: Active <-> Suspended -->
+  <path d="M 430 255 L 350 310" stroke="#54C0E8" stroke-width="2" marker-end="url(#arrowAqua)" fill="none"/>
+  <path d="M 370 310 L 450 255" stroke="#93D500" stroke-width="2" marker-end="url(#arrowGreen)" fill="none"/>
+
+  <!-- State 5: Terminated (Bottom Right) -->
+  <g transform="translate(530, 310)">
+    <rect width="280" height="175" rx="14" fill="url(#cardGrad3)" stroke="#D60EB5" stroke-width="2.5" filter="url(#glowPink3)"/>
+    <rect x="16" y="16" width="140" height="24" rx="12" fill="#D60EB5" fill-opacity="0.2" stroke="#D60EB5" stroke-width="1"/>
+    <text x="86" y="32" fill="#D60EB5" font-family="Poppins, sans-serif" font-size="11" font-weight="600" text-anchor="middle">LEAVER AUTOMATION</text>
+    <text x="16" y="66" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="17" font-weight="700">Terminated State</text>
+    <text x="16" y="88" fill="#D60EB5" font-family="Poppins, sans-serif" font-size="12" font-weight="500">Zero-Day Immediate Deprovisioning</text>
+    <line x1="16" y1="102" x2="260" y2="102" stroke="#415364" stroke-width="1"/>
+    <text x="16" y="124" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Instant account disabling across SaaS</text>
+    <text x="16" y="144" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Active directory accounts moved to OU</text>
+    <text x="16" y="164" fill="#D60EB5" font-family="Poppins, sans-serif" font-size="11" font-weight="600">⛔ Complete Access Revocation</text>
+  </g>
+
+  <!-- Connector: Active -> Terminated -->
+  <path d="M 540 255 L 610 310" stroke="#D60EB5" stroke-width="2.5" marker-end="url(#arrowPink)" fill="none"/>
+  <rect x="548" y="270" width="85" height="20" rx="4" fill="#070C16" stroke="#D60EB5" stroke-width="1"/>
+  <text x="590" y="284" fill="#D60EB5" font-family="Poppins, sans-serif" font-size="10" font-weight="600" text-anchor="middle">EXIT TRIGGER</text>
+</svg>

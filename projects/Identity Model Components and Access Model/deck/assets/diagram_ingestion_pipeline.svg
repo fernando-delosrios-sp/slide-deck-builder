@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B111E" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#011C48" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0033A1" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0B111E" stop-opacity="0.95"/>
+    </linearGradient>
+    <filter id="glowAqua" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#54C0E8"/>
+    </marker>
+    <marker id="arrowDashed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="960" height="540" rx="16" fill="#070C16" stroke="#415364" stroke-width="1.5"/>
+
+  <!-- Left Column: Authoritative Source -->
+  <g transform="translate(40, 140)">
+    <rect width="240" height="260" rx="14" fill="url(#cardGrad)" stroke="#54C0E8" stroke-width="2" filter="url(#glowAqua)"/>
+    <rect x="16" y="16" width="120" height="24" rx="12" fill="#54C0E8" fill-opacity="0.15" stroke="#54C0E8" stroke-width="1"/>
+    <text x="76" y="32" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11" font-weight="600" text-anchor="middle">SOURCE OF RECORD</text>
+    <text x="20" y="70" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="18" font-weight="700">Authoritative HR</text>
+    <text x="20" y="94" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="13" font-weight="500">Workday / SAP HR / SuccessFactors</text>
+    <line x1="20" y1="112" x2="220" y2="112" stroke="#415364" stroke-width="1"/>
+    <text x="20" y="136" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Employee master records</text>
+    <text x="20" y="160" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Contractor rosters (Fieldglass)</text>
+    <text x="20" y="184" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Raw organizational attributes</text>
+    <text x="20" y="208" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Automated scheduled sync</text>
+    <rect x="20" y="222" width="200" height="24" rx="6" fill="#0033A1" fill-opacity="0.3"/>
+    <text x="120" y="238" fill="#93D500" font-family="Poppins, sans-serif" font-size="11" font-weight="600" text-anchor="middle">⚡ Single Source of Truth</text>
+  </g>
+
+  <!-- Arrow 1: HR to Ingestion Engine -->
+  <path d="M 280 270 L 350 270" stroke="#54C0E8" stroke-width="2.5" marker-end="url(#arrow)" fill="none"/>
+  <rect x="288" y="244" width="56" height="20" rx="4" fill="#0B111E" stroke="#54C0E8" stroke-width="1"/>
+  <text x="316" y="258" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="600" text-anchor="middle">INGEST</text>
+
+  <!-- Middle Center: Identity Profile & Master Identity Core -->
+  <g transform="translate(360, 60)">
+    <!-- Identity Profile Container -->
+    <rect width="250" height="180" rx="14" fill="url(#cardGrad)" stroke="#415364" stroke-width="1.5"/>
+    <rect x="16" y="16" width="130" height="24" rx="12" fill="#0033A1" fill-opacity="0.5" stroke="#54C0E8" stroke-width="1"/>
+    <text x="81" y="32" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11" font-weight="600" text-anchor="middle">1:1 PROFILE TEMPLATE</text>
+    <text x="20" y="66" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="17" font-weight="700">Identity Profile</text>
+    <text x="20" y="88" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Attribute transforms &amp; rules</text>
+    <text x="20" y="108" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Canonical UPN &amp; email generation</text>
+    <text x="20" y="128" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Profile priority resolution</text>
+    <text x="20" y="148" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Sign-in &amp; auth controls</text>
+    
+    <!-- Arrow from Profile to Identity Core -->
+    <path d="M 125 180 L 125 220" stroke="#54C0E8" stroke-width="2.5" marker-end="url(#arrow)" fill="none"/>
+
+    <!-- Central Master Identity Core -->
+    <g transform="translate(0, 230)">
+      <rect width="250" height="190" rx="14" fill="url(#coreGrad)" stroke="#54C0E8" stroke-width="2" filter="url(#glowAqua)"/>
+      <rect x="16" y="16" width="120" height="24" rx="12" fill="#54C0E8" fill-opacity="0.2" stroke="#54C0E8" stroke-width="1"/>
+      <text x="76" y="32" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="11" font-weight="600" text-anchor="middle">CENTRAL IDENTITY</text>
+      <text x="20" y="66" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="18" font-weight="700">Master Identity Core</text>
+      <text x="20" y="88" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="12" font-weight="500">Correlated Persona Record</text>
+      <line x1="20" y1="102" x2="230" y2="102" stroke="#415364" stroke-width="1"/>
+      <text x="20" y="124" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Lifecycle state machine</text>
+      <text x="20" y="144" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Correlated account inventory</text>
+      <text x="20" y="164" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="12">• Direct access bundles &amp; roles</text>
+    </g>
+  </g>
+
+  <!-- Connectors to Downstream Target Applications -->
+  <path d="M 610 360 L 680 160" stroke="#94A3B8" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowDashed)" fill="none"/>
+  <path d="M 610 380 L 680 270" stroke="#94A3B8" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowDashed)" fill="none"/>
+  <path d="M 610 400 L 680 380" stroke="#94A3B8" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowDashed)" fill="none"/>
+
+  <!-- Right Column: Target Downstream Systems -->
+  <g transform="translate(690, 80)">
+    <!-- Target System 1 -->
+    <rect width="230" height="90" rx="12" fill="url(#cardGrad)" stroke="#415364" stroke-width="1.5"/>
+    <text x="16" y="28" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="600">CORRELATED TARGET</text>
+    <text x="16" y="52" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">Active Directory / Entra</text>
+    <text x="16" y="74" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">sAMAccountName • Domain Groups</text>
+  </g>
+
+  <g transform="translate(690, 210)">
+    <!-- Target System 2 -->
+    <rect width="230" height="90" rx="12" fill="url(#cardGrad)" stroke="#415364" stroke-width="1.5"/>
+    <text x="16" y="28" fill="#D60EB5" font-family="Poppins, sans-serif" font-size="10" font-weight="600">CLOUD INFRASTRUCTURE</text>
+    <text x="16" y="52" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">AWS / Azure / GCP</text>
+    <text x="16" y="74" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">IAM Roles • Federated Workloads</text>
+  </g>
+
+  <g transform="translate(690, 340)">
+    <!-- Target System 3 -->
+    <rect width="230" height="90" rx="12" fill="url(#cardGrad)" stroke="#415364" stroke-width="1.5"/>
+    <text x="16" y="28" fill="#93D500" font-family="Poppins, sans-serif" font-size="10" font-weight="600">ENTERPRISE SAAS</text>
+    <text x="16" y="52" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="15" font-weight="700">Salesforce / ServiceNow</text>
+    <text x="16" y="74" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Licensed Users • Permission Sets</text>
+  </g>
+
+  <!-- Legend Footer -->
+  <g transform="translate(50, 490)">
+    <line x1="0" y1="10" x2="30" y2="10" stroke="#54C0E8" stroke-width="2.5"/>
+    <text x="40" y="14" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Authoritative Generation &amp; Update</text>
+    <line x1="280" y1="10" x2="310" y2="10" stroke="#94A3B8" stroke-width="2" stroke-dasharray="4,3"/>
+    <text x="320" y="14" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Target Account Correlation &amp; Lineage</text>
+  </g>
+</svg>

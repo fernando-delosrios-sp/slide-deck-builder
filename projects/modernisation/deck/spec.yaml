@@ -1,0 +1,258 @@
+title: "SailPoint Smart iLab: Identity Model & PoV Blueprint"
+goal: "Modernize the Smart iLab architectural presentation, preserving and elevating all original diagrams, identity models, dynamic role flows, and tenant blueprints into high-fidelity visual diagrams and semantic components."
+theme: "sailpoint-corporate-2026-design"
+slide_count: 6
+options:
+  language: "en"
+  audience: "Solution Architects, Technical Evaluators & Customer Security Teams"
+  tone: "Authoritative, architectural, and concise"
+  length: "short"
+slides:
+  - slide_number: 1
+    layout: "Title Slide"
+    role: "cover"
+    badge: "SailPoint Architecture Series"
+    title: "SailPoint Smart iLab"
+    subtitle: "Identity Model Architecture & Proof-of-Value Blueprint"
+    content:
+      image:
+        src: "assets/image2.svg"
+        alt: "SailPoint Logo"
+        caption: "SailPoint Identity Security Cloud"
+      body: "A foundational visual guide to identity object hierarchies, non-human identity governance, dynamic role modeling, and demonstration tenant architecture."
+      presenter: "Christian Bersch, Advisory Solutions Consultant"
+      date: "2026"
+    notes: "Welcome to the modernized SailPoint Smart iLab architectural presentation. In this deck, we walk through the core identity model, machine identity governance, dynamic role assignment, and how our demonstration tenant accelerates customer proof-of-value engagements."
+
+  - slide_number: 2
+    layout: "Title and Content"
+    role: "architecture"
+    badge: "Core Architecture"
+    title: "The SailPoint Identity Object Hierarchy"
+    subtitle: "Establishing authoritative lineage across all enterprise systems and sources"
+    content:
+      image:
+        src: "assets/image3.svg"
+        alt: "Identity Core"
+        caption: "Authoritative Biometric Core"
+      diagram:
+        kind: "pipeline"
+        title: "Deterministic Identity-to-Entitlement Lineage"
+        stages:
+          - step: "01"
+            title: "Identity Core"
+            badge: "Source of Truth"
+            desc: "Central correlated persona with lifecycle state"
+          - step: "02"
+            title: "Accounts"
+            badge: "Target Systems"
+            desc: "Direct system credentials across SaaS and on-prem"
+          - step: "03"
+            title: "Entitlements"
+            badge: "Fine-Grained"
+            desc: "Granular privileges, groups, and permissions"
+          - step: "04"
+            title: "Access Profiles"
+            badge: "1 : N Rule"
+            desc: "Source-isolated bundles of entitlements"
+          - step: "05"
+            title: "Business Roles"
+            badge: "N : M Rule"
+            desc: "Cross-system composite business access bundles"
+            highlight: true
+        trigger:
+          title: "Lifecycle Events (JML Trigger)"
+          badge: "Autonomous Event"
+          desc: "Joiner, Mover, Leaver events trigger autonomous role calculation and target provisioning"
+      cards:
+        - title: "Authoritative Identity Core"
+          badge: "Single Source of Truth"
+          icon: "shield-check"
+          body: "Central identity record correlated to disparate target accounts, maintaining lifecycle state and audit trails."
+        - title: "Deterministic Hierarchy"
+          badge: "Entitlements to Roles"
+          icon: "layers"
+          body: "Granular entitlements grouped into single-source Access Profiles, then bundled into multi-source business roles."
+          highlight: true
+    notes: "Baseline Slide 2 established the core object hierarchy: Identity, Accounts, Access Profiles, Roles, Entitlements, Events, and Ownership. This diagram maps the exact lineage from identity to target entitlements."
+
+  - slide_number: 3
+    layout: "Title and Content"
+    role: "comparison"
+    badge: "Identity Convergence"
+    title: "Governing Human and Non-Human Identities Alike"
+    subtitle: "Applying identical governance rigor across human workforces and machine workloads"
+    content:
+      image:
+        src: "assets/image4.png"
+        alt: "Machine Governance"
+        caption: "Non-Human Identity Governance"
+      diagram:
+        kind: "convergence"
+        title: "Unified Multi-Track Governance Architecture"
+        tracks:
+          - name: "Human Workforce Track"
+            badge: "Employees & Contractors"
+            icon_src: "assets/image3.svg"
+            steps:
+              - "Identity Persona"
+              - "Enterprise Accounts"
+              - "Target Access Profiles"
+              - "Composite Business Roles"
+          - name: "Non-Human Machine Track"
+            badge: "Service Accounts, Bots, IoT"
+            icon_src: "assets/image4.png"
+            highlight: true
+            steps:
+              - "Machine Identities"
+              - "Workload Credentials & Keys"
+              - "Source Access Profiles"
+              - "Constrained Service Roles"
+        hub:
+          title: "SailPoint Unified Policy & Audit Engine"
+          badge: "Continuous Governance"
+          desc: "Unified certification campaigns, real-time access reviews, automated JML lifecycle events, and compliance telemetry across all identity archetypes."
+      cards:
+        - title: "Human Workforce Identities"
+          badge: "Employees & Contractors"
+          body: "Lifecycle driven by HR joiner-mover-leaver events, interactive logins, MFA, and manager certification reviews."
+        - title: "Non-Human Machine Identities"
+          badge: "Service Accounts, Bots, IoT"
+          body: "Programmatic tokens, API keys, and machine workloads outnumbering humans 40:1, governed under identical policy rules."
+          highlight: true
+    notes: "Baseline Slide 3 explicitly introduced Service Accounts, ChatBots, and IoT Devices alongside human identities. Non-human identities are not managed in a silo—they follow identical access profiling, role bundling, and certification audits."
+
+  - slide_number: 4
+    layout: "Title and Content"
+    role: "architecture"
+    badge: "Data Model Cardinality"
+    title: "Entitlements, Access Profiles, and Composite Roles"
+    subtitle: "Architectural cardinality rules governing source aggregation and role composition"
+    content:
+      diagram:
+        kind: "cardinality"
+        title: "Access Profile (1:N) & Composite Role (N:M) Cardinality Rules"
+        sources:
+          - name: "Source 1: Active Directory"
+            badge: "On-Prem Directory"
+            items:
+              - "Domain Admins Group"
+              - "Finance Shared Drive Read"
+              - "VPN Standard Access"
+          - name: "Source 2: Salesforce CRM"
+            badge: "Cloud SaaS"
+            items:
+              - "Enterprise Sales License"
+              - "CPQ Opportunity Read/Write"
+        profiles:
+          rule_badge: "Strict 1 : N Rule"
+          title: "Access Profiles"
+          desc: "Exactly 1 Source per Profile, aggregating N Entitlements within that single source boundary"
+          items:
+            - name: "AD Core Access Profile"
+              source: "Bound strictly to Source 1"
+            - name: "SFDC Sales Access Profile"
+              source: "Bound strictly to Source 2"
+        roles:
+          rule_badge: "Cross-System N : M Rule"
+          title: "Composite Business Roles"
+          desc: "Can span N Sources, combining N Access Profiles + direct entitlements across applications"
+          items:
+            - name: "Regional Sales Director Role"
+              summary: "Combines AD Profile + SFDC Profile + Direct Standalone Privileges"
+              highlight: true
+      cards:
+        - title: "Access Profile Rule (1 : N)"
+          badge: "Strict Boundary"
+          body: "An Access Profile maps to strictly one source, aggregating N entitlements within that isolated system."
+        - title: "Role Architecture (N : M)"
+          badge: "Cross-System Composite"
+          body: "A Role transcends application boundaries, combining N Access Profiles and standalone entitlements across any number of sources."
+          highlight: true
+    notes: "Baseline Slide 4 defined the mathematical relationships: 1 source per profile with n entitlements from that source; Roles can encompass n entitlements across n sources and include n Access Profiles."
+
+  - slide_number: 5
+    layout: "Title and Content"
+    role: "solution"
+    badge: "Dynamic Policy Engine"
+    title: "Multi-Dimensional Dynamic Roles & ABAC Evaluation"
+    subtitle: "Automating role assignments via real-time multi-dimensional attribute evaluation"
+    content:
+      diagram:
+        kind: "policy_flow"
+        title: "Attribute-Based Dynamic Role Assignment Flow"
+        inputs:
+          title: "Multi-Dimensional Attributes"
+          badge: "Identity Metadata"
+          attributes:
+            - key: "Training Status"
+              value: "Approved"
+            - key: "Store Location"
+              value: "Boston"
+            - key: "Store Location"
+              value: "Houston"
+        engine:
+          title: "SailPoint Dynamic Policy Engine"
+          badge: "Real-Time ABAC"
+          desc: "Evaluates multi-dimensional boolean criteria, conflict of interest, and separation of duties (SoD)"
+        role:
+          title: "Store Manager Role"
+          badge: "Dynamic Entitlement"
+          desc: "Automatically granted upon criteria satisfaction without manual request workflows"
+        provisions:
+          title: "Auto-Provisioned Target Access"
+          badge: "Automated Fulfillment"
+          systems:
+            - "POS Regional Admin Console"
+            - "Store Inventory Management System"
+            - "Shift Vault & Safe Authorizations"
+      cards:
+        - title: "Attribute-Based Criteria"
+          badge: "Compliance & Location"
+          body: "Combines compliance prerequisites (Training = Approved) and multi-value location attributes (Boston OR Houston)."
+        - title: "Autonomous Role Assignment"
+          badge: "Zero Manual Tickets"
+          body: "When attributes align, the Store Manager Role is automatically granted, immediately provisioning regional access."
+          highlight: true
+    notes: "Baseline Slide 5 illustrated dynamic role assignment for a Store Manager Role based on Training Status = Approved and Store Location = Boston/Houston. Multi-dimensional evaluation prevents static role explosion."
+
+  - slide_number: 6
+    layout: "Title and Content"
+    role: "architecture"
+    badge: "Tenant Architecture"
+    title: "The Smart iLab Proof-of-Value (PoV) Blueprint"
+    subtitle: "A 3-tier modular tenant stack accelerating customer use-case validation"
+    content:
+      image:
+        src: "assets/image5.svg"
+        alt: "Modular Tenant Blueprint"
+        caption: "Modular Sandbox Stack"
+      diagram:
+        kind: "layered_stack"
+        title: "3-Tier Demonstration & PoV Stack"
+        layers:
+          - tier: "Tier 03"
+            title: "Customer Use Cases Layer"
+            badge: "PoV iLab Tailoring"
+            desc: "Custom client scenarios, bespoke target connectors, tailored approval workflows, and executive PoV demonstration storylines."
+            accent: "orchid"
+          - tier: "Tier 02"
+            title: "Content & Sandbox Engine"
+            badge: "Imported Test Data & Config"
+            desc: "Pre-populated HR sources, active directory schemas, multi-tier roles, certification campaigns, and simulated lifecycle events."
+            accent: "cyan"
+            highlight: true
+          - tier: "Tier 01"
+            title: "Core Foundation Layer"
+            badge: "Identity Security Cloud"
+            desc: "Production-grade SailPoint Identity Security Cloud tenant baseline with hardened tenant isolation and security policies."
+            accent: "blue"
+      cards:
+        - title: "Rapid PoV Acceleration"
+          badge: "Out of the Box"
+          body: "Pre-loaded tenant baseline eliminates weeks of manual setup, enabling realistic governance simulations on day one."
+        - title: "Modular Extensibility"
+          badge: "Tailored Demos"
+          body: "Clean separation between foundational schemas and client-specific add-ons lets teams rapidly prototype custom scenarios."
+          highlight: true
+    notes: "Baseline Slide 6 defined the 3-layer Smart iLab tenant architecture: Foundation (clean ISC tenant), Content (imported data, sources, roles, configurations), and Customer Use Cases (hands-on exploration and tailored PoV extensions)."
