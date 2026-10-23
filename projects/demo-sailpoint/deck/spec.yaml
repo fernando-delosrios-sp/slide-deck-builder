@@ -1,0 +1,126 @@
+title: "Next-Gen Identity Security Platform"
+goal: "Demonstrate how the 2026 SailPoint architecture delivers autonomous identity governance and real-time threat containment."
+theme: "sailpoint-corporate-2026-design"
+slide_count: 6
+
+options:
+  language: "en"
+  audience: "Executive & Security Leadership"
+  tone: "authoritative, visionary, high-impact"
+  length: "short"
+
+slides:
+  - slide_number: 1
+    layout: "Title Slide"
+    role: "cover"
+    badge: "SailPoint 2026 Vision"
+    title: "Autonomous Identity Security"
+    subtitle: "Unified governance, privileged access, and threat intelligence in a single plane."
+    content:
+      body: "SailPoint Product & Architecture Strategy"
+    notes: "Welcome leadership. Today we outline our next-generation unified identity security platform."
+
+  - slide_number: 2
+    layout: "Title and Content"
+    role: "metrics"
+    badge: "Key Performance Indicators"
+    title: "Platform Scale & Impact"
+    subtitle: "Measurable efficiency gains across global enterprise deployments."
+    content:
+      metrics:
+        - value: "99.98%"
+          label: "Governance Uptime"
+          subtext: "Tier-1 enterprise SLA"
+          highlight: true
+        - value: "10x"
+          label: "Faster Access Reviews"
+          subtext: "Powered by autonomous ML"
+          highlight: false
+        - value: "-64%"
+          label: "Identity Breach Exposure"
+          subtext: "Zero-trust containment"
+          highlight: true
+    notes: "These three metrics summarize our core value proposition: reliability, automation, and threat containment."
+
+  - slide_number: 3
+    layout: "Title and Content"
+    role: "features"
+    badge: "Core Capabilities"
+    title: "Pillars of Autonomous Governance"
+    subtitle: "End-to-end intelligence from entitlement discovery to risk mitigation."
+    content:
+      cards:
+        - title: "Identity Graph"
+          badge: "Context"
+          body: "Dynamic map of human, machine, and SaaS credentials correlated in real-time."
+          icon: "shield"
+          highlight: false
+        - title: "Policy Orchestrator"
+          badge: "Automation"
+          body: "Zero-touch provisioning and de-provisioning driven by business rules."
+          icon: "key"
+          highlight: true
+        - title: "Threat Sentinel"
+          badge: "Protection"
+          body: "Continuous anomalous entitlement detection with automated step-up containment."
+          icon: "lock"
+          highlight: false
+    notes: "Walk through each pillar, highlighting how Policy Orchestrator bridges the graph to threat containment."
+
+  - slide_number: 4
+    layout: "Comparison"
+    role: "comparison"
+    badge: "Transformation"
+    title: "Traditional IAM vs. Autonomous Security"
+    subtitle: "Shifting from quarterly manual audits to continuous machine-speed validation."
+    content:
+      comparison:
+        left:
+          title: "Legacy IAM"
+          badge: "Quarterly & Manual"
+          bullets:
+            - "Manual spreadsheet access certifications"
+            - "Stale orphan accounts and permission sprawl"
+            - "Fragmented visibility across multi-cloud accounts"
+            - "Delayed revocation taking days or weeks"
+        right:
+          title: "SailPoint Autonomous"
+          badge: "Continuous & AI-Driven"
+          bullets:
+            - "Machine-learning micro-certifications"
+            - "Instant orphan identification and auto-revoke"
+            - "Unified single-pane visibility across all clouds"
+            - "Sub-second session termination on threat detection"
+    notes: "Contrast the manual overhead of legacy IAM with continuous automated validation."
+
+  - slide_number: 5
+    layout: "Two Content"
+    role: "architecture"
+    badge: "Architecture"
+    title: "Cloud Topology & Extensibility"
+    subtitle: "Modern multi-tenant SaaS foundation with developer-first extensibility."
+    content:
+      regions:
+        - id: "left"
+          title: "SaaS Control Plane"
+          bullets:
+            - "Distributed microservices across global regions"
+            - "Multi-cloud telemetry ingestion via streaming Kafka"
+            - "High-throughput graph database for entitlement trees"
+        - id: "right"
+          title: "Extensibility Ecosystem"
+          bullets:
+            - "Open REST and GraphQL APIs for all capabilities"
+            - "Webhooks and event-driven trigger actions"
+            - "Pre-built connectors for 300+ SaaS applications"
+    notes: "Reassure enterprise architecture teams about scalability, sovereignty, and connector ecosystem."
+
+  - slide_number: 6
+    layout: "Section Header"
+    role: "closing"
+    badge: "Action Plan"
+    title: "Secure Every Identity. Protect Every Access."
+    subtitle: "Next Steps: Production Pilot & Security Architecture Assessment"
+    content:
+      body: "Questions & Discussion | Visit sailpoint.com/security"
+    notes: "Thank the executive team and open the floor for questions."

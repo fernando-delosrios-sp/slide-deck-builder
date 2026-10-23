@@ -17,6 +17,8 @@ colors:
   card-border: "#e2e8f0"
 
 typography:
+  google-fonts: "Plus+Jakarta+Sans:wght@300;400;500;600;700"
+  font-family: "'Plus Jakarta Sans', system-ui, sans-serif"
   title-slide:
     fontFamily: "Plus Jakarta Sans, system-ui, sans-serif"
     fontSize: 56px

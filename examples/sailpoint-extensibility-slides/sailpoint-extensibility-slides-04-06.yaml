@@ -9,7 +9,7 @@ slides:
   - slide_number: 4
     layout: "Title and Content"
     role: "framework"
-    title: "Seven seams on one platform"
+    title: "Eight seams on one platform"
     subtitle: "Talk to ISC, change how ISC talks to systems, or both"
     content:
       bullets:
@@ -17,6 +17,7 @@ slides:
         - "API: programmatic control of ISC objects and operations."
         - "SDK and CLI: typed clients and automation on that API."
         - "Rules and transforms: in-product logic at aggregation, provisioning, and identity processing."
+        - "Workflows and forms: interactive processes; workflows call the API when no native step exists."
         - "MCP server: agent-facing tools over ISC."
         - "Generic connectors: Web Services, JDBC, Delimited Text, and similar templates."
         - "Custom SaaS connectors and customizers: own the operation, or intercept someone else's."
@@ -27,11 +28,12 @@ slides:
           - "API"
           - "SDK and CLI"
           - "Rules and transforms"
+          - "Workflows and forms"
           - "MCP server"
           - "Generic connectors"
           - "Custom SaaS connectors and customizers"
-        emphasis: "Seven peer seams, not a ranking."
-    notes: "Do not rank them. Rank comes from the job. Rules still win for a one-line transform. Custom SaaS wins when you need an operation ISC cannot express. MCP is the newest seam: same API, agent-shaped."
+        emphasis: "Eight peer seams, not a ranking."
+    notes: "Do not rank them. Rank comes from the job. Rules still win for a one-line transform. Workflows and forms win when a human must decide mid-process. Custom SaaS wins when you need an operation ISC cannot express. MCP is the newest seam: same API, agent-shaped."
 
   - slide_number: 5
     layout: "Section Header"

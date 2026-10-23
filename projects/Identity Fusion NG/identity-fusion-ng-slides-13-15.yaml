@@ -1,0 +1,76 @@
+title: "Identity Fusion NG"
+goal: "Give newcomers the value and mental model of Identity Fusion NG: why it exists, how Map-Define-Match works, who participates, and how to run it."
+slide_count: 3
+options:
+  language: "en"
+  audience: "New to the product; an SME presents from identity-fusion-ng-speaker-notes.md"
+  tone: "Technical and educational"
+slides:
+  - slide_number: 13
+    layout: "Title and Content"
+    role: "architecture"
+    title: "What is external processing for?"
+    subtitle: "One gateway, four capabilities"
+    content:
+      bullets:
+        - "Proxy mode runs the connector logic on your infrastructure and streams results back to ISC."
+        - "Scenario recording captures live API traffic for offline replay and regression tests."
+        - "External logging posts from ISC, or writes to disk when proxy mode is on."
+        - "Dry-run runs the whole pipeline with writes suppressed, so nothing touches the tenant."
+      diagram:
+        kind: "hierarchy"
+        elements:
+          - "External settings gateway"
+          - "Proxy mode"
+          - "Scenario recording"
+          - "External logging"
+          - "Dry-run"
+        connections:
+          - "External settings gateway -> each of the four capabilities"
+        emphasis: "One gateway is the entry point for all four."
+
+  - slide_number: 14
+    layout: "Title and Content"
+    role: "architecture"
+    title: "Where can you plug in your own code?"
+    subtitle: "Configuration first, then two override seams: services and operations"
+    content:
+      bullets:
+        - "Configuration covers most needs: attribute mappings, Velocity expressions, match rules and custom Velocity algorithms."
+        - "Override a service: ship your own mapping, definition or matching service and the registry wires the rest unchanged."
+        - "Override an operation: replace accountList or any other operation and still receive every service already built."
+        - "Both seams resolve per operation run, so an override stays scoped to that run and never leaks into another."
+      diagram:
+        kind: "flow"
+        elements:
+          - "ISC calls a standard operation: accountList, accountRead, accountCreate"
+          - "Operation handler picks the route: built-in, your operation override, or proxy"
+          - "Service registry builds this run's services, your service override included"
+          - "Mapping, definition, matching and the supporting services"
+          - "Exit: accounts, entitlements and schema back to ISC"
+        connections:
+          - "ISC operation -> operation handler"
+          - "operation handler -> service registry"
+          - "service registry -> mapping, definition, matching and supporting services"
+          - "services -> Exit"
+        emphasis: "Your code enters at two points only: the operation handler and the service registry."
+
+  - slide_number: 15
+    layout: "Title and Content"
+    role: "closing"
+    title: "Which path is yours?"
+    subtitle: "Four starting points, each with a short reading list"
+    content:
+      bullets:
+        - "HR and AD deduplication: umbrella mode, sources and scope, then matching identities."
+        - "Username or employee-ID pool: Records source type, then defining attributes."
+        - "Contractor cleanup: Orphan source type, then matching identities."
+        - "Attribute consolidation only: side-car mode, then mapping attributes."
+      diagram:
+        kind: "cards"
+        elements:
+          - "HR and AD deduplication"
+          - "Username or employee-ID pool"
+          - "Contractor cleanup"
+          - "Attribute consolidation only"
+        emphasis: "Four peer starting points, no ranking between them."

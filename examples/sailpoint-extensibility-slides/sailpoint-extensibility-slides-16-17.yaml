@@ -45,7 +45,7 @@ slides:
     content:
       bullets:
         - "ISC is the chassis. Extensibility is a chip, a sound system, a better wheel — not a spoiler on a wreck."
-        - "Pick the seam: event, API, rule, generic connector, custom SaaS, or customizer."
+        - "Pick the seam: event, API, rule, workflow, form, generic connector, custom SaaS, or customizer."
         - "Fusion shows the loopback mindset at full power: ISC as source and target."
         - "The customizer framework shows how to change a connector you do not own, with typed, stackable operations."
       diagram:

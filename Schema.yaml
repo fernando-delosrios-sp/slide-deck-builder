@@ -1,8 +1,9 @@
 type: object
 description: |
-  A deck spec carries structure and content only. Visual appearance comes from the
-  single enabled '*-design.md' style source at generation time, so this schema has no
-  style, theme, colour or font field, and no field may describe an appearance.
+  A deck spec defines the structure, hierarchy, and content for a presentation.
+  Visual appearance is governed by the selected style ('*-design.md') and layout definitions ('Layouts.csv').
+  The spec focuses strictly on content semantics, leaving colors, typography scales, and rendering
+  rules to the styling engine.
 additionalProperties: false
 required:
   - title
@@ -11,18 +12,16 @@ required:
 properties:
   title:
     type: string
-    description: Human-readable deck title.
+    description: Human-readable presentation title.
   goal:
     type: string
-    description: One or two sentences describing what the deck should achieve.
+    description: One or two sentences describing what the presentation achieves.
+  theme:
+    type: string
+    description: Name or filename of the style to use (e.g. 'sailpoint-corporate-2026-design').
   slide_count:
     type: integer
-    description: |
-      How many slides this spec asks for: the number of entries in 'slides', which for a
-      slice of a longer deck is the length of the slice, not the length of the whole deck.
-      Generation outputs exactly this many slides. A count that disagrees with the entries
-      present means the spec was truncated in transit, so generation stops and asks for the
-      rest rather than inventing the difference.
+    description: Total number of slides in this specification. Must match the length of the 'slides' array.
   options:
     type: object
     properties:
@@ -31,23 +30,17 @@ properties:
         description: e.g. 'en', 'es', 'pt'.
       audience:
         type: string
-        description: who this is for.
+        description: Target audience (e.g. 'Executive leadership', 'DevOps engineers', 'Customers').
       tone:
         type: string
-        description: short description, e.g. 'confident, concise'.
+        description: e.g. 'authoritative, concise', 'energetic, visionary'.
       length:
         type: string
         enum:
           - short
           - default
           - long
-        description: |
-          Target size while the spec is being written, one of:
-          - 'short' - ~5-7 slides
-          - 'default' - ~8-14 slides
-          - 'long' - 15+ slides
-          Generation ignores this field. Only the 'slides' array sets how many slides come
-          out, so 'long' on a spec holding three entries still generates three slides.
+        description: Target presentation length ('short' = 5-7 slides, 'default' = 8-14, 'long' = 15+).
   slides:
     type: array
     items:
@@ -61,29 +54,22 @@ properties:
       properties:
         slide_number:
           type: integer
-          description: A unique, sequential index for this slide starting at 1. Acts as a strict boundary guardrail between slides.
+          description: Unique, sequential 1-based index for the slide.
         layout:
           type: string
-          description: |
-            Must match 'Layout Name' in 'Layouts'. Examples:
-            - 'Title Slide'
-            - 'Title and Content'
-            - 'Section Header'
-            - 'Two Content'
-            - 'Comparison'
-            - 'Title Only'
-            - 'Blank'
-            - 'Content with Caption'
-            - 'Picture with Caption'
+          description: Must match a 'Layout Name' in Layouts.csv (e.g. 'Title Slide', 'Title and Content', 'Two Content', 'Comparison', 'Section Header', 'Three Columns', 'Four Tiles').
         role:
           type: string
-          description: Free-form semantic tag, e.g. 'cover', 'problem', 'solution', 'metrics', 'roadmap', 'summary'.
+          description: Semantic role (e.g. 'cover', 'problem', 'solution', 'architecture', 'metrics', 'roadmap', 'summary').
         title:
           type: string
           description: Slide heading.
         subtitle:
           type: string
-          description: Short supporting line for title (where layout supports it).
+          description: Short supporting subtitle.
+        badge:
+          type: string
+          description: Small category eyebrow or badge tag above the title (e.g. 'Q3 2026', 'Identity Security', 'Milestone').
         content:
           type: object
           properties:
@@ -91,37 +77,103 @@ properties:
               type: array
               items:
                 type: string
-              description: bullet list for single-column layouts.
+              description: Bullet list points.
             body:
               type: string
-              description: paragraph text.
+              description: Paragraph text or narrative copy.
+            metrics:
+              type: array
+              items:
+                type: object
+                required:
+                  - value
+                  - label
+                properties:
+                  value:
+                    type: string
+                    description: The stat or metric (e.g. '10x', '99.9%', '$4.2M').
+                  label:
+                    type: string
+                    description: Label explaining the stat.
+                  subtext:
+                    type: string
+                    description: Context or delta (e.g. '+24% YoY').
+                  highlight:
+                    type: boolean
+                    description: Whether to emphasize with accent glow.
+            cards:
+              type: array
+              items:
+                type: object
+                required:
+                  - title
+                  - body
+                properties:
+                  title:
+                    type: string
+                  body:
+                    type: string
+                  icon:
+                    type: string
+                    description: Semantic icon name (e.g. 'shield', 'key', 'cloud', 'chart', 'user').
+                  badge:
+                    type: string
+                  highlight:
+                    type: boolean
             regions:
               type: array
-              description: used for multi-column layouts
+              description: Content blocks mapped to layout regions/columns.
               items:
                 type: object
                 properties:
                   id:
                     type: string
-                    description: e.g. 'left', 'right'.
+                    description: 'left', 'right', 'col1', 'col2', 'col3', 'sidebar', etc.
+                  title:
+                    type: string
                   kind:
                     type: string
                     enum:
                       - text
+                      - cards
                       - media
                   bullets:
                     type: array
                     items:
                       type: string
-                    description: For 'text' regions.
+                  body:
+                    type: string
                   media_ref:
                     type: string
-                    description: name of a media item, for 'media' regions.
+            comparison:
+              type: object
+              description: Side-by-side comparison structure.
+              properties:
+                left:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    badge:
+                      type: string
+                    bullets:
+                      type: array
+                      items:
+                        type: string
+                right:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    badge:
+                      type: string
+                    bullets:
+                      type: array
+                      items:
+                        type: string
             diagram:
               type: object
-              description: |
-                Structural intent for one drawing on this slide. Says what the picture
-                shows; the enabled style decides strokes, colours, icons and depth.
+              description: Structural intent for a diagram or process flow.
               required:
                 - kind
                 - elements
@@ -136,55 +188,31 @@ properties:
                     - timeline
                     - hierarchy
                     - cards
-                  description: |
-                    Picture type. 'elements' stay a flat list of strings; the prefix
-                    and delimiter inside each string depend on 'kind':
-                    - 'flow' - ordered steps with inputs and exits. Each element is
-                      one node in reading order. Prefix terminals 'Exit: '. Write
-                      'connections' as 'A -> B'.
-                    - 'comparison' - two alternatives side by side. Prefix every
-                      element with its side ('Without Fusion: …', 'Umbrella: …') so
-                      the two columns parse without a separate grouping field.
-                    - 'matrix' - rows scored against columns. First element is
-                      'Header: <row-key> | <col> | <col> | …'. Each following
-                      element is 'Record: <row-label> | <cell> | <cell> | …' with
-                      the same column count. Pipes are cell delimiters, not markdown
-                      table fences; no leading or trailing '|'. Every scored cell
-                      belongs on a Record; do not list axis names alone and leave
-                      the generator to invent yes/no, scores or phrases.
-                    - 'funnel' - candidates narrowing to outcomes. Elements run
-                      wide to narrow; the first is the intake, later ones are
-                      successive splits or exits.
-                    - 'timeline' - events or phases along an axis. Elements are
-                      chronological; 'connections' chain them in that order.
-                    - 'hierarchy' - layers or containment. The first element is
-                      the root; the rest are children. 'connections' are
-                      'parent -> child' or 'parent -> each of …'.
-                    - 'cards' - a grid of peer items. One element per card; no
-                      ranking. Omit 'connections'.
                 elements:
                   type: array
                   items:
                     type: string
-                  description: |
-                    Labelled parts of the drawing, in reading order, using the
-                    per-kind prefixes under 'kind'. Values are facts (names,
-                    yes/no, scores, short phrases), never appearance (colours,
-                    icons, stroke, layout).
                 connections:
                   type: array
                   items:
                     type: string
-                  description: |
-                    Relationships between elements, e.g. 'Map -> Define'. Required
-                    on a 'flow' that branches, merges or exits, and useful for
-                    'comparison', 'funnel', 'timeline' and 'hierarchy'. A strictly
-                    sequential flow may omit them: 'elements' already carry reading
-                    order. Omit on 'cards'. On 'matrix' omit unless a relationship
-                    outside the grid must be drawn.
                 emphasis:
                   type: string
-                  description: The single element or relationship the slide argues for.
+            image:
+              type: object
+              description: Single visual asset (illustration, diagram, or screenshot) embedded in the slide.
+              required:
+                - src
+              properties:
+                src:
+                  type: string
+                  description: Relative path to the image asset (e.g. 'assets/pipeline_architecture.png').
+                alt:
+                  type: string
+                  description: Image description.
+                caption:
+                  type: string
+                  description: Optional caption or subtitle beneath the image.
             media:
               type: array
               items:
@@ -195,15 +223,10 @@ properties:
                 properties:
                   name:
                     type: string
-                    description: identifier used in 'media_ref'.
                   source:
                     type: string
-                    description: URL or Drive ID.
                   alt:
                     type: string
-                    description: alt text.
         notes:
           type: string
-          description: |
-            What the presenter says while this slide is up: background, caveats, links.
-            Diagram intent belongs in 'content.diagram'; appearance belongs to the style.
+          description: Presenter notes visible in speaker view.

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spec Preview: Next-Gen Identity Security Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --surface: #0B111E;
+            --card-bg: #0B111E;
+            --card-border: #415364;
+            --accent: #54C0E8;
+            --accent-alt: #D60EB5;
+            --ink: #FFFFFF;
+            --ink-muted: #DAE1E9;
+            --font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: radial-gradient(circle at 85% 15%, rgba(0, 51, 161, 0.4) 0%, rgba(1, 28, 72, 0.6) 45%, #000000 100%), #000000;
+            color: var(--ink);
+            font-family: var(--font-family);
+            padding: 2rem 2.5rem;
+            min-height: 100vh;
+        }
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: rgba(11, 17, 30, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        .header-info h1 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+            background: linear-gradient(90deg, #FFFFFF, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            align-items: center;
+        }
+        .pill {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .theme-pill { background: rgba(84, 192, 232, 0.15); border: 1px solid var(--accent); color: var(--accent); }
+        .count-pill { background: rgba(214, 14, 181, 0.15); border: 1px solid var(--accent-alt); color: var(--accent-alt); }
+        .layout-pill { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--ink-muted); }
+        .role-pill { background: rgba(84, 192, 232, 0.1); color: var(--accent); }
+
+        .palette-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .swatch {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+        .goal-banner {
+            padding: 1rem 1.5rem;
+            background: rgba(1, 28, 72, 0.4);
+            border-left: 4px solid var(--accent);
+            border-radius: 8px;
+            margin-bottom: 2.5rem;
+            font-size: 0.95rem;
+            color: var(--ink-muted);
+        }
+        .goal-banner strong { color: var(--ink); }
+
+        .deck-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 2rem;
+        }
+        .slide-card {
+            background: linear-gradient(145deg, rgba(11, 17, 30, 0.95) 0%, rgba(1, 28, 72, 0.35) 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+        .slide-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 12px 32px rgba(84, 192, 232, 0.2);
+        }
+        .slide-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .slide-num {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+        .slide-canvas {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            min-height: 220px;
+        }
+        .mini-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--accent);
+            letter-spacing: 0.08em;
+        }
+        .slide-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--ink);
+            line-height: 1.3;
+        }
+        .slide-subtitle {
+            font-size: 0.82rem;
+            color: var(--ink-muted);
+            margin-top: 0.25rem;
+        }
+        .slide-content-area {
+            flex: 1;
+            font-size: 0.82rem;
+            color: var(--ink-muted);
+        }
+        .mini-bullets {
+            padding-left: 1.2rem;
+            line-height: 1.6;
+        }
+        .mini-bullets li { margin-bottom: 0.3rem; }
+        .mini-body { line-height: 1.5; }
+
+        .mini-metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 0.6rem;
+            margin-top: 0.5rem;
+        }
+        .mini-metric-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 0.6rem;
+            text-align: center;
+        }
+        .mini-metric-card.glowing {
+            border-color: var(--accent);
+            box-shadow: 0 0 12px rgba(84, 192, 232, 0.25);
+        }
+        .metric-val {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .metric-lbl { font-size: 0.7rem; color: var(--ink); }
+        .metric-sub { font-size: 0.65rem; color: var(--accent-alt); }
+
+        .mini-cards-grid, .mini-comparison-grid, .mini-regions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            margin-top: 0.5rem;
+        }
+        .mini-content-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 0.6rem;
+        }
+        .mini-content-card.glowing {
+            border-color: var(--accent-alt);
+        }
+        .card-tag {
+            display: inline-block;
+            font-size: 0.65rem;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            padding: 1px 4px;
+            margin-bottom: 0.3rem;
+        }
+        .mini-diagram-box {
+            background: rgba(84, 192, 232, 0.05);
+            border: 1px dashed var(--accent);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .diagram-title { font-size: 0.75rem; font-weight: 600; color: var(--accent); margin-bottom: 0.4rem; }
+        .diagram-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+        .diagram-chip {
+            background: rgba(255,255,255,0.08);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 0.68rem;
+        }
+
+        .slide-notes {
+            margin-top: 0.75rem;
+            padding-top: 0.6rem;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+            font-size: 0.72rem;
+            color: #8b9bb4;
+            line-height: 1.4;
+        }
+        .notes-tag { color: var(--accent); font-weight: 600; }
+
+        .actions-footer {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(11, 17, 30, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .action-btn {
+            background: linear-gradient(135deg, var(--accent), var(--accent-alt));
+            color: #FFFFFF;
+            border: none;
+            padding: 0.75rem 1.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(84, 192, 232, 0.35);
+        }
+    </style>
+</head>
+<body>
+    <div class="header-bar">
+        <div class="header-info">
+            <h1>Next-Gen Identity Security Platform</h1>
+            <div class="header-meta">
+                <span class="pill theme-pill">sailpoint-corporate-2026-design</span>
+                <span class="pill count-pill">6 Slides</span>
+                <span><strong>Audience:</strong> Executive & Security Leadership</span>
+                <span><strong>Tone:</strong> authoritative, visionary, high-impact</span>
+            </div>
+        </div>
+        <div class="palette-bar">
+            <span style="font-size: 0.75rem; color: var(--ink-muted); margin-right: 0.4rem;">Palette:</span>
+            <div class="swatch" style="background: #000000;" title="Background"></div>
+            <div class="swatch" style="background: #0B111E;" title="Surface Soft"></div>
+            <div class="swatch" style="background: #54C0E8;" title="Accent Aqua"></div>
+            <div class="swatch" style="background: #D60EB5;" title="Accent Magenta"></div>
+            <div class="swatch" style="background: #415364;" title="Border"></div>
+        </div>
+    </div>
+
+    <div class="goal-banner"><strong>Goal:</strong> Demonstrate how the 2026 SailPoint architecture delivers autonomous identity governance and real-time threat containment.</div>
+
+    <div class="deck-grid">
+        
+        <div class="slide-card">
+            <div class="slide-card-header">
+                <span class="slide-num">#1</span>
+                <span class="pill layout-pill">Title Slide</span>
+                <span class="pill role-pill">cover</span>
+            </div>
+            <div class="slide-canvas">
+                <div class="slide-title-area">
+                    <h3 class="slide-title">Autonomous Identity Security</h3>
+                    <div class="slide-subtitle">Unified governance, privileged access, and threat intelligence in a single plane.</div>
+                </div>
+                <div class="slide-content-area">
+                    <div class="mini-badge">SailPoint 2026 Vision</div><p class="mini-body">SailPoint Product & Architecture Strategy</p>
+                </div>
+            </div>
+            <div class="slide-notes"><span class="notes-tag">Notes:</span> Welcome leadership. Today we outline our next-generation unified identity security platform.</div>
+        </div>
+        
+        <div class="slide-card">
+            <div class="slide-card-header">
+                <span class="slide-num">#2</span>
+                <span class="pill layout-pill">Title and Content</span>
+                <span class="pill role-pill">metrics</span>
+            </div>
+            <div class="slide-canvas">
+                <div class="slide-title-area">
+                    <h3 class="slide-title">Platform Scale & Impact</h3>
+                    <div class="slide-subtitle">Measurable efficiency gains across global enterprise deployments.</div>
+                </div>
+                <div class="slide-content-area">
+                    <div class="mini-badge">Key Performance Indicators</div><div class="mini-metrics-grid">
+                    <div class="mini-metric-card glowing">
+                        <div class="metric-val">99.98%</div>
+                        <div class="metric-lbl">Governance Uptime</div>
+                        <div class="metric-sub">Tier-1 enterprise SLA</div>
+                    </div>
+                
+                    <div class="mini-metric-card">
+                        <div class="metric-val">10x</div>
+                        <div class="metric-lbl">Faster Access Reviews</div>
+                        <div class="metric-sub">Powered by autonomous ML</div>
+                    </div>
+                
+                    <div class="mini-metric-card glowing">
+                        <div class="metric-val">-64%</div>
+                        <div class="metric-lbl">Identity Breach Exposure</div>
+                        <div class="metric-sub">Zero-trust containment</div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="slide-notes"><span class="notes-tag">Notes:</span> These three metrics summarize our core value proposition: reliability, automation, and threat containment.</div>
+        </div>
+        
+        <div class="slide-card">
+            <div class="slide-card-header">
+                <span class="slide-num">#3</span>
+                <span class="pill layout-pill">Title and Content</span>
+                <span class="pill role-pill">features</span>
+            </div>
+            <div class="slide-canvas">
+                <div class="slide-title-area">
+                    <h3 class="slide-title">Pillars of Autonomous Governance</h3>
+                    <div class="slide-subtitle">End-to-end intelligence from entitlement discovery to risk mitigation.</div>
+                </div>
+                <div class="slide-content-area">
+                    <div class="mini-badge">Core Capabilities</div><div class="mini-cards-grid">
+                    <div class="mini-content-card">
+                        <span class="card-tag">Context</span>
+                        <strong>Identity Graph</strong>
+                        <p>Dynamic map of human, machine, and SaaS credentials correlated in real-time.</p>
+                    </div>
+                
+                    <div class="mini-content-card">
+                        <span class="card-tag">Automation</span>
+                        <strong>Policy Orchestrator</strong>
+                        <p>Zero-touch provisioning and de-provisioning driven by business rules.</p>
+                    </div>
+                
+                    <div class="mini-content-card">
+                        <span class="card-tag">Protection</span>
+                        <strong>Threat Sentinel</strong>
+                        <p>Continuous anomalous entitlement detection with automated step-up containment.</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="slide-notes"><span class="notes-tag">Notes:</span> Walk through each pillar, highlighting how Policy Orchestrator bridges the graph to threat containment.</div>
+        </div>
+        
+        <div class="slide-card">
+            <div class="slide-card-header">
+                <span class="slide-num">#4</span>
+                <span class="pill layout-pill">Comparison</span>
+                <span class="pill role-pill">comparison</span>
+            </div>
+            <div class="slide-canvas">
+                <div class="slide-title-area">
+                    <h3 class="slide-title">Traditional IAM vs. Autonomous Security</h3>
+                    <div class="slide-subtitle">Shifting from quarterly manual audits to continuous machine-speed validation.</div>
+                </div>
+                <div class="slide-content-area">
+                    <div class="mini-badge">Transformation</div>
+                <div class="mini-comparison-grid">
+                    <div class="mini-content-card">
+                        <span class="card-tag">Quarterly & Manual</span>
+                        <strong>Legacy IAM</strong>
+                        <ul class="mini-bullets"><li>Manual spreadsheet access certifications</li><li>Stale orphan accounts and permission sprawl</li><li>Fragmented visibility across multi-cloud accounts</li><li>Delayed revocation taking days or weeks</li></ul>
+                    </div>
+                    <div class="mini-content-card glowing">
+                        <span class="card-tag" style="color: #D60EB5; border-color: #D60EB5;">Continuous & AI-Driven</span>
+                        <strong>SailPoint Autonomous</strong>
+                        <ul class="mini-bullets"><li>Machine-learning micro-certifications</li><li>Instant orphan identification and auto-revoke</li><li>Unified single-pane visibility across all clouds</li><li>Sub-second session termination on threat detection</li></ul>
+                    </div>
+                </div>
+            
+                </div>
+            </div>
+            <div class="slide-notes"><span class="notes-tag">Notes:</span> Contrast the manual overhead of legacy IAM with continuous automated validation.</div>
+        </div>
+        
+        <div class="slide-card">
+            <div class="slide-card-header">
+                <span class="slide-num">#5</span>
+                <span class="pill layout-pill">Two Content</span>
+                <span class="pill role-pill">architecture</span>
+            </div>
+            <div class="slide-canvas">
+                <div class="slide-title-area">
+                    <h3 class="slide-title">Cloud Topology & Extensibility</h3>
+                    <div class="slide-subtitle">Modern multi-tenant SaaS foundation with developer-first extensibility.</div>
+                </div>
+                <div class="slide-content-area">
+                    <div class="mini-badge">Architecture</div><div class="mini-regions-grid">
+                    <div class="mini-content-card">
+                        <strong>SaaS Control Plane</strong>
+                        <ul class="mini-bullets"><li>Distributed microservices across global regions</li><li>Multi-cloud telemetry ingestion via streaming Kafka</li><li>High-throughput graph database for entitlement trees</li></ul>
+                    </div>
+                
+                    <div class="mini-content-card">
+                        <strong>Extensibility Ecosystem</strong>
+                        <ul class="mini-bullets"><li>Open REST and GraphQL APIs for all capabilities</li><li>Webhooks and event-driven trigger actions</li><li>Pre-built connectors for 300+ SaaS applications</li></ul>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="slide-notes"><span class="notes-tag">Notes:</span> Reassure enterprise architecture teams about scalability, sovereignty, and connector ecosystem.</div>
+        </div>
+        
+        <div class="slide-card">
+            <div class="slide-card-header">
+                <span class="slide-num">#6</span>
+                <span class="pill layout-pill">Section Header</span>
+                <span class="pill role-pill">closing</span>
+            </div>
+            <div class="slide-canvas">
+                <div class="slide-title-area">
+                    <h3 class="slide-title">Secure Every Identity. Protect Every Access.</h3>
+                    <div class="slide-subtitle">Next Steps: Production Pilot & Security Architecture Assessment</div>
+                </div>
+                <div class="slide-content-area">
+                    <div class="mini-badge">Action Plan</div><p class="mini-body">Questions & Discussion | Visit sailpoint.com/security</p>
+                </div>
+            </div>
+            <div class="slide-notes"><span class="notes-tag">Notes:</span> Thank the executive team and open the floor for questions.</div>
+        </div>
+        
+    </div>
+
+    <div class="actions-footer">
+        <div>
+            <strong>Ready to generate the presentation?</strong>
+            <div style="font-size: 0.85rem; color: var(--ink-muted); margin-top: 0.2rem;">
+                Review the structure and outline above. Run <code>/deck-builder</code> to compile into Reveal.js HTML and PowerPoint PPTX.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

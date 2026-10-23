@@ -1,0 +1,80 @@
+title: "Identity Fusion NG"
+goal: "Give newcomers the value and mental model of Identity Fusion NG: why it exists, how Map-Define-Match works, who participates, and how to run it."
+slide_count: 3
+options:
+  language: "en"
+  audience: "New to the product; an SME presents from identity-fusion-ng-speaker-notes.md"
+  tone: "Technical and educational"
+slides:
+  - slide_number: 4
+    layout: "Title and Content"
+    role: "framework"
+    title: "Who participates, and in which step?"
+    subtitle: "Seeding, scoring, contributing and exiting are four separate questions"
+    content:
+      bullets:
+        - "Seed is who originates the Fusion account, not who merely participates."
+        - "Baseline is identities in scope, existing Fusion accounts, and already-correlated accounts; Match scores only uncorrelated managed accounts against that set."
+        - "Map still walks every participating identity and managed account, so contributing attributes is not a Match privilege."
+      diagram:
+        kind: "matrix"
+        elements:
+          - "Header: participant | seed | enter Match | contribute attributes | non-match exit"
+          - "Record: identity in scope | yes | no | yes | return Fusion account"
+          - "Record: correlated managed account | yes | no | yes | return Fusion account"
+          - "Record: uncorrelated Authoritative account | yes/no | yes | yes | return Fusion account (new identity)"
+          - "Record: uncorrelated Records account | no | opt out | yes | drop"
+          - "Record: uncorrelated Orphan account | no | yes | yes | drop"
+        emphasis: "Only uncorrelated managed accounts enter Match."
+
+  - slide_number: 5
+    layout: "Two Content"
+    role: "architecture"
+    title: "Umbrella or side-car?"
+    subtitle: "The Fusion source's authority, not whether matching runs"
+    content:
+      regions:
+        - id: "left"
+          kind: "text"
+          bullets:
+            - "Umbrella: the Fusion source is authoritative and owns create-versus-correlate decisions."
+            - "Choose it whenever Fusion itself has to create identities from managed accounts."
+        - id: "right"
+          kind: "text"
+          bullets:
+            - "Side-car: the Fusion source is not authoritative; managed sources still create identities."
+            - "Choose it for generated usernames, merged attributes, or supplemental Records and Orphan sources."
+      diagram:
+        kind: "comparison"
+        elements:
+          - "Umbrella: managed sources"
+          - "Umbrella: Fusion source owns identity creation"
+          - "Side-car: Fusion source contributes attributes"
+        connections:
+          - "Umbrella: managed sources -> Fusion source -> identity creation"
+          - "Side-car: managed sources -> Fusion source -> attributes"
+        emphasis: "Which box owns identity creation."
+
+  - slide_number: 6
+    layout: "Title and Content"
+    role: "deep_dive"
+    title: "How does Map resolve conflicting attributes?"
+    subtitle: "Schema alignment first, then multi-source personality"
+    content:
+      bullets:
+        - "Many source names, one Fusion attribute: title, jobTitle and position become jobTitle."
+        - "First found takes the first non-empty value in the configured source order."
+        - "Keep a list or concatenate when a person legitimately has several values."
+        - "Source name forces one source to win for an attribute, whatever the order says."
+      diagram:
+        kind: "flow"
+        elements:
+          - "Workday: title = Solutions Consultant"
+          - "SuccessFactors: title = Sales Engineer"
+          - "Merge strategy: main account, origin account, first found, list, concatenate, source name"
+          - "Fusion attribute: [Solutions Consultant] [Sales Engineer]"
+        connections:
+          - "Workday -> merge strategy"
+          - "SuccessFactors -> merge strategy"
+          - "merge strategy -> jobTitle"
+        emphasis: "The chosen merge strategy decides how data is consolidated."
