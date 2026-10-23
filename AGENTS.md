@@ -23,7 +23,7 @@ User presentations live in `projects/<project-name>/`:
 
 ## Agent Skills & Commands
 
-- **/spec-wizard** (`.agents/skills/spec-wizard/SKILL.md`): Discovers or initializes `projects/<project-name>/`, uses `grilling` to settle outcome details from `Schema.yaml`, aligns on deck sections first, tackles slides section-by-section, and generates an interactive HTML preview (`preview.html`).
+- **/spec-wizard** (`.agents/skills/spec-wizard/SKILL.md`): Discovers or initializes `projects/<project-name>/`, detects PowerPoint decks to offer modernization baselines, uses `grilling` to settle outcome details from `Schema.yaml`, aligns on deck sections first, tackles slides section-by-section, and generates an interactive HTML preview (`preview.html`).
 - **/deck-builder** (`.agents/skills/deck-builder/SKILL.md`): Compiles `spec.yaml` into `deck.html` (Reveal.js), opens it for user review, and handles the post-build gate (iteration, PowerPoint export to `deck.pptx`, finalization, or scrap).
 
 ## Engine CLI Scripts
@@ -31,6 +31,9 @@ User presentations live in `projects/<project-name>/`:
 All scripts run via the project Python virtual environment (`./venv/bin/python`):
 
 ```bash
+# Inspect existing PowerPoint deck (extract slide inventory, hierarchy, tables, notes):
+./venv/bin/python engine/inspect_pptx.py projects/<project-name>/<file>.pptx
+
 # Generate lightweight HTML card preview:
 ./venv/bin/python engine/preview.py projects/<project-name>/deck/spec.yaml projects/<project-name>/deck/preview.html
 

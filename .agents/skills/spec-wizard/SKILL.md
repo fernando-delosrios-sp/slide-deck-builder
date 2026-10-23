@@ -1,13 +1,13 @@
 ---
 name: spec-wizard
-description: Guide the creation of a presentation specification (spec.yaml) from project documentation or scratch, using relentless grilling and section-by-section drafting, and generate an interactive lightweight HTML preview card deck.
+description: Author a presentation specification (spec.yaml) and preview deck from project documentation, scratch, or an existing PowerPoint (.pptx) deck baseline.
 ---
 
 Author a validated presentation spec (`projects/<project-name>/deck/spec.yaml`) and generate an interactive single-file HTML preview (`projects/<project-name>/deck/preview.html`).
 
 ## Workflow
 
-### 1. Project Directory Resolution
+### 1. Project Directory Resolution & Baseline Discovery
 The user works from a dedicated project directory: `projects/<project-name>/`.
 - **Check context**: Determine if an active project folder exists in `projects/` (or was passed by the user).
 - **If no project folder is found**:
@@ -16,8 +16,19 @@ The user works from a dedicated project directory: `projects/<project-name>/`.
      ```bash
      mkdir -p projects/<project-name>/deck
      ```
-  3. Prompt the user to supply or drop relevant documentation, notes, outlines, or briefs into `projects/<project-name>/` (e.g. `notes.md`, `brief.md`, technical whitepapers).
-  4. Inspect and read all documents residing in `projects/<project-name>/` before proceeding.
+  3. Prompt the user to supply or drop documentation, notes, outlines, briefs, or existing PowerPoint decks into `projects/<project-name>/`.
+- **Inspect project files**:
+  1. Read all text documents in `projects/<project-name>/` (e.g. `notes.md`, `brief.md`).
+  2. **PowerPoint Baseline Discovery**: Check for `.pptx` or `.ppt` files in `projects/<project-name>/`.
+     - When discovered, present a structured gate (`ask_question`):
+       * `modernize`: "Modernize `<filename>` (Recommended) — extract slide inventory, narrative flow, and presenter notes as baseline to restructure into modern semantic components."
+       * `scratch`: "Start fresh — build from notes, brief, or scratch without the existing presentation."
+     - If modernizing:
+       * Run the inspection engine to parse slides, text hierarchy, layouts, and presenter notes:
+         ```bash
+         ./venv/bin/python engine/inspect_pptx.py projects/<project-name>/<filename>.pptx
+         ```
+       * Use the extracted slide inventory as the baseline for modernization.
 
 ### 2. Discover Outcome Details (Grilling Round)
 Follow the [grilling](../grilling/SKILL.md) skill round loop to systematically settle the presentation contract without unstated assumptions.
@@ -28,14 +39,19 @@ Consult [Schema.yaml](../../../Schema.yaml) properties:
 - **Tone**: Voice and demeanor (e.g. authoritative, visionary, concise, urgent).
 - **Length**: Target size (`short`: 5-7 slides, `default`: 8-14 slides, `long`: 15+ slides).
 - **Theme / Style**: Visual kit from `styles/` (default: `sailpoint-corporate-2026-design`).
+- **Baseline Modernization Focus** (when modernizing an existing deck):
+  - Preserved assets: Core technical proofs, data points, or diagrams that must stay.
+  - Component elevations: Legacy bullet walls to convert into semantic components (`cards`, `metrics`, `comparison`, `diagram`).
+  - Cuts & consolidations: Redundant, outdated, or low-value slides to prune.
 
 Halt at the gate until the user confirms all outcome details.
 
 ### 3. Agree on Deck Sections & Story Arc
 Before drafting individual slides, present a structured high-level section roadmap / narrative arc:
 1. Propose 3 to 5 logical sections (e.g., *Cover & Executive Context*, *Problem & Threat Landscape*, *Architecture & Solution*, *Impact & Metrics*, *Next Steps & Close*).
-2. Allocate the target slide count across these sections.
-3. Lock the section sequence with the user.
+2. If modernizing, map baseline slides into the target sections, highlighting consolidations.
+3. Allocate the target slide count across these sections.
+4. Lock the section sequence with the user.
 
 ### 4. Tackle Sections One by One
 Work through the agreed sections sequentially. For each section:
@@ -70,4 +86,5 @@ Display a structured gate (`ask_question`):
 3. **Change Visual Theme**: Switch the style theme in `spec.yaml`.
 
 ## Completion Criterion
-`projects/<project-name>/deck/spec.yaml` is fully drafted, `preview.html` is generated, and the user has approved the preview or initiated `/deck-builder`.
+`projects/<project-name>/deck/spec.yaml` is fully drafted and validated against `Schema.yaml`, `preview.html` is generated, and the user has approved the preview or initiated `/deck-builder`.
+

@@ -11,6 +11,7 @@ All presentation projects reside in dedicated directories under `projects/`:
 projects/
 └── my-presentation/
     ├── context.md               # Context documentation, research, whitepapers, notes
+    ├── legacy-deck.pptx         # Optional existing PowerPoint deck to modernize
     └── deck/
         ├── spec.yaml            # Specification contract adhering to Schema.yaml
         ├── preview.html         # Lightweight visual card wireframe preview
@@ -48,7 +49,9 @@ Use dedicated agent skills to build and compile presentations:
 
 ### 1. `/spec-wizard` — Author & Preview
 - Locates or initializes `projects/<project-name>/` and context docs.
-- Uses `grilling` to interview you on outcome details from [Schema.yaml](Schema.yaml) (title, goal, audience, length, tone, theme).
+- **PowerPoint Baseline Discovery**: Scans for existing `.pptx` decks and offers an interactive gate to modernize them as a structured baseline.
+- **Content & Notes Extraction**: Runs `engine/inspect_pptx.py` to extract slide inventory, text hierarchy, tables, and speaker notes.
+- Uses `grilling` to interview you on outcome details from [Schema.yaml](Schema.yaml) (title, goal, audience, length, tone, theme) and modernization targets (what to preserve, convert to semantic cards/metrics/diagrams, or prune).
 - Agrees on high-level deck sections and story arc first, then drafts slide by slide.
 - Automatically renders a lightweight visual HTML card preview (`projects/<project-name>/deck/preview.html`).
 
@@ -68,13 +71,16 @@ Use dedicated agent skills to build and compile presentations:
 All engine scripts run via the project Python virtual environment:
 
 ```bash
-# 1. Generate lightweight HTML card preview:
+# 1. Inspect existing PowerPoint deck (extract slide inventory, hierarchy, tables, notes):
+./venv/bin/python engine/inspect_pptx.py projects/<project-name>/<file>.pptx
+
+# 2. Generate lightweight HTML card preview:
 ./venv/bin/python engine/preview.py projects/<project-name>/deck/spec.yaml projects/<project-name>/deck/preview.html
 
-# 2. Compile standalone Reveal.js presentation:
+# 3. Compile standalone Reveal.js presentation:
 ./venv/bin/python engine/builder.py projects/<project-name>/deck/spec.yaml projects/<project-name>/deck/deck.html
 
-# 3. Export to native PowerPoint (.pptx):
+# 4. Export to native PowerPoint (.pptx):
 ./venv/bin/python engine/export_pptx.py projects/<project-name>/deck/spec.yaml projects/<project-name>/deck/deck.pptx
 ```
 
