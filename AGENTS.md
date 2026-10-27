@@ -6,6 +6,7 @@ Autonomous agent workflow for authoring presentation specifications and compilin
 
 1. **Interactive HTML Presentation (Primary)**: Standalone Reveal.js deck (`deck.html`) with dark gradient styling, keyboard navigation, overview mode (`Esc`), speaker notes (`S`), and print-to-PDF (`?print-pdf`).
 2. **1:1 High-Fidelity PDF Export**: Pixel-perfect standalone PDF presentation (`deck.pdf`) compiled via headless browser (`engine/export_pdf.py`).
+3. **PowerPoint (.pptx) Export**: High-fidelity standalone 16:9 widescreen PowerPoint deck (`deck.pptx`) compiled from Reveal.js slides from scratch (`engine/export_pptx.py`), preserving custom layouts, SVGs, and presenter notes.
 
 ## Three Pillars (Sources of Truth)
 
@@ -22,17 +23,18 @@ Reach the file that owns the change:
 - **Icon Sizing & Image Generation**: Icons are micro-visual accents (24px–48px) and MUST remain small. Never blow up an icon into a hero graphic or large slide picture. When needing a picture to represent something bigger (e.g. cover slide or hero visual), **generate one** using `generate_image`.
 - **Layout definitions & grid templates**: [Layouts.csv](Layouts.csv) defines available slide architectures, CSS grid rules, and named slots.
 - **Visual kits & design tokens**: [styles/](styles/) holds markdown design systems (`*-design.md`). Each declares color tokens, CSS custom properties, typography scales (Google Fonts), spacing, and component bindings. Default premier theme: [styles/sailpoint-corporate-2026-design.md](styles/sailpoint-corporate-2026-design.md).
+- **Template Policy (Extraction Only)**: Master PowerPoint templates (`templates/`) are sources of design styles, color tokens, and asset/vector extraction ONLY. They MUST NEVER be used as document templates to populate or create presentation contents. Presentations are compiled cleanly from scratch.
 
 ## Project Directory & Workspace
 
 User presentations live in `projects/<project-name>/`:
 - Context documentation, research, and source notes sit at `projects/<project-name>/` (e.g. `notes.md`, `brief.md`).
-- Deck assets and outputs reside in `projects/<project-name>/deck/` (`spec.yaml`, `preview.html`, `deck.html`, `deck.pdf`).
+- Deck assets and outputs reside in `projects/<project-name>/deck/` (`spec.yaml`, `preview.html`, `deck.html`, `deck.pdf`, `deck.pptx`).
 
 ## Agent Skills & Commands
 
 - **/spec-wizard** (`.agents/skills/spec-wizard/SKILL.md`): Discovers or initializes `projects/<project-name>/`, detects PowerPoint decks to offer modernization baselines, uses `grilling` to settle outcome details from `Schema.yaml`, aligns on deck sections first, tackles slides section-by-section, and generates an interactive HTML preview (`preview.html`).
-- **/deck-builder** (`.agents/skills/deck-builder/SKILL.md`): Compiles `spec.yaml` into `deck.html` (Reveal.js), opens it for user review, and handles the post-build gate (iteration, 1:1 PDF export to `deck.pdf`, finalization, or scrap).
+- **/deck-builder** (`.agents/skills/deck-builder/SKILL.md`): Compiles `spec.yaml` into `deck.html` (Reveal.js), opens it for user review, asks whether the user is happy with results or needs refinement, and upon approval offers to export to PDF (`deck.pdf`), PowerPoint (`deck.pptx`), both, or none.
 
 ## Engine CLI Scripts
 
@@ -50,13 +52,17 @@ All scripts run via the project Python virtual environment (`./venv/bin/python`)
 
 # Export to 1:1 high-fidelity PDF:
 ./venv/bin/python engine/export_pdf.py projects/<project-name>/deck/spec.yaml projects/<project-name>/deck/deck.pdf
+
+# Export to 16:9 widescreen PowerPoint deck:
+./venv/bin/python engine/export_pptx.py projects/<project-name>/deck/spec.yaml projects/<project-name>/deck/deck.pptx
 ```
 
 ## Directory Conventions
 
 - `projects/<project-name>/`: Project workspace holding context docs and `deck/` subfolder.
-- `templates/`: Master presentation templates (e.g. `templates/SailPoint PowerPoint Template 2026.pptx`).
+- `templates/`: Master presentation templates (e.g. `templates/SailPoint PowerPoint Template 2026.pptx`). Reference files for style extraction only; not used to create contents.
 - `styles/`: Available visual design kits.
 - `assets/themes/`: Static theme assets (e.g. extracted SailPoint SVGs and brand assets).
 - `examples/`: Sample specs and reference presentations.
 - `archive/notebooklm/`: Archived legacy Google NotebookLM prompts and setup guides.
+

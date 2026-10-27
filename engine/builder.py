@@ -551,6 +551,14 @@ def build_deck(spec_path, output_path=None):
             elif logo_data_uri:
                 cover_logo_html = f'<div class="cover-brand-logo-wrapper"><img src="{logo_data_uri}" alt="Brand Logo" class="cover-brand-logo" /></div>'
 
+            bullets_list = content.get("bullets", [])
+            cover_bullets_html = ""
+            if bullets_list:
+                bullets_items = "".join([f'<li>{b}</li>' for b in bullets_list])
+                cover_bullets_html = f'<ul class="cover-bullets">{bullets_items}</ul>'
+
+            body_val_html = body_val.replace("\n", "<br/>") if body_val else ""
+
             meta_items = []
             if presenter_val:
                 meta_items.append(f'<div class="meta-item"><span class="meta-label">Presenter</span><span class="meta-val">{presenter_val}</span></div>')
@@ -566,7 +574,8 @@ def build_deck(spec_path, output_path=None):
                         {badge_html if not cover_logo_html else ''}
                         <h1 class="cover-title">{title}</h1>
                         {f'<h2 class="cover-subtitle">{subtitle}</h2>' if subtitle else ''}
-                        {f'<p class="cover-description">{body_val}</p>' if body_val else ''}
+                        {f'<p class="cover-description">{body_val_html}</p>' if body_val else ''}
+                        {cover_bullets_html}
                         {f'<div class="cover-meta-grid">{"".join(meta_items)}</div>' if meta_items else ''}
                     </div>
                     {cover_hero_html}
@@ -598,7 +607,80 @@ def build_deck(spec_path, output_path=None):
                 </div>
             ''')
 
-        # 4. Standard Content Layouts (Title and Content, Two Content, Comparison, Three Columns, Picture with Caption, etc.)
+        # 4. Agenda layout (Modern Executive Stepper)
+        elif "agenda" in layout_slug or role == "agenda":
+            agenda_items = []
+            raw_cards = content.get("cards", [])
+            raw_agenda = content.get("agenda", [])
+            raw_bullets = content.get("bullets", [])
+
+            raw_items = raw_cards or raw_agenda or raw_bullets
+            for idx, item in enumerate(raw_items, 1):
+                step_num = f"{idx:02d}"
+                is_last = (idx == len(raw_items))
+                item_badge = ""
+                highlight_cls = ""
+
+                if isinstance(item, dict):
+                    item_title = item.get("title", "")
+                    item_desc = item.get("body", item.get("desc", ""))
+                    item_badge = item.get("badge", "")
+                    if item.get("highlight"):
+                        highlight_cls = " glowing"
+                elif isinstance(item, str):
+                    if ":" in item:
+                        parts = item.split(":", 1)
+                        item_title = parts[0].strip()
+                        item_desc = parts[1].strip()
+                    elif " — " in item:
+                        parts = item.split(" — ", 1)
+                        item_title = parts[0].strip()
+                        item_desc = parts[1].strip()
+                    elif " - " in item:
+                        parts = item.split(" - ", 1)
+                        item_title = parts[0].strip()
+                        item_desc = parts[1].strip()
+                    else:
+                        item_title = item
+                        item_desc = ""
+                else:
+                    item_title = str(item)
+                    item_desc = ""
+
+                badge_markup = f'<span class="agenda-step-badge">{item_badge}</span>' if item_badge else ''
+                desc_markup = f'<p class="agenda-step-desc">{item_desc}</p>' if item_desc else ''
+                line_markup = '<span class="agenda-step-line"></span>' if not is_last else ''
+
+                agenda_items.append(f'''
+                    <div class="agenda-step-row{highlight_cls}">
+                        <div class="agenda-step-indicator">
+                            <span class="agenda-step-num">{step_num}</span>
+                            {line_markup}
+                        </div>
+                        <div class="agenda-step-card">
+                            <div class="agenda-step-content">
+                                <h3 class="agenda-step-title">{item_title}</h3>
+                                {desc_markup}
+                            </div>
+                            {badge_markup}
+                        </div>
+                    </div>
+                ''')
+
+            body_parts.append(f'''
+                <div class="slide-layout agenda">
+                    <div class="slide-header">
+                        {badge_html}
+                        <h2 class="slide-title">{title}</h2>
+                        {f'<h4 class="slide-subtitle">{subtitle}</h4>' if subtitle else ''}
+                    </div>
+                    <div class="agenda-stepper">
+                        {"".join(agenda_items)}
+                    </div>
+                </div>
+            ''')
+
+        # 5. Standard Content Layouts (Title and Content, Two Content, Comparison, Three Columns, Picture with Caption, etc.)
         else:
             header_block = f'''
                 <div class="slide-header">
@@ -1045,11 +1127,35 @@ def build_deck(spec_path, output_path=None):
             filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
         }}
         .cover-description {{
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             color: var(--deck-ink-muted);
             max-width: 900px;
             line-height: 1.6;
-            margin-bottom: 2rem;
+            margin-bottom: 1.25rem;
+            white-space: pre-line;
+        }}
+        .cover-bullets {{
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.75rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+        }}
+        .cover-bullets li {{
+            font-size: 1.15rem;
+            color: var(--deck-ink-muted);
+            line-height: 1.5;
+            position: relative;
+            padding-left: 1.25rem;
+        }}
+        .cover-bullets li::before {{
+            content: "•";
+            color: var(--deck-accent);
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+            line-height: 1.2;
         }}
         .cover-meta-grid {{
             display: flex;
@@ -1127,6 +1233,127 @@ def build_deck(spec_path, output_path=None):
             font-size: 1.25rem !important;
             font-weight: 400 !important;
             color: var(--deck-ink-muted) !important;
+        }}
+
+        /* Modern Executive Stepper (Agenda Layout) */
+        .slide-layout.agenda {{
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            max-height: 880px;
+            box-sizing: border-box;
+            justify-content: flex-start;
+        }}
+        .agenda-stepper {{
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin-top: 0.5rem;
+            position: relative;
+            width: 100%;
+            max-width: 1180px;
+        }}
+        .agenda-step-row {{
+            display: flex;
+            align-items: stretch;
+            gap: 1.5rem;
+            position: relative;
+        }}
+        .agenda-step-indicator {{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex-shrink: 0;
+            width: 58px;
+        }}
+        .agenda-step-num {{
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(84, 192, 232, 0.15) 0%, rgba(0, 51, 161, 0.4) 100%);
+            border: 1px solid rgba(84, 192, 232, 0.5);
+            color: var(--deck-accent);
+            font-size: 1.35rem;
+            font-weight: 700;
+            font-family: var(--deck-font-mono, monospace);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 14px rgba(84, 192, 232, 0.25);
+            z-index: 2;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }}
+        .agenda-step-line {{
+            position: absolute;
+            top: 56px;
+            bottom: -1.25rem;
+            width: 2px;
+            background: linear-gradient(to bottom, rgba(84, 192, 232, 0.55) 0%, rgba(0, 51, 161, 0.2) 100%);
+            z-index: 1;
+        }}
+        .agenda-step-card {{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(90deg, rgba(11, 17, 30, 0.7) 0%, rgba(1, 28, 72, 0.3) 100%);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-left: 3px solid rgba(84, 192, 232, 0.45);
+            border-radius: 14px;
+            padding: 1.15rem 1.75rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }}
+        .agenda-step-row:hover .agenda-step-card {{
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.9) 0%, rgba(0, 51, 161, 0.4) 100%);
+            border-color: rgba(84, 192, 232, 0.5);
+            border-left-color: var(--deck-accent);
+            transform: translateX(8px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), 0 0 16px rgba(84, 192, 232, 0.2);
+        }}
+        .agenda-step-row:hover .agenda-step-num {{
+            transform: scale(1.06);
+            border-color: var(--deck-accent);
+            box-shadow: 0 0 22px rgba(84, 192, 232, 0.5);
+        }}
+        .agenda-step-row.glowing .agenda-step-card {{
+            border-left-color: var(--deck-accent);
+            border-color: rgba(84, 192, 232, 0.5);
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.85) 0%, rgba(0, 51, 161, 0.45) 100%);
+        }}
+        .agenda-step-content {{
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }}
+        .agenda-step-title {{
+            font-size: 1.35rem !important;
+            font-weight: 600 !important;
+            color: #FFFFFF !important;
+            margin: 0 !important;
+            line-height: 1.3 !important;
+        }}
+        .agenda-step-desc {{
+            font-size: 1.05rem !important;
+            font-weight: 400 !important;
+            color: var(--deck-ink-muted) !important;
+            margin: 0 !important;
+            line-height: 1.4 !important;
+        }}
+        .agenda-step-badge {{
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.3rem 0.85rem;
+            border-radius: 999px;
+            background: rgba(84, 192, 232, 0.12);
+            border: 1px solid rgba(84, 192, 232, 0.3);
+            color: var(--deck-accent);
+            flex-shrink: 0;
         }}
 
         /* Standard Slide Content Area */

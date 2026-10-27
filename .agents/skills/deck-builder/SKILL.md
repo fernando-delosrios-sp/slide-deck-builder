@@ -1,9 +1,9 @@
 ---
 name: deck-builder
-description: Compile a presentation spec (spec.yaml) and design theme into a standalone Reveal.js HTML presentation, with an interactive review gate and 1:1 high-fidelity PDF export.
+description: Compile a presentation spec (spec.yaml) and design theme into a standalone Reveal.js HTML presentation, with an interactive review gate and export to PDF and PowerPoint (.pptx).
 ---
 
-Compile a presentation spec (`projects/<name>/deck/spec.yaml`) into an interactive Reveal.js presentation (`projects/<name>/deck/deck.html`) and manage post-build review and 1:1 PDF export.
+Compile a presentation spec (`projects/<name>/deck/spec.yaml`) into an interactive Reveal.js presentation (`projects/<name>/deck/deck.html`), prompt for satisfaction review, and export to PDF, PowerPoint, both, or none upon approval.
 
 ## Workflow
 
@@ -20,29 +20,44 @@ Execute the deck builder engine:
 ./venv/bin/python engine/builder.py projects/<project-name>/deck/spec.yaml projects/<project-name>/deck/deck.html
 ```
 
-### 3. Present Results
+### 3. Present HTML Results
 Provide the link to the generated presentation:
 `[Open Presentation](projects/<project-name>/deck/deck.html)`
 
 Explain keyboard controls:
 - **Arrow keys / Space**: Navigate slides.
 - **Esc**: Toggle overview tile mode.
-- **S**: Open speaker notes view in a dedicated window.
-- **Print / PDF**: Export directly using `engine/export_pdf.py` or print dialog.
+- **S**: Open speaker notes view in a dedicated presenter window.
+- **Print / PDF**: Direct browser print dialog (`?print-pdf`).
 
-### 4. Post-Build Review Gate
-Immediately prompt the user with a structured decision gate (`ask_question`):
-1. **Export to 1:1 PDF (.pdf)**: Compile into a pixel-perfect standalone PDF presentation (`deck.pdf`) using `engine/export_pdf.py`.
-2. **Modify / Iterate**: Request changes to specific slides, wording, or layouts.
-3. **Keep As-Is / Complete**: Presentation is finalized.
-4. **Scrap / Start Over**: Discard and re-draft.
+### 4. Satisfaction Review Gate
+Immediately prompt the user with a structured decision gate (`ask_question`) to confirm satisfaction:
+1. **(Recommended) Happy with Results**: Presentation looks good; proceed to export deliverables.
+2. **Needs Refinement**: Request specific adjustments to slides, wording, or layouts.
 
-### 5. High-Fidelity PDF Export (when requested)
-If the user chooses the PDF export option:
-```bash
-./venv/bin/python engine/export_pdf.py projects/<project-name>/deck/spec.yaml projects/<project-name>/deck/deck.pdf
-```
-Present the resulting `.pdf` file link: `[deck.pdf](projects/<project-name>/deck/deck.pdf)`.
+*If the user requests refinement*: iterate on `spec.yaml`, re-run `builder.py`, and present the updated `deck.html` until satisfied.
+
+### 5. Export Format Gate (When Happy)
+Once the user confirms they are happy with the HTML presentation, prompt with the export choice gate (`ask_question`):
+1. **(Recommended) Both PDF and PowerPoint (.pdf + .pptx)**: Compile both 1:1 pixel-perfect PDF and native 16:9 widescreen PowerPoint deck.
+2. **PDF Only (.pdf)**: Compile 1:1 standalone presentation PDF using `engine/export_pdf.py`.
+3. **PowerPoint Only (.pptx)**: Compile high-fidelity 16:9 widescreen PowerPoint presentation using `engine/export_pptx.py`.
+4. **None**: Keep HTML presentation only without compiling exports.
+
+### 6. Deliverable Compilation
+Execute the requested exports:
+- **PDF Export**:
+  ```bash
+  ./venv/bin/python engine/export_pdf.py projects/<project-name>/deck/spec.yaml projects/<project-name>/deck/deck.pdf
+  ```
+  Provide clickable link: `[deck.pdf](projects/<project-name>/deck/deck.pdf)`.
+
+- **PowerPoint Export**:
+  ```bash
+  ./venv/bin/python engine/export_pptx.py projects/<project-name>/deck/spec.yaml projects/<project-name>/deck/deck.pptx
+  ```
+  Provide clickable link: `[deck.pptx](projects/<project-name>/deck/deck.pptx)`.
 
 ## Completion Criterion
-`deck.html` is compiled and opened for review, the user has chosen their post-build action at the gate, and any requested `.pdf` export is completed.
+`deck.html` is compiled and opened for review, the user confirms satisfaction, and any requested exports (PDF, PowerPoint, or both) are generated and delivered.
+

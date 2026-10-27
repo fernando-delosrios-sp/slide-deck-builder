@@ -107,13 +107,30 @@ def generate_preview(spec_path, output_path=None):
                 </div>
             ''')
 
-        # Bullets
-        bullets = content.get("bullets", [])
-        if bullets:
-            b_items = "".join([f"<li>{b}</li>" for b in bullets[:4]])
-            if len(bullets) > 4:
-                b_items += f'<li class="more-items">+{len(bullets)-4} more...</li>'
-            content_preview_html.append(f'<ul class="mini-bullets">{b_items}</ul>')
+        # Agenda / Stepper
+        if "agenda" in layout.lower() or role == "agenda":
+            raw_cards = content.get("cards", [])
+            raw_agenda = content.get("agenda", [])
+            raw_bullets = content.get("bullets", [])
+            items = raw_cards or raw_agenda or raw_bullets
+            mini_steps = []
+            for idx, itm in enumerate(items[:5], 1):
+                if isinstance(itm, dict):
+                    t = itm.get("title", "")
+                elif isinstance(itm, str):
+                    t = itm.split(":", 1)[0].split(" — ", 1)[0].split(" - ", 1)[0].strip()
+                else:
+                    t = str(itm)
+                mini_steps.append(f'<div class="mini-agenda-step"><span class="mini-step-num">{idx:02d}</span><span class="mini-step-text">{t}</span></div>')
+            content_preview_html.append(f'<div class="mini-agenda-list">{"".join(mini_steps)}</div>')
+        else:
+            # Bullets
+            bullets = content.get("bullets", [])
+            if bullets:
+                b_items = "".join([f"<li>{b}</li>" for b in bullets[:4]])
+                if len(bullets) > 4:
+                    b_items += f'<li class="more-items">+{len(bullets)-4} more...</li>'
+                content_preview_html.append(f'<ul class="mini-bullets">{b_items}</ul>')
 
         # Body
         body = content.get("body", "")
@@ -516,6 +533,37 @@ def generate_preview(spec_path, output_path=None):
         }}
         .metric-lbl {{
             font-size: 0.75rem;
+            color: var(--ink);
+        }}
+
+        .mini-agenda-list {{
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+            margin-top: 0.5rem;
+        }}
+        .mini-agenda-step {{
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            background: rgba(0,0,0,0.02);
+            border: 1px solid var(--card-border);
+            border-left: 2px solid var(--accent);
+            border-radius: 8px;
+            padding: 0.4rem 0.6rem;
+        }}
+        .mini-step-num {{
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: monospace;
+            background: rgba(84, 192, 232, 0.1);
+            border-radius: 4px;
+            padding: 2px 5px;
+        }}
+        .mini-step-text {{
+            font-size: 0.8rem;
+            font-weight: 600;
             color: var(--ink);
         }}
 
