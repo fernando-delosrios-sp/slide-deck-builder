@@ -1,7 +1,7 @@
 ---
 version: alpha
 name: Cloud Topology (Enterprise SaaS)
-description: Core enterprise identity design: clean, Poppins-based, structured cloud maps, emphasizing digital security perimeters.
+description: "Core enterprise identity design: clean, Poppins-based, structured cloud maps, emphasizing digital security perimeters."
 
 colors:
   primary: "#0033A1"

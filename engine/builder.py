@@ -439,14 +439,18 @@ def build_deck(spec_path, output_path=None):
 
     # Theme CSS variables & background setup
     css_vars = style.get("css_variables", {})
-    if "--sp-bg-gradient" in css_vars:
-        bg_gradient = css_vars["--sp-bg-gradient"]
+    if "--deck-bg-gradient" in css_vars:
+        bg_gradient = css_vars["--deck-bg-gradient"]
     elif "--theme-bg-gradient" in css_vars:
         bg_gradient = css_vars["--theme-bg-gradient"]
+    elif "--sp-bg-gradient" in css_vars:
+        bg_gradient = css_vars["--sp-bg-gradient"]
     elif mode == "light":
         bg_gradient = f"linear-gradient(135deg, {bg_color} 0%, {surface_color} 60%, {surface_soft} 100%)"
     else:
         bg_gradient = f"radial-gradient(circle at 85% 15%, {accent_color}33 0%, {surface_color} 50%, {bg_color} 100%)"
+
+    extra_css_vars = "\n            ".join([f"{k}: {v};" for k, v in css_vars.items() if not k.startswith("--deck-")])
 
     # Logo resolution: explicit in spec, theme default, or suppressed with 'none'
     logo_data_uri = None
@@ -1011,6 +1015,7 @@ def build_deck(spec_path, output_path=None):
             --deck-icon-badge-bg: {icon_badge_bg};
             --deck-icon-badge-border: {icon_badge_border};
             --deck-icon-badge-glow: {icon_badge_glow};
+            {extra_css_vars}
         }}
 
         body, .reveal {{
@@ -2505,14 +2510,14 @@ def build_deck(spec_path, output_path=None):
                 curve: 'basis'
             }},
             themeVariables: {{
-                darkMode: true,
-                background: '#0B111E',
-                primaryColor: '#0F1A2E',
-                primaryBorderColor: '#54C0E8',
-                primaryTextColor: '#FFFFFF',
-                lineColor: '#54C0E8',
-                secondaryColor: '#1A2942',
-                tertiaryColor: '#111827'
+                darkMode: {'true' if mode == 'dark' else 'false'},
+                background: '{card_bg}',
+                primaryColor: '{surface_color}',
+                primaryBorderColor: '{accent_color}',
+                primaryTextColor: '{ink_color}',
+                lineColor: '{accent_color}',
+                secondaryColor: '{surface_soft}',
+                tertiaryColor: '{bg_color}'
             }}
         }});
 

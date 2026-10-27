@@ -49,7 +49,7 @@ Consult [Schema.yaml](../../../Schema.yaml) properties:
 - **Audience**: Primary audience (e.g. Executive Board, Security Architects, DevOps Engineers, Customers).
 - **Tone**: Voice and demeanor (e.g. authoritative, visionary, concise, urgent).
 - **Length**: Target size (`short`: 5-7 slides, `default`: 8-14 slides, `long`: 15+ slides).
-- **Theme / Style**: Visual kit from `styles/` (default: `sailpoint-corporate-2026-design`).
+- **Theme / Style**: Visual kit from `styles/` (default: `sailpoint-corporate-2026-design`) or any standard **`DESIGN.md`** kit (e.g. Linear, Vercel, Stripe from `getdesign.md` or `awesome-design-md`, imported via `engine/import_theme.py`).
 - **Baseline Modernization Focus** (when modernizing an existing deck):
   - **Fidelity-First Modernization Mandate**: When starting from an existing presentation, the primary goal is **modernizing the existing slides faithfully**. Preserve the original slides' specific technical concepts, data examples, schemas, tables, diagrams, and presenter notes. Modernization means elevating visual design, typography, layout, and theme compliance—**NOT rewriting, over-interpreting, or abstracting away the domain specifics**.
   - **Consensuating Consolidations & Messaging Revisions**: The agent **MUST NOT unilaterally consolidate slides, drop slides, or alter core messaging**. If the agent identifies opportunities to prune, merge, or refine messaging, these recommendations **MUST be explicitly proposed and consensuated with the user** at a structured choice gate (`ask_question`). Without user approval, keep the baseline slides intact.

@@ -35,7 +35,12 @@ Immediately prompt the user with a structured decision gate (`ask_question`) to 
 1. **(Recommended) Happy with Results**: Presentation looks good; proceed to export deliverables.
 2. **Needs Refinement**: Request specific adjustments to slides, wording, or layouts.
 
-*If the user requests refinement*: iterate on `spec.yaml`, re-run `builder.py`, and present the updated `deck.html` until satisfied.
+*If the user requests refinement or reports issues*:
+Apply the **Issue Triage Protocol** from `AGENTS.md` before touching code:
+- **Palette, contrast, font-family, or glow issue**: Fix in `styles/<theme>-design.md` (or `engine/style_parser.py` if token synthesis failed).
+- **Geometry, clipping, card overlapping, or responsive layout issue**: Fix in `engine/builder.py` CSS and verify with `./venv/bin/python engine/test_themes.py`.
+- **Content density, bullet volume, or incorrect layout**: Fix in `projects/<project-name>/deck/spec.yaml`.
+Re-run `builder.py`, and present the updated `deck.html` until satisfied.
 
 ### 5. Export Format Gate (When Happy)
 Once the user confirms they are happy with the HTML presentation, prompt with the export choice gate (`ask_question`):

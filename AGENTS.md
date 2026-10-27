@@ -22,7 +22,7 @@ Reach the file that owns the change:
 - **Diagram Standard (SVGs over Mermaid)**: Embedded Mermaid is prohibited for slide decks as it produces low-contrast, clipped, and inconsistent visuals. Architectural diagrams MUST be authored as high-fidelity SVGs (`diagram.svg`, `diagram.src`, or `content.svg`) or native semantic architecture components (`pipeline`, `convergence`, `cardinality`, `policy_flow`, `layered_stack`).
 - **Icon Sizing & Image Generation**: Icons are micro-visual accents (24px–48px) and MUST remain small. Never blow up an icon into a hero graphic or large slide picture. When needing a picture to represent something bigger (e.g. cover slide or hero visual), **generate one** using `generate_image`.
 - **Layout definitions & grid templates**: [Layouts.csv](Layouts.csv) defines available slide architectures, CSS grid rules, and named slots.
-- **Visual kits & design tokens**: [styles/](styles/) holds markdown design systems (`*-design.md`). Each declares color tokens, CSS custom properties, typography scales (Google Fonts), spacing, and component bindings. Default premier theme: [styles/sailpoint-corporate-2026-design.md](styles/sailpoint-corporate-2026-design.md).
+- **Visual kits & design tokens**: [styles/](styles/) holds markdown design systems (`*-design.md`). Fully compatible with standard **`DESIGN.md`** files (Google Stitch, getdesign.md, awesome-design-md). Themes specify color palettes (contrast audited for WCAG AA), typography hierarchies, CSS variables, and structured prompt guidelines (`Atmosphere`, `Do's and Don'ts`, `Diagram Grammar`). Default premier theme: [styles/sailpoint-corporate-2026-design.md](styles/sailpoint-corporate-2026-design.md).
 - **Template Policy (Extraction Only)**: Master PowerPoint templates (`templates/`) are sources of design styles, color tokens, and asset/vector extraction ONLY. They MUST NEVER be used as document templates to populate or create presentation contents. Presentations are compiled cleanly from scratch.
 
 ## Project Directory & Workspace
@@ -41,6 +41,9 @@ User presentations live in `projects/<project-name>/`:
 All scripts run via the project Python virtual environment (`./venv/bin/python`):
 
 ```bash
+# Import and validate a DESIGN.md theme from URL or file (e.g. getdesign.md or GitHub):
+./venv/bin/python engine/import_theme.py <url-or-file> --name <theme-name> [--preview]
+
 # Inspect existing PowerPoint deck (extract slide inventory, hierarchy, tables, notes):
 ./venv/bin/python engine/inspect_pptx.py projects/<project-name>/<file>.pptx
 
@@ -55,7 +58,41 @@ All scripts run via the project Python virtual environment (`./venv/bin/python`)
 
 # Export to 16:9 widescreen PowerPoint deck:
 ./venv/bin/python engine/export_pptx.py projects/<project-name>/deck/spec.yaml projects/<project-name>/deck/deck.pptx
+
+# Run multi-theme regression & diagnostic test harness:
+./venv/bin/python engine/test_themes.py [--full]
 ```
+
+## Issue Triage & Ownership Protocol (Separation of Concerns)
+
+When resolving user feedback or visual presentation defects, reach the layer that owns the issue:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ Layer 1: Content Instance (projects/<name>/deck/spec.yaml)  │
+│          Payload volume, semantic layout choice, wording    │
+├─────────────────────────────────────────────────────────────┤
+│ Layer 2: Visual Kit / Tokens (styles/<theme>-design.md)     │
+│          Colors, contrast, font-family, gradients, glows    │
+├─────────────────────────────────────────────────────────────┤
+│ Layer 3: Global Engine (engine/builder.py, CSS rules)       │
+│          Grid/Flexbox layouts, clamp() scaling, DOM markup  │
+├─────────────────────────────────────────────────────────────┤
+│ Layer 4: Export Runtime (engine/export_pdf.py, pptx.py)     │
+│          Headless Chrome viewport, print CSS, DeckTape      │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### The 3 Diagnostic Gates:
+1. **The Theme-Swap Test (Style vs. Engine)**: If you switch `theme:` in `spec.yaml` to another theme (e.g. `linear` vs `sailpoint`), does the issue persist?
+   - If **YES**: It is an **Engine layout bug** (`engine/builder.py`) or a **Content overflow** (`spec.yaml`).
+   - If **NO**: It is a **Style Token defect** (`styles/<theme>-design.md`).
+2. **The Geometry vs. Palette Rule**:
+   - Palette, contrast, brand color, font-family, or glow? → Fix in `styles/<theme>-design.md`. Never hardcode colors in `builder.py`.
+   - Grid fraction, column wrap, vertical clipping, or font size scaling? → Fix globally in `engine/builder.py`.
+   - Text density (400 words on a card)? → Fix in `spec.yaml` (split slide or switch layout).
+3. **Verify with Multi-Theme Test Harness**:
+   - After editing `engine/builder.py`, ALWAYS run `./venv/bin/python engine/test_themes.py` to guarantee zero cross-theme regression.
 
 ## Directory Conventions
 
