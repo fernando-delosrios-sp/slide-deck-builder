@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spec Preview: Enterprise Identity Security & SaaS Performance 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --bg: #000000;
+    --surface: #000000;
+    --card-bg: #0B111E;
+    --card-border: #415364;
+    --accent: #54C0E8;
+    --accent-alt: #D60EB5;
+    --ink: #FFFFFF;
+    --ink-muted: #DAE1E9;
+    --font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    background: radial-gradient(circle at 85% 15%, #54C0E833 0%, #000000 45%, #000000 100%), #000000;
+    color: var(--ink);
+    font-family: var(--font-family);
+    padding: 2rem 2.5rem;
+    min-height: 100vh;
+}
+.header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background: rgba(11, 17, 30, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.header-info h1 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+    color: var(--ink);
+}
+.header-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    align-items: center;
+}
+.pill {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.theme-pill { background: rgba(37, 99, 235, 0.1); border: 1px solid var(--accent); color: var(--accent); }
+.count-pill { background: rgba(214, 14, 181, 0.1); border: 1px solid var(--accent-alt); color: var(--accent-alt); }
+.layout-pill { background: rgba(0, 0, 0, 0.04); border: 1px solid var(--card-border); color: var(--ink-muted); }
+.role-pill { background: rgba(37, 99, 235, 0.08); color: var(--accent); }
+
+.goal-banner {
+    padding: 1rem 1.5rem;
+    background: rgba(1, 28, 72, 0.4);
+    border-left: 4px solid var(--accent);
+    border-radius: 8px;
+    margin-bottom: 2.5rem;
+    font-size: 0.95rem;
+    color: var(--ink-muted);
+}
+.goal-banner strong { color: var(--ink); }
+
+.deck-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 2rem;
+}
+.slide-card {
+    background: linear-gradient(145deg, #0B111E 0%, #000000 100%);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+.slide-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.15);
+}
+.slide-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--card-border);
+}
+.slide-num {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--accent);
+}
+.slide-canvas {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    min-height: 220px;
+}
+.mini-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+}
+.slide-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+}
+.slide-subtitle {
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    margin-top: 0.25rem;
+}
+.slide-content-area {
+    flex: 1;
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.mini-image-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    width: 100%;
+}
+.mini-image-card {
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    max-height: 120px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+    line-height: 0;
+    background: rgba(0,0,0,0.02);
+    padding: 0.5rem;
+    box-sizing: border-box;
+    width: fit-content;
+    max-width: 100%;
+}
+.mini-image-thumb {
+    max-width: 100%;
+    max-height: 95px;
+    object-fit: contain;
+    border-radius: 6px;
+    display: block;
+    margin: 0 !important;
+}
+.mini-image-caption {
+    font-size: 0.68rem;
+    color: var(--ink-muted);
+    padding: 2px 8px;
+    border-radius: 9999px;
+    border: 1px solid var(--card-border);
+    background: rgba(0,0,0,0.15);
+    text-align: center;
+    max-width: 90%;
+}
+.mini-bullets {
+    list-style: none !important;
+    list-style-type: none !important;
+    padding-left: 0 !important;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 0.5rem;
+    line-height: 1.35;
+}
+.mini-bullets li {
+    list-style: none !important;
+    list-style-type: none !important;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 0.5rem 0.6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 0.72rem;
+}
+.mini-bullets li::marker {
+    content: none !important;
+    display: none !important;
+}
+.mini-bullets li::before {
+    display: none !important;
+}
+.mini-body { line-height: 1.5; }
+
+.mini-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+}
+.mini-metric-card {
+    background: rgba(0,0,0,0.02);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 0.6rem;
+    text-align: center;
+}
+.mini-metric-card.glowing {
+    border-color: var(--accent);
+}
+.metric-val {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+.metric-lbl {
+    font-size: 0.75rem;
+    color: var(--ink);
+}
+
+.mini-agenda-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    margin-top: 0.5rem;
+}
+.mini-agenda-step {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent-alt) 8%, var(--card-bg)) 0%, var(--card-bg) 100%);
+    border: 1px solid var(--card-border);
+    border-left: 2.5px solid var(--accent-alt);
+    border-radius: 8px;
+    padding: 0.4rem 0.6rem;
+}
+.mini-step-num {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: monospace;
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    border-radius: 4px;
+    padding: 2px 5px;
+}
+.mini-step-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.mini-cards-grid, .mini-regions-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+}
+.mini-content-card {
+    background: rgba(0,0,0,0.02);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 0.75rem;
+}
+.mini-content-card.glowing { border-color: var(--accent-alt); }
+.mini-content-card strong { display: block; font-size: 0.85rem; color: var(--ink); margin-bottom: 0.2rem; }
+.mini-content-card p { font-size: 0.78rem; color: var(--ink-muted); line-height: 1.4; }
+.mini-content-card .mini-bullets {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.45rem !important;
+    margin-top: 0.35rem !important;
+}
+.mini-content-card .mini-bullets li {
+    border-left: 2.5px solid var(--accent) !important;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 8%, var(--card-bg)) 0%, var(--card-bg) 100%) !important;
+    border-color: color-mix(in srgb, var(--accent) 22%, var(--card-border)) !important;
+}
+.mini-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.35rem;
+}
+.mini-card-icon {
+    display: inline-flex;
+    align-items: center;
+    color: var(--accent);
+}
+.mini-metric-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.25rem;
+    color: var(--accent);
+}
+.card-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-bottom: 0;
+    text-transform: uppercase;
+}
+
+.mini-comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+}
+
+.mini-diagram-box, .mini-mermaid-box {
+    background: rgba(0,0,0,0.02);
+    border: 1px dashed var(--accent);
+    border-radius: 8px;
+    padding: 0.6rem;
+    margin-top: 0.5rem;
+    overflow: hidden;
+}
+.mini-mermaid-box .mermaid {
+    display: flex;
+    justify-content: center;
+}
+.mini-mermaid-box .mermaid svg {
+    max-width: 100% !important;
+    max-height: 220px !important;
+    height: auto !important;
+}
+.diagram-title {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+}
+.diagram-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+.diagram-chip {
+    background: rgba(0,0,0,0.04);
+    border: 1px solid var(--card-border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.72rem;
+    color: var(--ink);
+}
+
+.slide-notes {
+    margin-top: 0.85rem;
+    padding-top: 0.65rem;
+    border-top: 1px dashed var(--card-border);
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    line-height: 1.4;
+}
+.notes-tag {
+    font-weight: 600;
+    color: var(--accent);
+}
+    </style>
+</head>
+<body>
+    <div class="header-bar">
+        <div class="header-info">
+            <h1>Enterprise Identity Security & SaaS Performance 2026</h1>
+            <div class="header-meta">
+                <span class="pill theme-pill">sailpoint-corporate-2026-design (dark)</span>
+                <span class="pill count-pill">5 Slides</span>
+                <span><strong>Audience:</strong> Executive Leadership & Board</span>
+                <span><strong>Tone:</strong> Authoritative, data-driven, strategic</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="goal-banner"><strong>Goal:</strong> Present Q3 executive business review covering cloud migration progress, machine identity growth, and security ROI with interactive data visualizations.</div>
+
+    <div class="deck-grid">
+        <div class="slide-card">
+    <div class="slide-card-header">
+        <span class="slide-num">#1</span>
+        <span class="pill layout-pill">Title Slide</span>
+        <span class="pill role-pill">cover</span>
+    </div>
+    <div class="slide-canvas">
+        <div class="slide-title-area">
+            <h3 class="slide-title">Enterprise Identity & Platform Scale</h3>
+<div class="slide-subtitle">Q3 2026 Executive Review & Threat Landscape Analysis</div>        </div>
+        <div class="slide-content-area">
+            <div class="mini-badge">Executive Briefing</div><p class="mini-body">Strategic overview of enterprise SaaS expansion, privilege governance, and autonomous remediation milestones.</p>
+        </div>
+    </div>
+</div><div class="slide-card">
+    <div class="slide-card-header">
+        <span class="slide-num">#2</span>
+        <span class="pill layout-pill">Title and Content</span>
+        <span class="pill role-pill">metrics</span>
+    </div>
+    <div class="slide-canvas">
+        <div class="slide-title-area">
+            <h3 class="slide-title">Global SaaS Revenue & Cloud Expansion</h3>
+<div class="slide-subtitle">Accelerating enterprise adoption across Americas, EMEA, and APAC</div>        </div>
+        <div class="slide-content-area">
+            <div class="mini-badge">Financial Performance</div>
+                <div class="mini-chart-card" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.65rem 0.85rem; border-radius: 8px; background: rgba(84, 192, 232, 0.08); border: 1px solid rgba(84, 192, 232, 0.2); font-size: 0.85rem; margin-top: 0.4rem;">
+                    <svg
+  class="lucide-icon lucide-bar-chart-3"
+  xmlns="http://www.w3.org/2000/svg"
+  width="18px"
+  height="18px"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+  <path d="M18 17V9" />
+  <path d="M13 17V5" />
+  <path d="M8 17v-3" />
+</svg>
+                    <strong style="color: #54C0E8;">Bar Chart</strong>
+                    <span class="card-tag" style="margin-left: auto;">2 series &bull; 7 items</span>
+                </div>
+            
+        </div>
+    </div>
+<div class="slide-notes"><span class="notes-tag">Notes:</span> Total ARR reached $133M in Q3 2026 with international expansion outpacing domestic baselines by 18%.</div></div><div class="slide-card">
+    <div class="slide-card-header">
+        <span class="slide-num">#3</span>
+        <span class="pill layout-pill">Two Content</span>
+        <span class="pill role-pill">architecture</span>
+    </div>
+    <div class="slide-canvas">
+        <div class="slide-title-area">
+            <h3 class="slide-title">The Shifting Identity Perimeter</h3>
+<div class="slide-subtitle">Non-human identities now constitute the majority of enterprise access requests</div>        </div>
+        <div class="slide-content-area">
+            <div class="mini-badge">Risk Governance</div><ul class="mini-bullets"><li>Non-human service principals and API tokens grew 310% YoY, outpacing workforce growth 4:1.</li><li>Autonomous agent credentials require just-in-time (JIT) ephemeral rotation to prevent persistent lateral movement.</li><li>Contractor accounts without active MFA enforcement remain the top vector for unauthorized SaaS privilege escalation.</li></ul>
+                <div class="mini-chart-card" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.65rem 0.85rem; border-radius: 8px; background: rgba(84, 192, 232, 0.08); border: 1px solid rgba(84, 192, 232, 0.2); font-size: 0.85rem; margin-top: 0.4rem;">
+                    <svg
+  class="lucide-icon lucide-pie-chart"
+  xmlns="http://www.w3.org/2000/svg"
+  width="18px"
+  height="18px"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z" />
+  <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+</svg>
+                    <strong style="color: #54C0E8;">Doughnut Chart</strong>
+                    <span class="card-tag" style="margin-left: auto;">1 series &bull; 4 items</span>
+                </div>
+            
+        </div>
+    </div>
+<div class="slide-notes"><span class="notes-tag">Notes:</span> Highlight the 48% machine identity slice. Emphasize why legacy HR-driven IAM systems fail to govern machine actors.</div></div><div class="slide-card">
+    <div class="slide-card-header">
+        <span class="slide-num">#4</span>
+        <span class="pill layout-pill">Title and Content</span>
+        <span class="pill role-pill">solution</span>
+    </div>
+    <div class="slide-canvas">
+        <div class="slide-title-area">
+            <h3 class="slide-title">Mean Time to Remediate (MTTR) Privileged Drift</h3>
+<div class="slide-subtitle">Automated agentic remediation vs. manual SOC triage</div>        </div>
+        <div class="slide-content-area">
+            <div class="mini-badge">Operational Efficiency</div>
+                <div class="mini-chart-card" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.65rem 0.85rem; border-radius: 8px; background: rgba(84, 192, 232, 0.08); border: 1px solid rgba(84, 192, 232, 0.2); font-size: 0.85rem; margin-top: 0.4rem;">
+                    <svg
+  class="lucide-icon lucide-trending-up"
+  xmlns="http://www.w3.org/2000/svg"
+  width="18px"
+  height="18px"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M16 7h6v6" />
+  <path d="m22 7-8.5 8.5-5-5L2 17" />
+</svg>
+                    <strong style="color: #54C0E8;">Line Chart</strong>
+                    <span class="card-tag" style="margin-left: auto;">2 series &bull; 6 items</span>
+                </div>
+            
+        </div>
+    </div>
+<div class="slide-notes"><span class="notes-tag">Notes:</span> Point out the divergence starting at Month 3 where continuous identity posture assessment went live.</div></div><div class="slide-card">
+    <div class="slide-card-header">
+        <span class="slide-num">#5</span>
+        <span class="pill layout-pill">Title and Content</span>
+        <span class="pill role-pill">summary</span>
+    </div>
+    <div class="slide-canvas">
+        <div class="slide-title-area">
+            <h3 class="slide-title">Strategic Impact & 2027 Horizon</h3>
+<div class="slide-subtitle">Core outcomes enabled by unified identity security</div>        </div>
+        <div class="slide-content-area">
+            <div class="mini-badge">Key Takeaways</div><div class="mini-metrics-grid">
+                    <div class="mini-metric-card glowing">
+                        <div class="mini-metric-icon"><svg
+  class="lucide-icon lucide-zap"
+  xmlns="http://www.w3.org/2000/svg"
+  width="18px"
+  height="18px"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z" />
+</svg></div>
+                        <div class="metric-val">94%</div>
+                        <div class="metric-lbl">MTTR Reduction</div>
+                    </div>
+                
+                    <div class="mini-metric-card">
+                        <div class="mini-metric-icon"><svg
+  class="lucide-icon lucide-trending-up"
+  xmlns="http://www.w3.org/2000/svg"
+  width="18px"
+  height="18px"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M16 7h6v6" />
+  <path d="m22 7-8.5 8.5-5-5L2 17" />
+</svg></div>
+                        <div class="metric-val">$133M</div>
+                        <div class="metric-lbl">Enterprise ARR</div>
+                    </div>
+                
+                    <div class="mini-metric-card">
+                        <div class="mini-metric-icon"><svg
+  class="lucide-icon lucide-shield-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="18px"
+  height="18px"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+  <path d="m9 12 2 2 4-4" />
+</svg></div>
+                        <div class="metric-val">100%</div>
+                        <div class="metric-lbl">Machine API Coverage</div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+    </div>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            securityLevel: 'loose',
+            themeVariables: {
+                darkMode: true,
+                background: '#0B111E',
+                primaryColor: '#0F1A2E',
+                primaryBorderColor: '#54C0E8',
+                primaryTextColor: '#FFFFFF',
+                lineColor: '#54C0E8',
+                secondaryColor: '#1A2942',
+                tertiaryColor: '#111827',
+                fontFamily: 'Poppins, system-ui, sans-serif'
+            }
+        });
+    </script>
+</body>
+</html>

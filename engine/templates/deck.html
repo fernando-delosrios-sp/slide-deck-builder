@@ -43,6 +43,28 @@
     <!-- Reveal.js Engine & Plugins -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/notes/notes.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chart/plugin.js"></script>
+    <script>
+        const isPdfExport = window.location.search.includes('export=pdf') || 
+                             window.location.search.includes('print-pdf') || 
+                             document.documentElement.classList.contains('reveal-print');
+        if (isPdfExport && window.Chart) {
+            Chart.defaults.animation = false;
+            document.querySelectorAll('canvas[data-chart]').forEach(canvas => {
+                for (let node of canvas.childNodes) {
+                    if (node.nodeType === Node.COMMENT_NODE) {
+                        try {
+                            let json = JSON.parse(node.nodeValue);
+                            json.options = json.options || {};
+                            json.options.animation = false;
+                            node.nodeValue = JSON.stringify(json);
+                        } catch(e) {}
+                    }
+                }
+            });
+        }
+    </script>
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         
@@ -75,7 +97,32 @@
             minScale: 0.2,
             maxScale: 2.0,
             transition: 'slide',
-            plugins: [ RevealNotes ]
+            plugins: [ RevealNotes, RevealChart ],
+            chart: {
+                defaults: {
+                    color: '{{ ink_muted }}',
+                    font: {
+                        family: {{ font_family | tojson }}
+                    },
+                    scale: {
+                        grid: {
+                            color: '{{ card_border }}'
+                        },
+                        ticks: {
+                            color: '{{ ink_muted }}'
+                        }
+                    }
+                },
+                line: {
+                    borderColor: [ "{{ accent_color }}", "{{ accent_alt }}", "#10B981", "#F59E0B", "#8B5CF6" ]
+                },
+                bar: {
+                    backgroundColor: [ "{{ accent_color }}", "{{ accent_alt }}", "#10B981", "#F59E0B", "#8B5CF6" ]
+                },
+                pie: {
+                    backgroundColor: [ [ "{{ accent_color }}", "{{ accent_alt }}", "#10B981", "#F59E0B", "#8B5CF6", "#EC4899" ] ]
+                }
+            }
         }).then(() => {
             mermaid.run();
         });

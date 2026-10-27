@@ -2,6 +2,7 @@
 import os
 import sys
 import yaml
+import json
 import base64
 import re
 import jinja2
@@ -221,6 +222,148 @@ def render_native_architecture_diagram(diagram, mermaid_code="", spec_dir="", sv
         )
         
     return ""
+
+def render_chart_canvas(chart_def, style, mode="dark"):
+    """
+    Renders a <canvas data-chart="..."> element with an embedded JSON comment
+    conforming to reveal.js-plugins/chart and Chart.js.
+    """
+    if not chart_def or not isinstance(chart_def, dict):
+        return ""
+
+    chart_type = chart_def.get("type", "bar")
+    labels = chart_def.get("labels", [])
+    raw_datasets = chart_def.get("datasets", [])
+    options_override = chart_def.get("options", {}) or {}
+
+    colors = style.get("colors", {})
+    accent_color = colors.get("accent", "#2563EB" if mode == "light" else "#54C0E8")
+    accent_alt = colors.get("accent-alt", "#D60EB5")
+
+    # Harmonious palette cycle derived from theme
+    palette = [
+        accent_color,
+        accent_alt,
+        "#10B981",
+        "#F59E0B",
+        "#8B5CF6",
+        "#06B6D4",
+        "#EC4899",
+        "#3B82F6"
+    ]
+
+    def resolve_color(c, default):
+        if not c:
+            return default
+        c_str = str(c).strip()
+        if c_str == "accent":
+            return accent_color
+        if c_str == "accent-alt":
+            return accent_alt
+        return c_str
+
+    datasets = []
+    is_circular = chart_type in ("pie", "doughnut", "polarArea")
+
+    for i, ds in enumerate(raw_datasets):
+        if not isinstance(ds, dict):
+            continue
+        ds_copy = dict(ds)
+        user_color = ds_copy.pop("color", None)
+        chosen_color = resolve_color(user_color, palette[i % len(palette)])
+
+        if is_circular:
+            data_len = len(ds_copy.get("data", []))
+            if "backgroundColor" not in ds_copy:
+                ds_copy["backgroundColor"] = [palette[j % len(palette)] for j in range(data_len)]
+            if "borderColor" not in ds_copy:
+                ds_copy["borderColor"] = colors.get("surface", "#0B111E" if mode == "dark" else "#F0F3F6")
+            if "borderWidth" not in ds_copy:
+                ds_copy["borderWidth"] = 2
+        else:
+            if "borderColor" not in ds_copy:
+                ds_copy["borderColor"] = chosen_color
+            if "backgroundColor" not in ds_copy:
+                if chart_type == "line":
+                    if ds_copy.get("fill"):
+                        # Transparent fill
+                        ds_copy["backgroundColor"] = f"{chosen_color}33" if chosen_color.startswith("#") and len(chosen_color) == 7 else "rgba(84, 192, 232, 0.2)"
+                    else:
+                        ds_copy["backgroundColor"] = "transparent"
+                else:
+                    ds_copy["backgroundColor"] = f"{chosen_color}CC" if chosen_color.startswith("#") and len(chosen_color) == 7 else chosen_color
+            if "borderWidth" not in ds_copy:
+                ds_copy["borderWidth"] = 2
+
+        datasets.append(ds_copy)
+
+    # Base Chart.js configuration
+    chart_json = {
+        "data": {
+            "labels": labels,
+            "datasets": datasets
+        },
+        "options": {
+            "responsive": True,
+            "maintainAspectRatio": False,
+            "plugins": {
+                "legend": {
+                    "display": options_override.get("legend", True),
+                    "labels": {
+                        "color": colors.get("ink-muted", "#DAE1E9" if mode == "dark" else "#4b5563"),
+                        "font": {
+                            "size": 14
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    # Add axis scales for cartesian charts
+    if not is_circular:
+        is_stacked = bool(options_override.get("stacked", False))
+        chart_json["options"]["scales"] = {
+            "x": {
+                "stacked": is_stacked,
+                "grid": {
+                    "color": colors.get("card-border", "#415364" if mode == "dark" else "#e2e8f0"),
+                    "drawBorder": False
+                },
+                "ticks": {
+                    "color": colors.get("ink-muted", "#DAE1E9" if mode == "dark" else "#4b5563"),
+                    "font": { "size": 13 }
+                }
+            },
+            "y": {
+                "stacked": is_stacked,
+                "grid": {
+                    "color": colors.get("card-border", "#415364" if mode == "dark" else "#e2e8f0"),
+                    "drawBorder": False
+                },
+                "ticks": {
+                    "color": colors.get("ink-muted", "#DAE1E9" if mode == "dark" else "#4b5563"),
+                    "font": { "size": 13 }
+                }
+            }
+        }
+
+    # Pass remaining overrides
+    for k, v in options_override.items():
+        if k not in ("legend", "stacked"):
+            chart_json["options"][k] = v
+
+    json_str = json.dumps(chart_json, indent=2)
+
+    return f'''
+        <div class="slide-chart-wrapper">
+            <canvas data-chart="{chart_type}">
+<!--
+{json_str}
+-->
+            </canvas>
+        </div>
+    '''
 
 def build_deck(spec_path, output_path=None):
     spec_dir = os.path.dirname(os.path.abspath(spec_path))
@@ -717,9 +860,29 @@ def build_deck(spec_path, output_path=None):
                 '''
 
             else:
-                # Layout Assembly: If an image is present, place it side-by-side (2 columns)
-                # to strictly prevent any vertical overflow!
-                if image_html_block:
+                # Layout Assembly: Chart or Image with Content
+                chart_def = content.get("chart")
+                chart_html = render_chart_canvas(chart_def, style, mode=mode) if chart_def else ""
+
+                if chart_html:
+                    if content_blocks:
+                        main_body_html = f'''
+                            <div class="slide-split-grid">
+                                <div class="slide-split-text">
+                                    {"".join(content_blocks)}
+                                </div>
+                                <div class="slide-split-media">
+                                    {chart_html}
+                                </div>
+                            </div>
+                        '''
+                    else:
+                        main_body_html = f'''
+                            <div class="slide-content">
+                                {chart_html}
+                            </div>
+                        '''
+                elif image_html_block:
                     if "picture-with-caption" in layout_slug:
                         main_body_html = f'''
                             <div class="picture-caption-grid">
@@ -817,7 +980,11 @@ def build_deck(spec_path, output_path=None):
         "card_bg": card_bg,
         "surface_color": surface_color,
         "accent_color": accent_color,
+        "accent_alt": accent_alt,
+        "card_border": card_border,
         "ink_color": ink_color,
+        "ink_muted": ink_muted,
+        "font_family": font_family,
         "surface_soft": surface_soft,
         "bg_color": bg_color,
     })

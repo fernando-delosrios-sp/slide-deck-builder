@@ -259,6 +259,21 @@ def generate_preview(spec_path, output_path=None):
                 ''')
             content_preview_html.append(f'<div class="mini-regions-grid">{"".join(r_items)}</div>')
 
+        # Chart
+        chart = content.get("chart")
+        if chart:
+            c_type = chart.get("type", "chart").capitalize()
+            c_labels = chart.get("labels", [])
+            c_ds = chart.get("datasets", [])
+            chart_icon_svg = get_icon_svg("bar-chart-3" if c_type.lower() == "bar" else ("pie-chart" if c_type.lower() in ("pie", "doughnut") else "trending-up"), stroke_width="1.75", size="18px")
+            content_preview_html.append(f'''
+                <div class="mini-chart-card" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.65rem 0.85rem; border-radius: 8px; background: rgba(84, 192, 232, 0.08); border: 1px solid rgba(84, 192, 232, 0.2); font-size: 0.85rem; margin-top: 0.4rem;">
+                    {chart_icon_svg}
+                    <strong style="color: {accent_color};">{c_type} Chart</strong>
+                    <span class="card-tag" style="margin-left: auto;">{len(c_ds)} series &bull; {len(c_labels)} items</span>
+                </div>
+            ''')
+
         # Mermaid / SVG / Diagram
         diagram = content.get("diagram", {})
         svg_code = content.get("svg") or (diagram.get("svg") if isinstance(diagram, dict) else "")

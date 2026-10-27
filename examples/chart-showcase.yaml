@@ -1,0 +1,115 @@
+title: "Enterprise Identity Security & SaaS Performance 2026"
+goal: "Present Q3 executive business review covering cloud migration progress, machine identity growth, and security ROI with interactive data visualizations."
+theme: "sailpoint-corporate-2026-design"
+slide_count: 5
+options:
+  language: "en"
+  audience: "Executive Leadership & Board"
+  tone: "Authoritative, data-driven, strategic"
+  length: "short"
+
+slides:
+  - slide_number: 1
+    layout: "Title Slide"
+    role: "cover"
+    title: "Enterprise Identity & Platform Scale"
+    subtitle: "Q3 2026 Executive Review & Threat Landscape Analysis"
+    badge: "Executive Briefing"
+    content:
+      presenter: "VP of Enterprise Security & Cloud Strategy"
+      date: "October 2026"
+      body: "Strategic overview of enterprise SaaS expansion, privilege governance, and autonomous remediation milestones."
+
+  # Slide 2: Standalone Chart Slide (Multi-Series Growth Bar Chart)
+  - slide_number: 2
+    layout: "Title and Content"
+    role: "metrics"
+    title: "Global SaaS Revenue & Cloud Expansion"
+    subtitle: "Accelerating enterprise adoption across Americas, EMEA, and APAC"
+    badge: "Financial Performance"
+    content:
+      chart:
+        type: "bar"
+        labels: ["Q1 2025", "Q2 2025", "Q3 2025", "Q4 2025", "Q1 2026", "Q2 2026", "Q3 2026"]
+        datasets:
+          - label: "Americas ($M)"
+            data: [42.5, 46.8, 51.2, 58.0, 64.3, 71.5, 80.2]
+            color: "accent" # Maps to primary theme accent (#54C0E8)
+          - label: "EMEA & APAC ($M)"
+            data: [21.0, 24.3, 28.5, 33.1, 38.6, 44.0, 52.8]
+            color: "accent-alt" # Maps to vivid theme accent (#D60EB5)
+        options:
+          stacked: false
+          legend: true
+    notes: "Total ARR reached $133M in Q3 2026 with international expansion outpacing domestic baselines by 18%."
+
+  # Slide 3: Split Layout Slide (Narrative Bullets + Doughnut Distribution Chart)
+  - slide_number: 3
+    layout: "Two Content"
+    role: "architecture"
+    title: "The Shifting Identity Perimeter"
+    subtitle: "Non-human identities now constitute the majority of enterprise access requests"
+    badge: "Risk Governance"
+    content:
+      bullets:
+        - "Non-human service principals and API tokens grew 310% YoY, outpacing workforce growth 4:1."
+        - "Autonomous agent credentials require just-in-time (JIT) ephemeral rotation to prevent persistent lateral movement."
+        - "Contractor accounts without active MFA enforcement remain the top vector for unauthorized SaaS privilege escalation."
+      chart:
+        type: "doughnut"
+        labels: ["Machine / Workload APIs", "Workforce Employees", "Contractors & Vendors", "AI Autonomous Agents"]
+        datasets:
+          - label: "Identity Share (%)"
+            data: [48, 26, 14, 12]
+            # When dataset colors are omitted, the engine automatically cycles theme palette accents
+        options:
+          legend: true
+          cutout: "65%"
+    notes: "Highlight the 48% machine identity slice. Emphasize why legacy HR-driven IAM systems fail to govern machine actors."
+
+  # Slide 4: Multi-Series Line Chart (Time-to-Remediation Benchmark)
+  - slide_number: 4
+    layout: "Title and Content"
+    role: "solution"
+    title: "Mean Time to Remediate (MTTR) Privileged Drift"
+    subtitle: "Automated agentic remediation vs. manual SOC triage"
+    badge: "Operational Efficiency"
+    content:
+      chart:
+        type: "line"
+        labels: ["Month 1", "Month 2", "Month 3", "Month 4", "Month 5", "Month 6"]
+        datasets:
+          - label: "Manual Remediation (Hours)"
+            data: [18.5, 17.2, 19.0, 16.8, 15.4, 14.9]
+            color: "rgba(220, 60, 60, 0.9)"
+            fill: false
+          - label: "SailPoint Automated Policy Flow (Minutes)"
+            data: [12.0, 8.5, 4.2, 2.8, 1.9, 1.2]
+            color: "accent"
+            fill: true
+        options:
+          legend: true
+    notes: "Point out the divergence starting at Month 3 where continuous identity posture assessment went live."
+
+  # Slide 5: Summary with Standout Metrics
+  - slide_number: 5
+    layout: "Title and Content"
+    role: "summary"
+    title: "Strategic Impact & 2027 Horizon"
+    subtitle: "Core outcomes enabled by unified identity security"
+    badge: "Key Takeaways"
+    content:
+      metrics:
+        - value: "94%"
+          label: "MTTR Reduction"
+          subtext: "Down from 18.5 hrs to 1.2 mins"
+          highlight: true
+          icon: "zap"
+        - value: "$133M"
+          label: "Enterprise ARR"
+          subtext: "+38% YoY growth"
+          icon: "trending-up"
+        - value: "100%"
+          label: "Machine API Coverage"
+          subtext: "Continuous Zero Trust posture"
+          icon: "shield-check"

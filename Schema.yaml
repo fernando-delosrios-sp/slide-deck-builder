@@ -248,6 +248,54 @@ properties:
                   description: Deprecated. Raw Mermaid syntax. Prefer SVG diagrams or native architecture components.
                 emphasis:
                   type: string
+            chart:
+              type: object
+              description: |
+                Declarative data visualization chart powered by reveal.js-plugins/chart and Chart.js.
+                Preferred standard for presenting quantitative datasets, multi-quarter trends, and categorical shares.
+              required:
+                - type
+                - datasets
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - bar
+                    - line
+                    - pie
+                    - doughnut
+                    - radar
+                    - polarArea
+                  description: Chart type.
+                labels:
+                  type: array
+                  items:
+                    type: string
+                  description: Categorical labels for data points (X-axis categories or circular slices).
+                datasets:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - data
+                    properties:
+                      label:
+                        type: string
+                        description: Series label displayed in legend and tooltips.
+                      data:
+                        type: array
+                        items:
+                          type: number
+                        description: Numerical data values for the series.
+                      color:
+                        type: string
+                        description: Theme token ('accent', 'accent-alt') or color string.
+                      fill:
+                        type: boolean
+                        description: Whether to fill the area under line charts.
+                options:
+                  type: object
+                  description: Optional Chart.js overrides (e.g. stacked, legend, cutout).
             svg:
               type: string
               description: Standalone inline SVG markup for rich architectural diagrams or flowcharts.
