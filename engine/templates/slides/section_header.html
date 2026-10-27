@@ -1,0 +1,6 @@
+<div class="section-header-wrapper">
+    {{ badge_html | safe }}
+    <h1 class="section-title">{{ title }}</h1>
+    {% if subtitle %}<h3 class="section-subtitle">{{ subtitle }}</h3>{% endif %}
+    {% if body %}<p class="section-body">{{ body }}</p>{% endif %}
+</div>

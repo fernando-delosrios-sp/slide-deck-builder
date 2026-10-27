@@ -1,0 +1,59 @@
+<div class="native-arch-wrapper cardinality-wrapper">
+    <div class="native-arch-header">
+        <span class="native-arch-title"><span class="arch-icon">⬡</span> {{ diag_title }}</span>
+        <span class="native-arch-badge">{{ badge_text or 'Data Model Cardinality' }}</span>
+    </div>
+    <div class="arch-cardinality">
+        <div class="arch-card-col sources-col">
+            {% for s in sources %}
+            <div class="arch-source-card">
+                {% if s.badge %}<span class="card-badge">{{ s.badge }}</span>{% endif %}
+                <h4 class="card-title">{{ s.name }}</h4>
+                <div class="arch-item-chips">
+                    {% for it in s.items %}
+                    <span class="arch-chip">{{ it }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="arch-card-connector">
+            <span class="arch-connector-badge">{{ profiles.rule_badge or '1 : N Rule' }}</span>
+            <span class="arch-connector-line">➔</span>
+        </div>
+        <div class="arch-card-col profiles-col">
+            <div class="arch-profile-card glowing">
+                <span class="card-badge">{{ profiles.rule_badge or '1 : N Rule' }}</span>
+                <h4 class="card-title">{{ profiles.title or 'Access Profiles' }}</h4>
+                <p class="card-body">{{ profiles.desc or '' }}</p>
+                <div class="arch-profile-items">
+                    {% for p in profiles.items %}
+                    <div class="arch-profile-subcard">
+                        <strong>{{ p.name }}</strong>
+                        <span class="subcard-meta">{{ p.source }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="arch-card-connector">
+            <span class="arch-connector-badge">{{ roles.rule_badge or 'N : M Rule' }}</span>
+            <span class="arch-connector-line">➔</span>
+        </div>
+        <div class="arch-card-col roles-col">
+            <div class="arch-role-card glowing">
+                <span class="card-badge accent-alt">{{ roles.rule_badge or 'N : M Rule' }}</span>
+                <h4 class="card-title">{{ roles.title or 'Composite Roles' }}</h4>
+                <p class="card-body">{{ roles.desc or '' }}</p>
+                <div class="arch-role-items">
+                    {% for r in roles.items %}
+                    <div class="arch-role-subcard{{ ' glowing' if r.highlight else '' }}">
+                        <strong>{{ r.name }}</strong>
+                        <span class="subcard-meta">{{ r.summary }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

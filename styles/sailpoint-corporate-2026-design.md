@@ -142,7 +142,8 @@ Official 2026 SailPoint corporate brand design. Optimized for dark mode presenta
 - **Headings:** Poppins 600 weight in pure white `#FFFFFF`.
 - **Body & Subtitles:** Poppins 400 weight in soft silver-gray `#DAE1E9`.
 - **Cards & Containers:** Background `#0B111E`, border 1px solid `#415364`, border-radius 18px, with subtle top-border highlight.
-- **Accents:** Electric aqua (`#54C0E8`) for primary tags, active states, and focal metrics; hot pink (`#D60EB5`) for critical highlights; lime (`#93D500`) for verified status.
+- **Accents:** Electric aqua (`#54C0E8`) for primary tags, active states, and focal metrics; hot pink / fuchsia (`#D60EB5`) for critical highlights and subtle text block accents; lime (`#93D500`) for verified status.
+- **Agenda & Steppers:** Stepper indicator numbers in electric aqua (`#54C0E8`), with subtle fuchsia (`#D60EB5`) border accents and ambient gradients on text blocks.
 
 **Diagram Grammar:** Monoline nodes with 1.5px strokes in aqua or white over dark surfaces; straight connectors with neat arrowheads; glowing aqua node marking the focal point.
 

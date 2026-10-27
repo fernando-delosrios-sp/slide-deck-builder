@@ -1,0 +1,36 @@
+<div class="native-arch-wrapper convergence-wrapper">
+    <div class="native-arch-header">
+        <span class="native-arch-title"><span class="arch-icon">⬡</span> {{ diag_title }}</span>
+        <span class="native-arch-badge">{{ badge_text or 'Unified Governance Hub' }}</span>
+    </div>
+    <div class="arch-convergence">
+        <div class="arch-tracks-col">
+            {% for t in tracks %}
+            <div class="arch-track{{ ' glowing' if t.highlight else '' }}">
+                <div class="arch-track-header">
+                    <div class="arch-track-identity">
+                        {% if t.icon_src %}<img src="{{ t.icon_src }}" alt="" class="track-icon" />{% endif %}
+                        <span>{{ t.name }}</span>
+                    </div>
+                    {% if t.badge %}<span class="track-badge">{{ t.badge }}</span>{% endif %}
+                </div>
+                <div class="arch-track-steps">
+                    {% for s in t.steps %}
+                    <div class="arch-track-step">{{ s }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="arch-convergence-arrow">
+            <span>➔</span>
+        </div>
+        <div class="arch-hub-col">
+            <div class="arch-hub-card">
+                <span class="card-badge">{{ hub.badge or 'Unified Hub' }}</span>
+                <h3 class="card-title">{{ hub.title or 'Unified Policy & Audit Engine' }}</h3>
+                <p class="card-body">{{ hub.desc or '' }}</p>
+            </div>
+        </div>
+    </div>
+</div>

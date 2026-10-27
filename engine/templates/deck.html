@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ deck_title }}</title>
+
+    <!-- Export / Print Mode Detection -->
+    <script>
+        (function() {
+            var search = window.location.search;
+            var isExport = search.indexOf('export=pdf') !== -1 ||
+                           search.indexOf('print-pdf') !== -1 ||
+                           /HeadlessChrome/i.test(navigator.userAgent);
+            if (isExport) {
+                document.documentElement.classList.add('export-pdf', 'print-pdf');
+            }
+        })();
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family={{ google_font }}&display=swap" rel="stylesheet">
+
+    <!-- Reveal.js Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css">
+    <link rel="stylesheet" href="{{ reveal_theme_css }}">
+
+    <!-- Deck Theme & Layout CSS -->
+    <style>
+{{ deck_css | safe }}
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+{{ slides_content | safe }}
+        </div>
+    </div>
+
+    <!-- Reveal.js Engine & Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/notes/notes.min.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'base',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            themeVariables: {
+                darkMode: {{ 'true' if mode == 'dark' else 'false' }},
+                background: '{{ card_bg }}',
+                primaryColor: '{{ surface_color }}',
+                primaryBorderColor: '{{ accent_color }}',
+                primaryTextColor: '{{ ink_color }}',
+                lineColor: '{{ accent_color }}',
+                secondaryColor: '{{ surface_soft }}',
+                tertiaryColor: '{{ bg_color }}'
+            }
+        });
+
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            width: 1920,
+            height: 1080,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 2.0,
+            transition: 'slide',
+            plugins: [ RevealNotes ]
+        }).then(() => {
+            mermaid.run();
+        });
+
+        Reveal.on('slidechanged', () => {
+            window.dispatchEvent(new Event('resize'));
+        });
+    </script>
+</body>
+</html>

@@ -82,11 +82,12 @@ Work through the agreed sections sequentially. For each section:
 4. Apply semantic content blocks according to [Schema.yaml](../../../Schema.yaml):
    - `image`: single embedded illustration or picture (`src`, `alt`, `caption`). **Icons must remain small (24-48px)**. When a larger visual or cover picture is needed, **generate one** via `generate_image`. Never use an icon as a large picture.
    - `bullets`: concise bullet items.
-   - `metrics`: stat value, label, subtext, highlight flag, and optional Lucide icon (`icon: "trending-up"`, `"zap"`).
+   - `metrics`: stat value, label, subtext, highlight flag, and optional Lucide icon (`icon: "trending-up"`, `"zap"`). Use `highlight: true` only when an individual metric has standout relevance.
    - `cards`: titled container cards with badge and Lucide icon (`icon: "shield-check"`, `"user-round"`, `"layers"`, `"database"`).
    - `comparison`: side-by-side before/after or contrast blocks.
    - `diagram`: high-fidelity SVG diagram (`svg`, `src`) or native architecture components (`pipeline`, `convergence`, `cardinality`, `policy_flow`, `layered_stack`). **Never use embedded Mermaid**.
    - `notes`: speaker script and background notes.
+   - **Theme Accent & Visual Weight Hierarchy**: When multiple elements on screen have the same weight (e.g. peer cards in a grid representing equal categories, peer steps, or equal metrics), do NOT mix and match accents. Use the most vivid accents (e.g. fuchsia / `accent-alt` glowing border) strictly to highlight items that have more relevance (e.g. standout metrics, critical warnings, winning options, or high-priority items), while using less vivid accents (e.g. electric aqua / `accent`, subtle theme borders) to decorate regular or peer items.
 5. **Provenance rule (modernizing)**: slide content must come from the baseline text, notes, or images. Do not add vendor/product names, examples, steps, or claims from general knowledge. If an addition truly helps, list it in the slide's `additions:` so it is shown to the user at the gate; undeclared additions are defects. Worked examples and sample data visible in baseline images (e.g. `E001 / Malory Archer`) are preferred over invented ones.
 6. **Keep the original visuals' information**: a baseline image is either embedded (`content.image`), faithfully reproduced as SVG with every label/value preserved and listed in `redrawn_media`, or approved as a `baseline_cuts` media entry. Summarising it into text cards counts as dropping it.
 7. Update `projects/<project-name>/deck/spec.yaml`.

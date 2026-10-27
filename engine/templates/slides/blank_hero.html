@@ -1,0 +1,9 @@
+<div class="blank-hero-layout">
+    {% if img_src %}<img src="{{ img_src }}" alt="{{ img_alt }}" class="hero-full-bleed" />{% endif %}
+    <div class="hero-overlay-card">
+        {{ badge_html | safe }}
+        <h2 class="slide-title">{{ title }}</h2>
+        {% if subtitle %}<h4 class="slide-subtitle">{{ subtitle }}</h4>{% endif %}
+        {% if body %}<p class="slide-body-text">{{ body }}</p>{% endif %}
+    </div>
+</div>

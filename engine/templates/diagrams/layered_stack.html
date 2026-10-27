@@ -1,0 +1,20 @@
+<div class="native-arch-wrapper layered-stack-wrapper">
+    <div class="native-arch-header">
+        <span class="native-arch-title"><span class="arch-icon">⬡</span> {{ diag_title }}</span>
+        <span class="native-arch-badge">{{ badge_text or 'Proof-of-Value Stack' }}</span>
+    </div>
+    <div class="arch-layered-stack">
+        {% for l in layers %}
+        <div class="arch-layer-card {{ l.accent or 'blue' }}{{ ' glowing' if l.highlight else '' }}">
+            <div class="arch-layer-tier">{{ l.tier }}</div>
+            <div class="arch-layer-info">
+                {% if l.badge %}<span class="card-badge {{ l.accent or 'blue' }}">{{ l.badge }}</span>{% endif %}
+                <h4 class="card-title">{{ l.title }}</h4>
+            </div>
+            <div class="arch-layer-desc">
+                <p>{{ l.desc }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

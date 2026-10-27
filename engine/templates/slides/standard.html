@@ -1,0 +1,8 @@
+<div class="slide-layout {{ layout_slug }}">
+    <div class="slide-header">
+        {{ badge_html | safe }}
+        <h2 class="slide-title">{{ title }}</h2>
+        {% if subtitle %}<h4 class="slide-subtitle">{{ subtitle }}</h4>{% endif %}
+    </div>
+    {{ main_body_html | safe }}
+</div>

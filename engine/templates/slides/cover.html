@@ -1,0 +1,18 @@
+<div class="title-slide-wrapper{{ ' with-cover-image' if cover_hero_html else '' }}">
+    <div class="cover-text-content">
+        {{ cover_logo_html | safe }}
+        {% if not cover_logo_html %}{{ badge_html | safe }}{% endif %}
+        <h1 class="cover-title">{{ title }}</h1>
+        {% if subtitle %}<h2 class="cover-subtitle">{{ subtitle }}</h2>{% endif %}
+        {% if body_val_html %}<p class="cover-description">{{ body_val_html | safe }}</p>{% endif %}
+        {{ cover_bullets_html | safe }}
+        {% if meta_items %}
+        <div class="cover-meta-grid">
+            {% for m in meta_items %}
+            <div class="meta-item"><span class="meta-label">{{ m.label }}</span><span class="meta-val">{{ m.val }}</span></div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    {{ cover_hero_html | safe }}
+</div>

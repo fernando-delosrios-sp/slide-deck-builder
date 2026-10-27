@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spec Preview: {{ title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family={{ google_font }}&display=swap" rel="stylesheet">
+    <style>
+{{ preview_css | safe }}
+    </style>
+</head>
+<body>
+    <div class="header-bar">
+        <div class="header-info">
+            <h1>{{ title }}</h1>
+            <div class="header-meta">
+                <span class="pill theme-pill">{{ theme_name }} ({{ mode }})</span>
+                <span class="pill count-pill">{{ slide_count }} Slides</span>
+                <span><strong>Audience:</strong> {{ audience }}</span>
+                <span><strong>Tone:</strong> {{ tone }}</span>
+            </div>
+        </div>
+    </div>
+
+    {% if goal %}
+    <div class="goal-banner"><strong>Goal:</strong> {{ goal }}</div>
+    {% endif %}
+
+    <div class="deck-grid">
+        {{ cards_joined | safe }}
+    </div>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            securityLevel: 'loose',
+            themeVariables: {
+                darkMode: true,
+                background: '#0B111E',
+                primaryColor: '#0F1A2E',
+                primaryBorderColor: '#54C0E8',
+                primaryTextColor: '#FFFFFF',
+                lineColor: '#54C0E8',
+                secondaryColor: '#1A2942',
+                tertiaryColor: '#111827',
+                fontFamily: 'Poppins, system-ui, sans-serif'
+            }
+        });
+    </script>
+</body>
+</html>

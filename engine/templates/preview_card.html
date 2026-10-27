@@ -1,0 +1,17 @@
+<div class="slide-card">
+    <div class="slide-card-header">
+        <span class="slide-num">#{{ num }}</span>
+        <span class="pill layout-pill">{{ layout }}</span>
+        <span class="pill role-pill">{{ role }}</span>
+    </div>
+    <div class="slide-canvas">
+        <div class="slide-title-area">
+            <h3 class="slide-title">{{ stitle }}</h3>
+            {% if subtitle %}<div class="slide-subtitle">{{ subtitle }}</div>{% endif %}
+        </div>
+        <div class="slide-content-area">
+            {{ content_body | safe }}
+        </div>
+    </div>
+    {% if notes %}<div class="slide-notes"><span class="notes-tag">Notes:</span> {{ notes }}</div>{% endif %}
+</div>

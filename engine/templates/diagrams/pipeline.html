@@ -1,0 +1,27 @@
+<div class="native-arch-wrapper pipeline-wrapper">
+    <div class="native-arch-header">
+        <span class="native-arch-title"><span class="arch-icon">⬡</span> {{ diag_title }}</span>
+        <span class="native-arch-badge">{{ badge_text or 'Deterministic Lineage' }}</span>
+    </div>
+    <div class="arch-pipeline">
+        <div class="arch-pipeline-stages">
+            {% for st in stages %}
+            <div class="arch-pipeline-stage{{ ' glowing' if st.highlight else '' }}">
+                <span class="stage-num">{{ st.num }}</span>
+                <h4 class="stage-title">{{ st.title }}</h4>
+                {% if st.badge %}<span class="stage-badge">{{ st.badge }}</span>{% endif %}
+                {% if st.desc %}<p class="stage-desc">{{ st.desc }}</p>{% endif %}
+                {% if not loop.last %}<div class="arch-pipeline-arrow">➔</div>{% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% if trigger %}
+        <div class="arch-pipeline-trigger">
+            <span class="trigger-badge">{{ trigger.badge or 'Trigger' }}</span>
+            <div class="trigger-content">
+                <strong>{{ trigger.title }}</strong>: {{ trigger.desc }}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="native-arch-wrapper policy-flow-wrapper">
+    <div class="native-arch-header">
+        <span class="native-arch-title"><span class="arch-icon">⬡</span> {{ diag_title }}</span>
+        <span class="native-arch-badge">{{ badge_text or 'Dynamic ABAC Execution' }}</span>
+    </div>
+    <div class="arch-policy-flow">
+        <div class="arch-flow-col input-col">
+            <span class="card-badge">{{ inputs.badge or 'Inputs' }}</span>
+            <h4 class="card-title">{{ inputs.title or 'Attributes' }}</h4>
+            <div class="arch-attrs-list">
+                {% for a in inputs.attributes %}
+                <div class="arch-attr-row">
+                    <span class="attr-key">{{ a.key }}</span>
+                    <span class="attr-op">=</span>
+                    <span class="attr-val">{{ a.value }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="arch-flow-arrow">➔</div>
+        <div class="arch-flow-col engine-col glowing">
+            <span class="card-badge">{{ engine.badge or 'Evaluation Engine' }}</span>
+            <h4 class="card-title">{{ engine.title or 'Dynamic Policy Engine' }}</h4>
+            <p class="card-body">{{ engine.desc or '' }}</p>
+            <div class="engine-status-badge">⚡ Real-Time ABAC Match</div>
+        </div>
+        <div class="arch-flow-arrow">➔</div>
+        <div class="arch-flow-col role-col glowing">
+            <span class="card-badge accent-alt">{{ role.badge or 'Assigned Role' }}</span>
+            <h4 class="card-title">{{ role.title or 'Store Manager' }}</h4>
+            <p class="card-body">{{ role.desc or '' }}</p>
+        </div>
+        <div class="arch-flow-arrow">➔</div>
+        <div class="arch-flow-col prov-col">
+            <span class="card-badge">{{ provisions.badge or 'Fulfillment' }}</span>
+            <h4 class="card-title">{{ provisions.title or 'Provisioned Access' }}</h4>
+            <div class="arch-item-chips">
+                {% for s in provisions.systems %}
+                <span class="arch-chip">{{ s }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

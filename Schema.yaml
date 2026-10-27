@@ -124,7 +124,7 @@ properties:
                     description: Context or delta (e.g. '+24% YoY').
                   highlight:
                     type: boolean
-                    description: Whether to emphasize with accent glow.
+                    description: Whether to emphasize with the vivid accent glow (accent-alt). Use strictly for items of higher relevance or priority. Do NOT mix and match accents when sibling elements have equal weight.
                   icon:
                     type: string
                     description: Lucide icon name (e.g. 'trending-up', 'zap', 'shield-check', 'gauge', 'users').
@@ -147,6 +147,7 @@ properties:
                     type: string
                   highlight:
                     type: boolean
+                    description: Whether to emphasize with the vivid accent glow (accent-alt). Use strictly for items of higher relevance or priority. Do NOT mix and match accents when sibling elements have equal weight.
             regions:
               type: array
               description: Content blocks mapped to layout regions/columns.

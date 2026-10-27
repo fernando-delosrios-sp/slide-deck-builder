@@ -1,0 +1,24 @@
+<div class="slide-layout agenda">
+    <div class="slide-header">
+        {{ badge_html | safe }}
+        <h2 class="slide-title">{{ title }}</h2>
+        {% if subtitle %}<h4 class="slide-subtitle">{{ subtitle }}</h4>{% endif %}
+    </div>
+    <div class="agenda-stepper">
+        {% for it in agenda_items %}
+        <div class="agenda-step-row{{ ' glowing' if it.highlight else '' }}">
+            <div class="agenda-step-indicator">
+                <span class="agenda-step-num">{{ it.step_num }}</span>
+                {% if not loop.last %}<span class="agenda-step-line"></span>{% endif %}
+            </div>
+            <div class="agenda-step-card">
+                <div class="agenda-step-content">
+                    <h3 class="agenda-step-title">{{ it.title }}</h3>
+                    {% if it.desc %}<p class="agenda-step-desc">{{ it.desc }}</p>{% endif %}
+                </div>
+                {% if it.badge %}<span class="agenda-step-badge">{{ it.badge }}</span>{% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

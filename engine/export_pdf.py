@@ -44,7 +44,8 @@ def export_to_pdf(input_path, output_path=None):
         sys.exit(1)
 
     os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
-    file_url = f"file://{html_path}"
+    base_file_url = f"file://{html_path}"
+    file_url = f"{base_file_url}?export=pdf"
     print(f"Exporting 1:1 PDF from {html_path}...")
 
     chrome_path = find_chrome()
@@ -70,7 +71,7 @@ def export_to_pdf(input_path, output_path=None):
                 "--disable-gpu",
                 "--no-pdf-header-footer",
                 f"--print-to-pdf={output_path}",
-                f"{file_url}?print-pdf"
+                f"{base_file_url}?print-pdf"
             ]
             subprocess.run(fallback_cmd, check=True)
 

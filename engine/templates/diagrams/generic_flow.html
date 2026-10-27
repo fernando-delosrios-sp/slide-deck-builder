@@ -1,0 +1,9 @@
+<div class="diagram-wrapper">
+    <div class="diagram-badge">Architecture / {{ d_kind.title() }}</div>
+    <div class="diagram-nodes">
+        {% for elem in elements %}
+        <div class="diagram-node"><span class="node-idx">{{ loop.index }}</span> {{ elem }}</div>
+        {% if not loop.last %}<div class="diagram-arrow">➔</div>{% endif %}
+        {% endfor %}
+    </div>
+</div>
