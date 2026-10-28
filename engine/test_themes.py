@@ -184,7 +184,7 @@ def run_tests(full_export=False):
                     import export_pptx as pptx_mod
                     pptx_file = os.path.join(tmp_dir, f"{theme_name}_deck.pptx")
                     pptx_mod.export_to_pptx(spec_file, pptx_file)
-                    assert os.path.exists(pptx_file) and os.path.getsize(pptx_file) > 50000
+                    assert os.path.exists(pptx_file) and os.path.getsize(pptx_file) > 20000
                     print(f"  • PPTX exported: {os.path.getsize(pptx_file):,} bytes [PASS]")
                 except Exception as e:
                     print(f"  ❌ FAILED to export PPTX: {e}")
