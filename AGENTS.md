@@ -21,14 +21,16 @@ Reach the file that owns the change:
   - **Re-read skills each phase**: skill and rule files change during a session; re-read them before each phase instead of trusting an earlier read.
 - **Diagram Standard (SVGs over Mermaid)**: Embedded Mermaid is prohibited for slide decks as it produces low-contrast, clipped, and inconsistent visuals. Architectural diagrams MUST be authored as high-fidelity SVGs (`diagram.svg`, `diagram.src`, or `content.svg`) or native semantic architecture components (`pipeline`, `convergence`, `cardinality`, `policy_flow`, `layered_stack`).
   - **Exemplar Modernization Benchmark (`examples/Identity Model Components and Access Model/`)**: Canonical reference for high-fidelity modernization. Follow its architectural blueprint:
-    - **SVG Diagram Template**: Use `viewBox="0 0 1000 520"`, dark card backdrop (`#070C16`, `rx="16"`, border `#415364`), theme gradient nodes (e.g. `#0033A1` to `#0B111E`), uppercase bold category badges (11px), node titles (18px), Lucide-styled node icons/glyphs, clean `<path>` connectors with `<marker id="arr">`, and a bottom rounded banner (`height="65"`) stating the governing architectural principle.
+    - **SVG Diagram Template**: Use `viewBox="0 0 1000 520"`, dark card backdrop (`#070C16`, `rx="16"`, border `#415364`), theme gradient nodes (e.g. `#0033A1` to `#0B111E`), uppercase bold category badges (11px), node titles (18px), Lucide-styled node icons/glyphs, clean `<path>` connectors with dedicated `<marker>` arrowheads, and a bottom rounded banner (`height="65"`) stating the governing architectural principle.
+    - **Arrow & Connector Color Uniformity Mandate**: Arrows and path connectors must have the exact same color across all their parts. An arrow's shaft (`stroke`) and its arrowhead (`marker-end` / `marker-start` `fill`) must match 100%. Creating an arrow with mismatched body and head colors (e.g., magenta line with cyan arrowhead) is strictly prohibited. When creating SVG diagrams, define dedicated markers for each accent color used (e.g. `marker-aqua` with `fill="#54C0E8"`, `marker-pink` with `fill="#D60EB5"`, `marker-green` with `fill="#93D500"`) and pair them strictly with paths sharing that stroke. Enforced automatically as an `ERROR` by `engine/check_coverage.py`.
     - **Console Screenshot Walkthroughs**: For baseline UI screenshots, use `layout: "Picture with Caption"`, `role: "walkthrough"`, precise caption (`"[Product] Console: [Context] Interface"`), and a 1-2 sentence `content.body` summarizing what the interface configures.
-    - **Procedural & Governance Card Archetypes**: Use `Four Tiles` with numbered card titles (`1. Step Name`, `2. Step Name`) and functional badges (`Connections`, `Policy`, `Data Import`) for sequence slides; use `Three Columns` with Lucide icons (`user`, `key`, `shield`) and selective `highlight: true` for entity pillars.
+    - **Procedural & Governance Card Archetypes**: Use `Four Tiles` with numbered card titles (`1. Step Name`, `2. Step Name`) and functional badges (`Connections`, `Policy`, `Data Import`) for sequence slides; use `Three Columns` with Lucide icons (`user`, `key`, `shield`) and uniform peer styling (never apply `highlight: true` to arbitrary peer pillars).
     - **Preserve Real Baseline Data**: Retain original sample identities, usernames, attributes, and correlation rules (e.g. `John Cooper / jcooper`, `Sterling Archer`, `attributes.department: Finance`). Never replace baseline data with generic placeholders.
 - **Icon Sizing & Image Generation**: Icons are micro-visual accents (24px–48px) and MUST remain small. Never blow up an icon into a hero graphic or large slide picture. When needing a picture to represent something bigger (e.g. cover slide or hero visual), **generate one** using `generate_image`. Slide master cover background images or legacy stock photos must NOT be reused as cover hero graphics; record them in `baseline_cuts` and generate a theme-consistent hero visual instead.
+- **Cover Slide Proportions & Hero Alignment**: To ensure a pixel-perfect 1:1 vertical height alignment between the left-side text column and the right-side hero graphic, `title` and `subtitle` on cover slides (`layout: "Title Slide"`, `role: "cover"`) must remain concise (maximum 2 lines each). Long platform names or series names belong in `badge`, not concatenated into `title` or `subtitle`. The executive abstract belongs in `content.body`.
 - **Layout definitions & grid templates**: [Layouts.csv](Layouts.csv) defines available slide architectures, CSS grid rules, and named slots.
 - **Visual kits & design tokens**: [styles/](styles/) holds markdown design systems (`*-design.md`). Fully compatible with standard **`DESIGN.md`** files (Google Stitch, getdesign.md, awesome-design-md). Themes specify color palettes (contrast audited for WCAG AA), typography hierarchies, CSS variables, and structured prompt guidelines (`Atmosphere`, `Do's and Don'ts`, `Diagram Grammar`). Default premier theme: [styles/sailpoint-corporate-2026-design.md](styles/sailpoint-corporate-2026-design.md).
-- **Theme Accents & Visual Weight Hierarchy**: When multiple elements on screen have the same weight (e.g. peer cards in a grid representing equal categories, peer steps, or equal metrics), do NOT mix and match accents. Use the most vivid accents (e.g. hot fuchsia / `accent-alt` glowing border) strictly to highlight items that have more relevance (e.g. standout metrics, critical warnings, winning options, or high-priority items), while using the less vivid accents (e.g. electric aqua / `accent`, subtle theme borders) to decorate regular or peer items.
+- **Theme Accents & Visual Weight Hierarchy**: When multiple elements on screen have the same weight (e.g. peer cards in a grid representing equal categories, peer steps, or equal metrics), do NOT mix and match accents or apply `highlight: true` to arbitrary peer items. Use the most vivid accents (e.g. hot fuchsia / `accent-alt` glowing border) strictly to highlight items that have genuine standout relevance (e.g. standout metrics, critical warnings, winning options, or high-priority items), while using the less vivid accents (e.g. electric aqua / `accent`, subtle theme borders) to decorate regular or peer items.
 - **Template Policy (Extraction Only)**: Master PowerPoint templates (`templates/`) are sources of design styles, color tokens, and asset/vector extraction ONLY. They MUST NEVER be used as document templates to populate or create presentation contents. Presentations are compiled cleanly from scratch.
 
 ## Project Directory & Workspace
@@ -71,10 +73,19 @@ All scripts run via the project Python virtual environment (`./venv/bin/python`)
 
 ## Issue Triage & Ownership Protocol (Separation of Concerns)
 
-When resolving user feedback or visual presentation defects, reach the layer that owns the issue:
+### Fix Scope Gate (Process vs. Instance)
 
-```
+When the user reports presentation defects, visual flaws, or deck refinement requests, halt at a structured choice gate (`ask_question`) before editing any files:
+- **(Recommended) Apply to Build Process & Current Deck**: Fix the root cause in the build process (engine, visual theme, authoring skill, or rules), then re-run the build to update the current deck.
+- **Current Deck Only**: Patch `projects/<name>/deck/spec.yaml` directly for this project without changing the underlying build system.
+- **Build Process Only**: Update the generator, engine, theme, or authoring rules so future decks avoid the issue; leave the current deck as-is for now.
+
+Once the scope is agreed, reach the layer that owns the issue:
+
 ┌─────────────────────────────────────────────────────────────┐
+│ Layer 0: Authoring Process (.agents/skills/, AGENTS.md)     │
+│          Generation rules, prompts, component guidance      │
+├─────────────────────────────────────────────────────────────┤
 │ Layer 1: Content Instance (projects/<name>/deck/spec.yaml)  │
 │          Payload volume, semantic layout choice, wording    │
 ├─────────────────────────────────────────────────────────────┤

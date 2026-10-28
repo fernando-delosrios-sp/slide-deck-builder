@@ -107,7 +107,6 @@ slides:
       body: Securities which grant accounts an ability to perform actions. They define what a user can and can't do in a system.
         On a source these may be known as entitlements, authorizations, groups, rights, permissions. Access can also be defined
         through roles and access profiles.
-      highlight: true
   notes: 'Baseline Slide 2 defines the three core pillars: Identity, Account, and Access. Identities represent the human or
     service entity, accounts represent presence on individual systems, and access defines effective operational rights.'
   additions:
@@ -1051,7 +1050,6 @@ slides:
       icon: shield-check
       body: Each ONE Identity can hold numerous individual entitlements, both assigned through governed access profiles and
         detected through direct account aggregation.
-      highlight: true
   notes: 'Baseline Slide 34 summarizes cardinality: Each ONE Identity can have multiple accounts, roles, access profiles,
     and entitlements.'
   additions:

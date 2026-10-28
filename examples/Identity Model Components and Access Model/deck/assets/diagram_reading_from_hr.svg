@@ -23,6 +23,9 @@
     <marker id="arrowAquaHr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#54C0E8"/>
     </marker>
+    <marker id="arrowGreenHr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#93D500"/>
+    </marker>
   </defs>
 
   <!-- Background Canvas -->
@@ -208,7 +211,7 @@
   </g>
 
   <!-- Connector: Identity Profile Mappings -> Identity -->
-  <path d="M 895 375 L 915 375" stroke="#93D500" stroke-width="2.5" marker-end="url(#arrowAquaHr)" fill="none"/>
+  <path d="M 895 375 L 915 375" stroke="#93D500" stroke-width="2.5" marker-end="url(#arrowGreenHr)" fill="none"/>
 
   <!-- 5. Resulting Central Identity -->
   <g transform="translate(925, 180)">

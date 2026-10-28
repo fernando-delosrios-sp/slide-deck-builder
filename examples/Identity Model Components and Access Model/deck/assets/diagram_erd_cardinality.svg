@@ -94,10 +94,10 @@
     <text x="16" y="96" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">Aggregates N Entitlements within that isolated source</text>
   </g>
 
-  <!-- Left Branch: Identity to Accounts (1..N) -->
-  <path d="M 570 95 L 340 95 L 340 220" stroke="#54C0E8" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#erdArrow)" fill="none"/>
-  <rect x="365" y="115" width="60" height="18" rx="4" fill="#070C16" stroke="#54C0E8" stroke-width="1"/>
-  <text x="395" y="128" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="700" text-anchor="middle">1 .. N</text>
+  <!-- Left Branch: Identity to Accounts (1..N) routed via clear corridor below Identity Profile -->
+  <path d="M 585 140 L 585 165 L 340 165 L 340 220" stroke="#54C0E8" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#erdArrow)" fill="none"/>
+  <rect x="420" y="156" width="50" height="18" rx="4" fill="#070C16" stroke="#54C0E8" stroke-width="1"/>
+  <text x="445" y="169" fill="#54C0E8" font-family="Poppins, sans-serif" font-size="10" font-weight="700" text-anchor="middle">1 .. N</text>
 
   <!-- Account Node -->
   <g transform="translate(230, 225)">
@@ -118,7 +118,7 @@
   </g>
 
   <!-- Link Account -> Source System (1:1) -->
-  <path d="M 280 325 L 200 365" stroke="#415364" stroke-width="2" marker-end="url(#erdArrow)" fill="none"/>
+  <path d="M 280 325 L 200 365" stroke="#54C0E8" stroke-width="2" marker-end="url(#erdArrow)" fill="none"/>
 
   <!-- Link Access Profile -> Source System (1:1) -->
   <path d="M 530 420 L 260 420" stroke="#54C0E8" stroke-width="2" marker-end="url(#erdArrow)" fill="none"/>

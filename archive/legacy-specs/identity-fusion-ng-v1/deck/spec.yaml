@@ -1,0 +1,470 @@
+title: "Identity Fusion NG"
+goal: "Equip architects, engineers, and operators with the definitive mental model and operational playbook for Identity Fusion NG: Map-Define-Match architecture, governance workflows, v2.2.0 performance scalability, and enterprise extension seams."
+theme: "kinetic-keynote-event-vision-design"
+slide_count: 15
+options:
+  language: "en"
+  audience: "Enterprise Architects, Security Engineers, and Identity Operations Teams"
+  tone: "Authoritative, technical, and architectural"
+  length: "long"
+
+slides:
+  - slide_number: 1
+    layout: "Title Slide"
+    role: "cover"
+    badge: "Next-Gen Identity Fabric"
+    title: "Identity Fusion NG"
+    subtitle: "Map, Define, Match: Consolidating Multi-Source Accounts into One Identity Story"
+    content:
+      body: "Enterprise SaaS Connector for SailPoint Identity Security Cloud | Architecture & Operations Guide"
+      image:
+        src: "assets/identity_fusion_cover.jpg"
+        alt: "Next-Gen Identity Fusion Fabric"
+    notes: |
+      Identity Fusion NG is an enterprise SaaS connector for SailPoint Identity Security Cloud. It consolidates managed-source accounts, computes derived attributes, and fuzzy-matches identities so you are no longer limited to brittle exact-match correlation.
+      
+      It supersedes the legacy v1.x architecture. Today's presentation establishes the definitive mental model: how the Map-Define-Match pipeline functions, who participates, how governance review operates, and how to roll it out safely.
+
+  - slide_number: 2
+    layout: "Comparison"
+    role: "problem"
+    badge: "The Correlation Gap"
+    title: "Why Identity Fusion NG?"
+    subtitle: "Solving identity fragmentation where brittle exact-match correlation rules fail"
+    content:
+      image:
+        src: "assets/correlation_gap_diagram.jpg"
+        alt: "The Correlation Gap: Siloed Records vs Intelligent Correlation"
+        caption: "Left: Brittle exact-match correlation misses | Right: Unified correlation fabric"
+      comparison:
+        left:
+          badge: "Brittle Correlation"
+          title: "Without Identity Fusion"
+          bullets:
+            - "One person in HR and Active Directory becomes two separate identities when exact-match rules find nothing."
+            - "Schema discrepancies (given_name vs first_name, nickname vs legal name) cause widespread correlation misses."
+            - "Ambiguous grey-zone matches either force reckless automated guessing or remain unlinked indefinitely."
+        right:
+          badge: "Unified Pipeline"
+          title: "With Identity Fusion NG"
+          bullets:
+            - "Map aligns divergent source schemas and preserves multi-persona attributes in a standardized model."
+            - "Define cleans dirty values, normalizes dates, and mints enterprise-wide unique identifiers."
+            - "Match scores near-duplicates mathematically and sends grey-zone candidates to human reviewers."
+    notes: |
+      The core failure mode in modern IGA is one person in HR and Active Directory becoming two identities when correlation finds nothing.
+      
+      Map aligns schemas and can keep several values. Define mints identifiers and normalises names and dates before comparison. Match scores near-duplicates and sends the grey zone to a reviewer.
+      
+      Importantly, Map and Define still pay off even with Match turned off. Records and Orphan source modes let you solve specialized lifecycle problems without full fuzzy matching.
+
+  - slide_number: 3
+    layout: "Three Columns"
+    role: "framework"
+    badge: "Core Architecture"
+    title: "The Map, Define, Match Pipeline"
+    subtitle: "One strictly ordered processing stream with four distinct lifecycle exits"
+    content:
+      image:
+        src: "assets/map_define_match_pipeline.jpg"
+        alt: "Map, Define, Match 3-Stage Pipeline Architecture"
+        caption: "Sequential processing: Ingestion & Harmonization (Map) -> Dynamic Rules & Minting (Define) -> Similarity Scoring & Multi-Exit Routing (Match)"
+      regions:
+        - id: "col1"
+          title: "1. Map"
+          bullets:
+            - "Walks all participating sources and identities in scope."
+            - "Harmonizes disparate vendor schemas into standard attributes."
+            - "Consolidates multi-role values via deterministic merge strategies."
+        - id: "col2"
+          title: "2. Define"
+          bullets:
+            - "Executes dynamic Velocity expression rules."
+            - "Phase 1 (Pre-Match): Normalizes names, phone numbers, and dates."
+            - "Phase 2 (Post-Match): Mints unique usernames and employee numbers."
+        - id: "col3"
+          title: "3. Match & Exits"
+          bullets:
+            - "Scores uncorrelated accounts against the established baseline."
+            - "Exit 1: Return authoritative Fusion Account."
+            - "Exit 2: Generate interactive human Review Form."
+            - "Exit 3: Automatic merge upon high-confidence match."
+            - "Exit 4: Silent drop for unlinked Records or Orphan accounts."
+    notes: |
+      The execution order is always Map, then Define, then Match. You can enable any individual step, but the architectural sequence is immutable.
+      
+      Inputs are accounts from managed sources, plus existing ISC identities when identity scope is enabled. After Match executes, there are four exits: Fusion account, review form, automatic merge, or drop for Records and Orphan.
+      
+      Normal definitions run before Match to improve scoring fidelity; unique values wait until Match decides.
+
+  - slide_number: 4
+    layout: "Four Tiles"
+    role: "architecture"
+    badge: "Source Mechanics"
+    title: "Who Participates, and in Which Step?"
+    subtitle: "Seeding, scoring, contributing attributes, and exiting are four separate responsibilities"
+    content:
+      cards:
+        - badge: "Baseline"
+          title: "Identities in Scope"
+          body: "Originate baseline Fusion accounts. Map evaluates their attributes, but they never enter Match scoring as candidates; they form the reference target."
+        - badge: "Scored"
+          title: "Uncorrelated Managed Accounts"
+          body: "The only accounts that enter Match scoring. Evaluated against the baseline. On positive match, they merge; on miss, they exit per source type rules."
+        - badge: "Pool"
+          title: "Records Sources"
+          body: "Register unique values (e.g. employee ID pools) and contribute attributes without generating standalone Fusion accounts on a non-match."
+        - badge: "Cleanup"
+          title: "Orphan Sources"
+          body: "Match attempts to attach orphaned accounts to existing identities. Unmatched accounts are dropped and can be automatically disabled at the source."
+    notes: |
+      Walk the matrix left to right. 'Seed' describes who originates the Fusion account, not who merely participates.
+      
+      The baseline consists of identities in scope, existing Fusion accounts, and already-correlated accounts. Only uncorrelated managed accounts enter Match. Map still walks every participant, so contributing attributes is not a Match privilege.
+      
+      Records register unique values and emit no Fusion account on a miss. A matching Orphan attaches to an existing identity; a miss is dropped and can optionally be disabled on the managed source.
+
+  - slide_number: 5
+    layout: "Comparison"
+    role: "architecture"
+    badge: "Authority Strategy"
+    title: "Umbrella vs. Side-Car Deployment"
+    subtitle: "Determined by the Fusion source's authoritative status, not whether matching runs"
+    content:
+      image:
+        src: "assets/umbrella_sidecar_architecture.jpg"
+        alt: "Umbrella Mode vs Side-Car Mode Architecture"
+        caption: "Pattern A: Authoritative Master Identity Creation | Pattern B: Attribute Augmentation Side-Car"
+      comparison:
+        left:
+          badge: "Authoritative"
+          title: "Umbrella Mode"
+          bullets:
+            - "The Fusion source is configured as Authoritative in ISC."
+            - "Fusion directly owns identity creation from managed source accounts."
+            - "Ideal when consolidating multiple upstream HR systems into a single enterprise truth."
+            - "Match non-matches spawn new corporate identities automatically."
+        right:
+          badge: "Non-Authoritative"
+          title: "Side-Car Mode"
+          bullets:
+            - "The Fusion source is not authoritative; managed sources still create identities."
+            - "Supplements existing identities with generated usernames and computed attributes."
+            - "Ideal for Records identifier pools, contractor cleanup, and attribute synchronization."
+            - "Full fuzzy matching and review workflows run identically in both modes."
+    notes: |
+      Umbrella versus side-car is governed strictly by the Fusion source's Authoritative flag, not whether Match runs. Matching runs identically in both modes.
+      
+      Use umbrella mode when Fusion itself must create identities. Use side-car for generated usernames, merged attributes, or Records and Orphan sources.
+      
+      Remember: Authoritative, Records, and Orphan name each managed source. Umbrella and side-car name the Fusion source itself.
+
+  - slide_number: 6
+    layout: "Three Columns"
+    role: "deep_dive"
+    badge: "Map Engine"
+    title: "How Map Resolves Conflicting Attributes"
+    subtitle: "Schema harmonization first, then deterministic multi-source merge strategies"
+    content:
+      regions:
+        - id: "col1"
+          title: "First Found & Priority"
+          bullets:
+            - "Takes the first non-empty value in the configured source priority order."
+            - "New configurations default to Main Account priority."
+            - "Ensures stable, deterministic attribute fallback across secondary accounts."
+        - id: "col2"
+          title: "List & Concatenation"
+          bullets:
+            - "Preserves legitimately multi-valued personas (e.g. dual titles or roles)."
+            - "Concatenation formats distinct values in clean brackets: [Sales Engineer] [Consultant]."
+            - "Automatically deduplicates values across contributing sources."
+        - id: "col3"
+          title: "Source Name Anchor"
+          bullets:
+            - "Designates a specific named source to always win for a chosen attribute."
+            - "Overrides global priority order for sensitive fields (e.g. security clearance)."
+            - "Guarantees domain ownership across disparate source feeds."
+    notes: |
+      Map runs first. Many source attribute names become one standardized Fusion attribute. First found takes the first non-empty value in configured source order.
+      
+      Keep a list or concatenate when several values are legitimate; concatenate renders distinct values in brackets, space-separated, with duplicates removed. Source name forces one source to win whatever the global priority order says.
+      
+      Main account uses that snapshot then origin, with no further fallback. Identity scope adds $identity to the context; the merge walk stays on configured sources.
+
+  - slide_number: 7
+    layout: "Two Content"
+    role: "deep_dive"
+    badge: "Define Engine"
+    title: "What Does Define Compute, and When?"
+    subtitle: "Two distinct execution phases: normal attributes before scoring, unique values after"
+    content:
+      image:
+        src: "assets/define_engine_phases.jpg"
+        alt: "Define Engine Two-Phase Execution Flow"
+        caption: "Phase 1: Pre-Match Normalization | Phase 2: Post-Match ID Minting"
+      regions:
+        - id: "left"
+          title: "Phase 1: Normal Definitions (Pre-Match)"
+          bullets:
+            - "Velocity expressions read mapped values, identity fields, and source snapshots."
+            - "Normalizes dirty source attributes: standardizes given names, formats dates, strips whitespace."
+            - "Executes before Match so high-quality, normalized attributes drive similarity scoring."
+            - "Utilizes $previous state caching to prevent clearing values when inputs are unchanged."
+        - id: "right"
+          title: "Phase 2: Unique Definitions (Post-Match)"
+          bullets:
+            - "Executes strictly after Match establishes whether an identity is new or merged."
+            - "Mints globally unique values: usernames, corporate emails, employee IDs, and UUIDs."
+            - "Collision handling: Retries automatically with incrementing $counter up to configured max."
+            - "Avoids wasting identifier pool numbers on candidates that merge into existing accounts."
+    notes: |
+      Normal definitions run after Map and before Match so that normalised names and dates improve scoring accuracy.
+      
+      Unique definitions run strictly after Match: usernames, employee numbers, counters, and UUIDs. If a generated identifier collides, Define retries using $counter up to the configured maximum attempts.
+      
+      Static attributes write once and persist. Always recalculate runs every aggregation cycle. If normal definition output is empty, it clears the stored value; use $previous to retain the last known good value.
+
+  - slide_number: 8
+    layout: "Content with Caption"
+    role: "deep_dive"
+    badge: "Match Engine"
+    title: "What Happens to an Account in Match?"
+    subtitle: "Scoring against the reference baseline splits candidates into three operational outcomes"
+    content:
+      image:
+        src: "assets/governance_review_scoring.jpg"
+        alt: "Confidence Spectrum & Governance Review Interface"
+        caption: "Mathematical triage: Automatic Merge (≥90%), Human Review Grey Zone (80-89%), Non-Match (<80%)"
+      metrics:
+        - value: "≥ 90%"
+          label: "Automatic Merge"
+          subtext: "Combined score clears auto-merge threshold; links account directly"
+          highlight: true
+        - value: "80 - 89%"
+          label: "Human Review Form"
+          subtext: "Scores in grey zone route to assigned reviewers in ISC Forms"
+          highlight: false
+        - value: "< 80%"
+          label: "Non-Match Exit"
+          subtext: "Creates new identity (Umbrella) or drops account (Records/Orphan)"
+          highlight: false
+      bullets:
+        - "Only uncorrelated managed accounts are scored, evaluated strictly against the known Fusion baseline."
+        - "Deferred Candidates: When the only potential match is another new account from the same run, creation defers safely to the next cycle."
+        - "Reviewer Safety Gate: Borderline scores require active reviewers or valid auto-merge; otherwise, unreviewed accounts drop safely to non-matched."
+    notes: |
+      Only uncorrelated managed accounts are scored against the baseline. A combined score at or above the auto-merge threshold executes an immediate merge. Scores between the review floor and auto-merge threshold generate an ISC review form. Scores below the review floor trigger non-match exits.
+      
+      Deferred candidates handle the race condition where two new accounts for the same person arrive in the same aggregation run: identity creation waits cleanly for the next cycle.
+      
+      Scoring runs when automatic merge is on or when manual review is active with valid reviewers.
+
+  - slide_number: 9
+    layout: "Four Tiles"
+    role: "deep_dive"
+    badge: "Scoring Mechanics"
+    title: "How is a Match Score Built?"
+    subtitle: "Weighted mathematical similarity combined with hard mandatory veto rules"
+    content:
+      cards:
+        - badge: "Weights"
+          title: "Weighted Similarity Mean"
+          body: "Each rule compares one attribute with a chosen algorithm. The rule's minimum threshold serves as its mathematical weight in the combined composite score."
+        - badge: "Veto"
+          title: "Mandatory Veto Rules"
+          body: "A failed mandatory rule immediately rejects the candidate regardless of how high the overall composite score is (e.g. clearance or location conflict)."
+        - badge: "Algorithms"
+          title: "Specialized Matchers"
+          body: "Enhanced Name Matcher handles nicknames and phonetic typos. Binary enforces exact IDs. Jaro-Winkler, Dice, and custom Velocity rules handle edge cases."
+        - badge: "Tuning"
+          title: "Noise Reduction"
+          body: "'Skip if missing' prevents empty optional source attributes from dragging scores down. Recommended starting review floor is 80; tune using dry-run."
+    notes: |
+      Each rule compares one attribute using an algorithm. The minimum similarity threshold is also that rule's mathematical weight; the combined score is the weighted mean.
+      
+      A failed mandatory rule vetoes the candidate completely, regardless of the combined score. 'Skip if missing' prevents missing attributes from penalizing candidates.
+      
+      Use Enhanced Name Matcher for human names and Binary for exact identifiers. Start the review floor around 80, and enable automatic merge only after tuning with dry-run reports.
+
+  - slide_number: 10
+    layout: "Two Content"
+    role: "deep_dive"
+    badge: "Governance"
+    title: "Where Do Humans Fit In?"
+    subtitle: "Interactive review forms for decisions, background reports for non-invasive analysis"
+    content:
+      regions:
+        - id: "left"
+          title: "Interactive Review Forms"
+          bullets:
+            - "Presents top matching candidates and attribute comparisons in native ISC Forms."
+            - "Reviewers decide: Link account to an existing identity OR authorize a new identity."
+            - "Decisions persist in review storage and execute during the subsequent aggregation run."
+            - "Assigned globally to source owners or delegated via reviewer:<sourceId> entitlements."
+        - id: "right"
+          title: "Fusion Analytical Reports"
+          bullets:
+            - "Evaluates match distributions and previews correlation outcomes without writing to ISC."
+            - "Produces comprehensive CSV records of candidate pairs, scoring breakdowns, and grey zones."
+            - "Essential for initial rule calibration, threshold tuning, and pre-production validation."
+            - "Leaves clean operational statuses: activeReviews, candidate, authorized, manual, and auto."
+    notes: |
+      Review forms show the top candidate matches to assigned reviewers. Reviewers choose to link to an existing identity or create a new one; the decision applies on the next aggregation, not immediately.
+      
+      Reviewers are source owners acting globally, or per-source reviewer entitlement holders. Fusion reports and dry-run preview Match without writing to the tenant.
+      
+      Operational statuses left behind include activeReviews, candidate, authorized, manual, and auto. Without valid reviewers, borderline scores register safely as non-matched.
+
+  - slide_number: 11
+    layout: "Comparison"
+    role: "deep_dive"
+    badge: "Identity Linking"
+    title: "How is Correlation Different from Matching?"
+    subtitle: "Matching asks 'Who is this person?'; Correlation creates the ISC platform link"
+    content:
+      comparison:
+        left:
+          badge: "Decide"
+          title: "Matching (Fusion Engine)"
+          bullets:
+            - "Discovers identity relationships across disparate schemas and multi-source accounts."
+            - "Calculates composite fuzzy match confidence score and applies governance vetoes."
+            - "Decides whether an account belongs to an existing identity or originates a new one."
+            - "Prerequisite to correlation: an account cannot link to an identity that does not yet exist."
+        right:
+          badge: "Link"
+          title: "Correlation Modes (ISC Platform)"
+          bullets:
+            - "Correlate on Aggregation: Fusion directly patches the ISC account-to-identity link during the run."
+            - "Reverse Correlation: Writes staged correlation attributes consumed natively by ISC rules."
+            - "Do Not Correlate: Stages linkage metadata safely; matching continues without tenant writes."
+            - "Enforced Correlation Role: ISC later links staged accounts, avoiding API spikes during initial loads."
+    notes: |
+      Matching decides who this account is. Correlation is the ISC platform link. You cannot link an account to an identity that does not exist yet, so Fusion creates it first.
+      
+      Correlate on aggregation PATCHes links during the run. Reverse correlation writes an attribute for native ISC rules. Do not correlate stages the work while matching continues to run.
+      
+      Correlation API calls are expensive; staging them with 'do not correlate' and using an enforced correlation role is best practice for large-scale initial loads.
+
+  - slide_number: 12
+    layout: "Three Columns"
+    role: "architecture"
+    badge: "Operations & v2.2.0"
+    title: "What Does a Fusion Account Give an Operator?"
+    subtitle: "Full provenance traceability, dynamic entitlements, and v2.2.0 high-scale streaming"
+    content:
+      image:
+        src: "assets/v220_performance_scale.jpg"
+        alt: "v2.2.0 High-Throughput Streaming & Caching Architecture"
+        caption: "NDJSON streaming caches & event loop watchdog for enterprise loads"
+      regions:
+        - id: "col1"
+          title: "Immutable Provenance"
+          bullets:
+            - "Carries standard attributes: contributing accounts, sources, origin source, and history."
+            - "Native identity and account name are set at creation and never rewritten."
+            - "Full cryptographic traceability back to original managed system records."
+        - id: "col2"
+          title: "Calculated Entitlements"
+          bullets:
+            - "Status entitlements calculated dynamically: new, activeReviews, nonMatched, unmerged, orphan."
+            - "Action entitlements requestable in ISC: fusion:report and reviewer:<sourceId>."
+            - "Searchable across ISC for rapid identity triage and audit reporting."
+        - id: "col3"
+          title: "v2.2.0 Streaming Engine"
+          bullets:
+            - "Peak aggregation memory footprint reduced via NDJSON streaming caches."
+            - "Configurable host log levels (trace, debug, info, warn, error) for deep diagnostics."
+            - "Integrated event loop watchdog prevents thread starvation and aggregation timeouts."
+    notes: |
+      Every Fusion account carries full provenance: contributing accounts, source origins, and modification history. Native identity and account name are locked at creation and never rewritten.
+      
+      Status entitlements are calculated and searchable in ISC. Action entitlements are requestable, including report generation and source-level review permissions.
+      
+      In v2.2.0, the aggregation engine features an NDJSON streaming memory cache that drastically reduces peak heap usage, alongside an event loop watchdog and configurable host log levels.
+
+  - slide_number: 13
+    layout: "Four Tiles"
+    role: "architecture"
+    badge: "Reliability Gateway"
+    title: "Enterprise External Processing & Resilience"
+    subtitle: "One flexible gateway providing four enterprise operational capabilities"
+    content:
+      cards:
+        - badge: "Hybrid"
+          title: "Proxy Mode"
+          body: "Executes connector logic on your private infrastructure (container or VM) and streams results back to ISC SaaS, eliminating tenant execution timeouts."
+        - badge: "Testing"
+          title: "Scenario Recording"
+          body: "Captures live ISC tenant API interactions into compact NDJSON recordings on disk for offline replay, regression testing, and CI validation."
+        - badge: "Telemetry"
+          title: "External Host Logging"
+          body: "Routes structured connector logs directly to local disk or remote syslog collectors with runtime configurable host log filtering."
+        - badge: "Safety"
+          title: "Dry-Run Simulation"
+          body: "Executes the entire Map-Define-Match pipeline with tenant write operations suppressed, providing zero-risk verification before production rollout."
+    notes: |
+      External settings is one unified gateway, not a separate product. Proxy mode runs connector logic on your own infrastructure and streams results back to ISC.
+      
+      Scenario recording captures live tenant API traffic for offline test replay. External logging posts from ISC or writes directly to disk in proxy mode.
+      
+      Dry-run runs the entire pipeline with writes suppressed. Scheduled ISC aggregations never send dry-run input, so use spcx CLI or the proxy host to execute dry-run analysis.
+
+  - slide_number: 14
+    layout: "Two Content"
+    role: "architecture"
+    badge: "Developer Seams"
+    title: "Where Can You Plug in Your Own Code?"
+    subtitle: "Declarative configuration first, backed by two clean architectural override seams"
+    content:
+      regions:
+        - id: "left"
+          title: "Seam 1: Service Registry Overrides"
+          bullets:
+            - "Replace or extend core domain services (MappingService, MatchingService, DefinitionService)."
+            - "The Service Registry automatically wires your custom service into the pipeline."
+            - "All supporting services and upstream/downstream dependencies remain intact."
+            - "Service instances resolve per operation run: completely isolated with zero cross-tenant leakage."
+        - id: "right"
+          title: "Seam 2: Operation Handler Overrides"
+          bullets:
+            - "Intercept standard SaaS connector operations (accountList, accountCreate, testConnection)."
+            - "Receives the fully wired Service Registry with all services pre-built."
+            - "Enables bespoke source pagination, proprietary API transformations, or external event dispatching."
+            - "Most enterprise projects need neither: configuration and Velocity cover 95% of use cases."
+    notes: |
+      Keep this concise unless presenting to developers. Declarative configuration covers most enterprise needs: attribute mappings, Velocity expressions, match rules, and custom algorithms.
+      
+      Overrides live cleanly in your own connector build. A service override keeps the pipeline intact while swapping a domain algorithm. An operation override lets you customize connector entry points with the wired registry in hand.
+      
+      Nine standard operations exist. Both seams resolve strictly per operation run, preventing memory leaks or state leakage between executions.
+
+  - slide_number: 15
+    layout: "Four Tiles"
+    role: "closing"
+    badge: "Implementation"
+    title: "Which Path is Yours?"
+    subtitle: "Four proven implementation archetypes and the standardized onboarding workflow"
+    content:
+      image:
+        src: "assets/rollout_playbook_phases.jpg"
+        alt: "Enterprise Onboarding & Phased Rollout Architecture"
+        caption: "Phase 1: Dry-Run Analysis | Phase 2: Shadow Mode | Phase 3: Active Governance"
+      cards:
+        - badge: "Path 1"
+          title: "HR & AD Deduplication"
+          body: "Umbrella mode. Configure Authoritative sources, tune Enhanced Name Matcher, and calibrate auto-merge threshold to eliminate duplicate accounts."
+        - badge: "Path 2"
+          title: "Identifier Minting Pool"
+          body: "Records source type. Define Velocity rules for unique corporate usernames and employee IDs with automated collision retry counters."
+        - badge: "Path 3"
+          title: "Contractor Cleanup"
+          body: "Orphan source type. Score non-employee accounts against identity baseline; automatically detach and disable orphaned accounts at source."
+        - badge: "Path 4"
+          title: "Attribute Consolidation"
+          body: "Side-car mode. Harmonize divergent schemas and consolidate multi-persona job titles across systems without altering ISC identity ownership."
+    notes: |
+      Four peer starting points, all sharing the standardized onboarding path: create source, test connection, discover schema, aggregate entitlements, and run initial account aggregation.
+      
+      No separate summary slide is needed: this archetype breakdown serves as the architectural recap and operational roadmap. Consult the Getting Started guide for setup checklists and configuration references.

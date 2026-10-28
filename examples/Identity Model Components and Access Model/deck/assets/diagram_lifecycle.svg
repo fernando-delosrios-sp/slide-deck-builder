@@ -10,6 +10,12 @@
     <marker id="lc-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38BDF8" />
     </marker>
+    <marker id="lc-purple-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#818CF8" />
+    </marker>
+    <marker id="lc-green-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34D399" />
+    </marker>
     <marker id="lc-red-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#EF4444" />
     </marker>
@@ -48,7 +54,7 @@
   </g>
 
   <!-- Transition: Active to Mover -->
-  <path d="M 505 95 L 575 95" fill="none" stroke="#818CF8" stroke-width="2.5" marker-end="url(#lc-arrow)" />
+  <path d="M 505 95 L 575 95" fill="none" stroke="#818CF8" stroke-width="2.5" marker-end="url(#lc-purple-arrow)" />
   <rect x="506" y="73" width="70" height="16" rx="3" fill="#0B111E" />
   <text x="541" y="85" style="font-family: system-ui; font-size: 9px; fill: #818CF8; font-weight: 600; text-anchor: middle;">Dept / Title</text>
 
@@ -62,7 +68,7 @@
   </g>
 
   <!-- Return arrow Mover to Active -->
-  <path d="M 685 150 L 685 180 L 400 180 L 400 155" fill="none" stroke="#818CF8" stroke-width="1.8" stroke-dasharray="4 4" marker-end="url(#lc-arrow)" />
+  <path d="M 685 150 L 685 180 L 400 180 L 400 155" fill="none" stroke="#818CF8" stroke-width="1.8" stroke-dasharray="4 4" marker-end="url(#lc-purple-arrow)" />
   <rect x="500" y="172" width="80" height="16" rx="3" fill="#0B111E" />
   <text x="540" y="184" style="font-family: system-ui; font-size: 9px; fill: #818CF8; text-anchor: middle;">Rejoins Active</text>
 
@@ -80,7 +86,7 @@
   </g>
 
   <!-- Return arrow Suspended to Active -->
-  <path d="M 450 295 L 475 295 L 475 155" fill="none" stroke="#34D399" stroke-width="1.8" stroke-dasharray="4 4" marker-end="url(#lc-arrow)" />
+  <path d="M 450 295 L 475 295 L 475 155" fill="none" stroke="#34D399" stroke-width="1.8" stroke-dasharray="4 4" marker-end="url(#lc-green-arrow)" />
   <rect x="445" y="220" width="75" height="16" rx="3" fill="#0B111E" />
   <text x="482" y="232" style="font-family: system-ui; font-size: 9px; fill: #34D399; text-anchor: middle;">Return to Work</text>
 

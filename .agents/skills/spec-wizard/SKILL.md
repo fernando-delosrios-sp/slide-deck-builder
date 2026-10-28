@@ -94,7 +94,7 @@ Work through the agreed sections sequentially. For each section:
        - Theme card backdrop: `<rect width="1000" height="520" rx="16" fill="#070C16" stroke="#415364" stroke-width="1.5"/>`.
        - Node styling: Linear gradients (`idGrad`, `accGrad`, `accsGrad`), rounded rects (`rx="10-12"`), and colored strokes.
        - Node anatomy: Bold 11px uppercase category badges (`CORE ENTITY`, `TARGET APPLICATION`), 18px bold title, Lucide glyph/icon in circle badge, 11-12px description bullets.
-       - Clean `<path>` connectors with `<marker id="arr">` arrowheads.
+       - Clean `<path>` connectors with matching `<marker id="...">` arrowheads. Arrowhead markers MUST have identical fill color to the connector path stroke (define distinct marker IDs like `arr-pink`, `arr-aqua` when arrows have different colors; never attach an aqua marker to a pink path).
        - Architecture Takeaway Banner: Horizontal container at bottom (`y="425"`, `height="65"`) highlighting the core governance principle.
    - `notes`: speaker script and background notes.
    - **Console UI Screenshot Walkthrough Archetype**: When baseline slides show actual UI screens (e.g. IdentityNow console views):
@@ -103,16 +103,17 @@ Work through the agreed sections sequentially. For each section:
      * Provide a precise title & subtitle, an executive caption (e.g. `"[Product] Console: [Context] Interface"`), and a 1-2 sentence `content.body` explaining what is configured.
    - **Procedural Sequence & Governance Card Archetypes**:
      * For multi-step administrative workflows (e.g. 4-step setup), use `layout: "Four Tiles"` with numbered card titles (`1. Create Source`, `2. Create Identity Profile`) and functional badges (`Connections`, `Identities`, `Policy`, `Data Import`).
-     * For foundational pillars, use `layout: "Three Columns"` with Lucide icons (`user`, `key`, `shield`) and selective `highlight: true` on primary entities.
-   - **Title Slide (Cover) Mandatory Anatomy**: Every presentation cover slide (`layout: "Title Slide"`, `role: "cover"`) MUST include:
+     * For foundational pillars, use `layout: "Three Columns"` with Lucide icons (`user`, `key`, `shield`). Peer cards representing equal peer concepts MUST maintain identical neutral styling; NEVER apply asymmetric `highlight: true` across peer entity cards.
+   - **Title Slide (Cover) Mandatory Anatomy & Proportions**: Every presentation cover slide (`layout: "Title Slide"`, `role: "cover"`) MUST include:
      * `badge`: Domain or series eyebrow tag (e.g. `SailPoint IdentityNow Architecture`), rendering as a top pill badge and populating `SERIES` in the footer.
-     * `title`: Main presentation title.
-     * `subtitle`: Architectural or domain scope subtitle.
+     * `title`: Main presentation title (concise, max 2 lines).
+     * `subtitle`: Architectural or domain scope subtitle (concise, max 2 lines).
      * `content.body`: 1–2 sentence executive synopsis or abstract detailing what the deck delivers (prevents empty negative space).
      * `content.presenter`: Authoring team or speaker (e.g. `Enterprise IAM Architecture Team`).
      * `content.date`: Publication year or date (e.g. `'2026'`).
      * `content.image`: High-presence hero visual custom-generated via `generate_image` (e.g. 3D isometric architecture, cybernetic core, glowing nodes). Never recycle legacy master slide stock photos.
-   - **Theme Accent & Visual Weight Hierarchy**: When multiple elements on screen have the same weight (e.g. peer cards in a grid representing equal categories, peer steps, or equal metrics), do NOT mix and match accents. Use the most vivid accents (e.g. fuchsia / `accent-alt` glowing border) strictly to highlight items that have more relevance (e.g. standout metrics, critical warnings, winning options, or high-priority items), while using less vivid accents (e.g. electric aqua / `accent`, subtle theme borders) to decorate regular or peer items.
+     * **Hero Height 1:1 Alignment**: Keep text compact so the left column height matches the 540px hero visual slot 1:1; never bloat cover title/subtitle into multi-paragraph blocks.
+   - **Theme Accent & Visual Weight Hierarchy**: When multiple elements on screen have the same weight (e.g. peer cards in a grid representing equal categories, peer steps, or equal metrics), do NOT mix and match accents. Use the most vivid accents (e.g. fuchsia / `accent-alt` glowing border) strictly to highlight items that have more relevance (e.g. standout metrics, critical warnings, winning options, or high-priority items), while using less vivid accents (e.g. electric aqua / `accent`, subtle theme borders) to decorate regular or peer items. Never apply `highlight: true` to a peer card just because it appears last or third in a sequence.
 5. **Provenance rule (modernizing)**: slide content must come from the baseline text, notes, or images. Do not add vendor/product names, examples, steps, or claims from general knowledge. If an addition truly helps, list it in the slide's `additions:` so it is shown to the user at the gate; undeclared additions are defects. Worked examples and sample data visible in baseline images (e.g. `E001 / Malory Archer`) are preferred over invented ones.
 6. **Keep the original visuals' information**: a baseline image is either embedded (`content.image`), faithfully reproduced as SVG with every label/value preserved and listed in `redrawn_media`, or approved as a `baseline_cuts` media entry. Summarising it into text cards counts as dropping it.
 7. Update `projects/<project-name>/deck/spec.yaml`.

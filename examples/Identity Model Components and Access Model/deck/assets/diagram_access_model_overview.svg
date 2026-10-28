@@ -3,6 +3,9 @@
     <marker id="arr15" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#54C0E8"/>
     </marker>
+    <marker id="arr15-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#93D500"/>
+    </marker>
   </defs>
 
   <rect width="1000" height="520" rx="16" fill="#070C16" stroke="#415364" stroke-width="1.5"/>
@@ -50,7 +53,7 @@
     <text x="45" y="152" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">• Aggregated directly from connected target source</text>
     <text x="45" y="172" fill="#DAE1E9" font-family="Poppins, sans-serif" font-size="11">• Detected through entitlement equivalency</text>
 
-    <path d="M 220 190 L 220 225" stroke="#93D500" stroke-width="2" marker-end="url(#arr15)"/>
+    <path d="M 220 190 L 220 225" stroke="#93D500" stroke-width="2" marker-end="url(#arr15-green)"/>
 
     <!-- Accounts -->
     <rect x="25" y="225" width="390" height="135" rx="10" fill="#070C16" stroke="#415364" stroke-width="1.2"/>
