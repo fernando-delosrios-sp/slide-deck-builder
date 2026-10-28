@@ -65,9 +65,16 @@ def walk_text(shape, out):
                 out.append(cell.text)
 
 
-def baseline_model(pptx_path):
+def is_slide_hidden(slide):
+    """Returns True if the slide is marked as hidden in PowerPoint (show='0' or show='false')."""
+    show = slide._element.get("show")
+    return show is not None and show in ("0", "false")
+
+
+def baseline_model(pptx_path, include_hidden=False):
     prs = pptx.Presentation(pptx_path)
     corpus, slides = [], {}
+    hidden_slides = set()
     canvas_media = set()
     with tempfile.TemporaryDirectory() as tmp:
         media_map, files = inspect_pptx.extract_media_and_rels(pptx_path, tmp)
@@ -83,6 +90,10 @@ def baseline_model(pptx_path):
         sw = prs.slide_width
         sh = prs.slide_height
         for idx, slide in enumerate(prs.slides, 1):
+            is_hidden = is_slide_hidden(slide)
+            if is_hidden:
+                hidden_slides.add(idx)
+
             texts = []
             has_canvas = False
             for sh_shape in slide.shapes:
@@ -106,15 +117,21 @@ def baseline_model(pptx_path):
             if slide.has_notes_slide and slide.notes_slide.notes_text_frame:
                 texts.append(slide.notes_slide.notes_text_frame.text)
             corpus.extend(texts)
+
+            if not include_hidden and is_hidden:
+                continue
+
             slides[idx] = {
                 "title": slide.shapes.title.text.strip() if slide.shapes.title else "",
                 "media": slide_media,
             }
 
+    visible_media = {m for s in slides.values() for m in s["media"]}
     significant = {
-        n for n, (w, h) in sizes.items() if min(w, h) >= MIN_SIDE
+        n for n, (w, h) in sizes.items() 
+        if min(w, h) >= MIN_SIDE and (include_hidden or n in visible_media)
     }
-    return slides, " ".join(corpus).lower(), significant, sizes, canvas_media
+    return slides, " ".join(corpus).lower(), significant, sizes, canvas_media, hidden_slides, len(prs.slides)
 
 
 def spec_strings(slide):
@@ -180,7 +197,10 @@ def main():
         print(f"ERROR: baseline not found: {base_path}")
         sys.exit(1)
 
-    b_slides, b_text, significant, sizes, canvas_media = baseline_model(base_path)
+    include_hidden = "--include-hidden" in sys.argv
+    b_slides, b_text, significant, sizes, canvas_media, hidden_slides, total_slides = baseline_model(
+        base_path, include_hidden=include_hidden
+    )
     errors, warns, infos = [], [], []
     slides = spec.get("slides", [])
     cuts = spec.get("baseline_cuts", []) or []
@@ -214,9 +234,9 @@ def main():
             errors.append(f"baseline slide {n} '{info['title'] or 'Untitled'}' is not carried by "
                           "any spec slide and is not in baseline_cuts")
     for n in carried:
-        if n not in b_slides:
+        if n not in b_slides and n not in hidden_slides:
             errors.append(f"spec references baseline slide {n}, which does not exist "
-                          f"(baseline has {len(b_slides)})")
+                          f"(baseline has {total_slides} total slides)")
 
     # --- media coverage ------------------------------------------------
     used = set()
@@ -413,7 +433,8 @@ def main():
                                  "Ensure highlight is reserved strictly for standout metrics, critical warnings, or winning options "
                                  "per Theme Accents & Visual Weight Hierarchy mandate.")
 
-    print(f"Baseline: {os.path.basename(base_path)} ({len(b_slides)} slides, "
+    hidden_info = f", {len(hidden_slides)} hidden slides ignored" if hidden_slides and not include_hidden else ""
+    print(f"Baseline: {os.path.basename(base_path)} ({len(b_slides)} visible slides{hidden_info}, "
           f"{len(significant)} significant images) -> spec: {len(slides)} slides")
     for label, items in (("ERROR", errors), ("WARN", warns), ("INFO", infos)):
         for i in items:

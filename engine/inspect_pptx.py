@@ -128,7 +128,12 @@ def extract_shapes_recursive(shape, slide_info):
             combined_txt = " ".join(t["text"] for t in shape_text)
             slide_info["diagram_elements"]["node_labels"].append(combined_txt)
 
-def inspect_presentation(pptx_path, format="markdown", extract_assets=True):
+def is_slide_hidden(slide):
+    """Returns True if the slide is marked as hidden in PowerPoint (show='0' or show='false')."""
+    show = slide._element.get("show")
+    return show is not None and show in ("0", "false")
+
+def inspect_presentation(pptx_path, format="markdown", extract_assets=True, include_hidden=False):
     if not os.path.exists(pptx_path):
         print(f"Error: File not found: {pptx_path}", file=sys.stderr)
         sys.exit(1)
@@ -145,8 +150,14 @@ def inspect_presentation(pptx_path, format="markdown", extract_assets=True):
 
     prs = pptx.Presentation(pptx_path)
     slides_data = []
+    hidden_count = 0
 
     for idx, slide in enumerate(prs.slides, 1):
+        if is_slide_hidden(slide):
+            hidden_count += 1
+            if not include_hidden:
+                continue
+
         layout_name = slide.slide_layout.name if slide.slide_layout else "Unknown"
         title = "Untitled Slide"
         if slide.shapes.title and slide.shapes.title.text.strip():
@@ -234,7 +245,9 @@ def inspect_presentation(pptx_path, format="markdown", extract_assets=True):
     if format == "json":
         return json.dumps({
             "slides": slides_data,
-            "total_slides": len(slides_data),
+            "visible_slides": len(slides_data),
+            "hidden_slides_ignored": hidden_count,
+            "total_slides": len(prs.slides),
             "is_flattened_deck": has_flattened,
             "extracted_assets": extracted_files
         }, indent=2)
@@ -242,7 +255,10 @@ def inspect_presentation(pptx_path, format="markdown", extract_assets=True):
     # Markdown format
     lines = []
     lines.append(f"# PowerPoint Deck Inspection: {os.path.basename(pptx_path)}")
-    lines.append(f"**Total Slides:** {len(slides_data)}")
+    if hidden_count > 0 and not include_hidden:
+        lines.append(f"**Visible Slides:** {len(slides_data)} (ignored {hidden_count} hidden slides | {len(prs.slides)} total in file)")
+    else:
+        lines.append(f"**Total Slides:** {len(slides_data)}")
     if extracted_files:
         lines.append(f"**Extracted Media Assets:** {len(extracted_files)} files saved to `{os.path.relpath(assets_dir, pptx_dir)}/`")
     lines.append("")
@@ -326,13 +342,14 @@ def inspect_presentation(pptx_path, format="markdown", extract_assets=True):
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: inspect_pptx.py <path-to-deck.pptx> [--json] [--no-extract]")
+        print("Usage: inspect_pptx.py <path-to-deck.pptx> [--json] [--no-extract] [--include-hidden]")
         sys.exit(1)
 
     pptx_path = sys.argv[1]
     fmt = "json" if "--json" in sys.argv else "markdown"
     extract = "--no-extract" not in sys.argv
-    print(inspect_presentation(pptx_path, fmt, extract))
+    include_hidden = "--include-hidden" in sys.argv
+    print(inspect_presentation(pptx_path, fmt, extract, include_hidden=include_hidden))
 
 if __name__ == "__main__":
     main()

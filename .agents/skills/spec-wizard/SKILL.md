@@ -29,6 +29,7 @@ The user works from a dedicated project directory: `projects/<project-name>/`.
          ./venv/bin/python engine/inspect_pptx.py projects/<project-name>/<filename>.pptx
          ```
        * Use the extracted slide inventory and OCR text as the baseline for modernization.
+       * **Hidden Slides Policy (Ignore by Default)**: `inspect_pptx.py` and `check_coverage.py` automatically ignore hidden slides (`show="0"`). Presenters frequently store raw clickstreams, scratch slides, or appendix dumps in hidden slides. Do NOT modernize or demand coverage/cuts for hidden slides unless the user explicitly requests them with `--include-hidden`.
        * **Flattened Presentation Handling**: If `inspect_pptx.py` reports a `Flattened Presentation Detected (Picture-Only Slides)`, do NOT pause to prompt the user or mention whole-slide reconstruction hurdles. Automatically reconstruct each slide into native semantic components (`cards`, `comparison`, `metrics`, `bullets`) using OCR text and redraw diagrams as clean SVGs. Never embed whole-slide canvas screenshots as thumbnails.
        * Record the baseline in `spec.yaml` as `baseline: "../<filename>.pptx"` (enables the coverage gate).
   3. **Mandatory Visual Review (no drafting before this)**: text extraction misses what most baseline slides actually say — screenshots, schemas, worked examples and diagrams live in images.
@@ -127,21 +128,28 @@ Run the preview engine to create the visual card wireframe deck:
 ./venv/bin/python engine/preview.py projects/<project-name>/deck/spec.yaml projects/<project-name>/deck/preview.html
 ```
 
-Clearly notify the user that drafting is complete and the workflow is paused at a review gate awaiting their confirmation. Explicitly explain the two artifacts:
-- **Low-level specification ([spec.yaml](file:///Users/fernando.delosrios/Documents/Development/AI/slide-deck-builder/projects/<project-name>/deck/spec.yaml))**: Declarative semantic definition containing exact content schemas, slot bindings, visual assets, layouts, and presenter notes.
-- **High-level visual preview ([preview.html](file:///Users/fernando.delosrios/Documents/Development/AI/slide-deck-builder/projects/<project-name>/deck/preview.html))**: Interactive card-deck wireframe to review overall narrative flow, section balance, and slide architecture before final compilation.
+Immediately compile the full interactive Reveal.js presentation deck as well so the user does not have to wait or run another command:
+```bash
+./venv/bin/python engine/builder.py projects/<project-name>/deck/spec.yaml projects/<project-name>/deck/deck.html
+```
 
-Display a structured gate (`ask_question`) requiring user confirmation before any deck compilation:
-1. **Proceed to Build**: Ready to compile into full Reveal.js deck (`/deck-builder`).
+Clearly notify the user that drafting and compilation are complete. Explicitly explain the artifacts:
+- **Interactive Presentation ([deck.html](file:///Users/fernando.delosrios/Documents/Development/AI/slide-deck-builder/projects/<project-name>/deck/deck.html))**: Full standalone presentation with dark gradient styling, keyboard navigation (Space/Arrows), overview tile mode (`Esc`), presenter notes (`S`), and print-to-PDF (`?print-pdf`).
+- **Low-level specification ([spec.yaml](file:///Users/fernando.delosrios/Documents/Development/AI/slide-deck-builder/projects/<project-name>/deck/spec.yaml))**: Declarative semantic definition containing exact content schemas, slot bindings, visual assets, layouts, and presenter notes.
+- **Visual wireframe preview ([preview.html](file:///Users/fernando.delosrios/Documents/Development/AI/slide-deck-builder/projects/<project-name>/deck/preview.html))**: Lightweight card-deck wireframe.
+
+Display a structured satisfaction gate (`ask_question`):
+1. **(Recommended) Happy with Results**: Presentation looks good; proceed immediately to export deliverables (PDF, PowerPoint, or both).
 2. **Refine Section/Slides**: Iterate on specific slides, wording, or layout assignments.
-3. **Change Visual Theme**: Switch the style theme in `spec.yaml`.
+3. **Change Visual Theme**: Switch the style theme in `spec.yaml` and recompile.
 
 *If the user requests refinement or reports authoring defects*:
 Prompt with the **Fix Scope Gate** (`ask_question`) from `AGENTS.md` before editing files:
-1. **(Recommended) Apply to Build Process & Current Deck**: Update the authoring skill, rule in `AGENTS.md`, or theme, then re-run the preview.
+1. **(Recommended) Apply to Build Process & Current Deck**: Update the authoring skill, rule in `AGENTS.md`, or theme, then re-run the preview and build.
 2. **Current Deck Only**: Edit `projects/<name>/deck/spec.yaml` directly without altering authoring rules.
 3. **Build Process Only**: Update authoring rules/skills for future runs; leave current `spec.yaml` intact.
 
 ## Completion Criterion
-`projects/<project-name>/deck/spec.yaml` is fully drafted and validated against `Schema.yaml`, `preview.html` is generated, and the user has approved the preview or initiated `/deck-builder`.
+`projects/<project-name>/deck/spec.yaml` is fully drafted and validated against `Schema.yaml`, `deck.html` is compiled and opened for review, and the user confirms satisfaction or proceeds to exports.
+
 

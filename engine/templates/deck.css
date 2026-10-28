@@ -888,6 +888,75 @@ h1, h2, h3, h4, h5 {
     box-shadow: 0 0 25px {{ accent_color }}44;
 }
 
+/* Two Content Layout Container */
+.two-content-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    flex: 1;
+    min-height: 0;
+    max-height: 720px;
+    box-sizing: border-box;
+}
+.two-content-container.media-left {
+    grid-template-columns: 1.15fr 0.85fr;
+}
+.two-content-container.media-right {
+    grid-template-columns: 0.85fr 1.15fr;
+}
+.two-content-container.text-cols {
+    align-items: stretch;
+    gap: 2rem;
+}
+.two-content-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 0;
+    max-height: 720px;
+    box-sizing: border-box;
+}
+.two-content-col.media-col {
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.two-content-col.media-col .slide-image-wrapper {
+    max-height: 560px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.two-content-col.media-col .slide-embedded-image {
+    max-height: 520px;
+    max-width: 100%;
+    object-fit: contain;
+}
+.two-content-col.text-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    justify-content: center;
+}
+.two-content-col.text-col .styled-bullets {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.95rem !important;
+    margin-top: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+.two-content-col.text-col .styled-bullets li {
+    font-size: 1.05rem !important;
+    line-height: 1.45 !important;
+    padding: 0.75rem 1.15rem;
+    border-radius: 12px;
+    gap: 0.85rem;
+}
+
 /* Regions / Multi-column Layouts (Full Slide) */
 .regions-container {
     display: grid;
@@ -1240,6 +1309,17 @@ h1, h2, h3, h4, h5 {
     backdrop-filter: blur(12px);
     box-shadow: {{ card_shadow }};
 }
+.svg-arch-wrapper.no-header {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    backdrop-filter: none !important;
+}
+.svg-arch-wrapper.no-header .arch-svg-diagram-canvas {
+    padding: 0 !important;
+}
+
 .native-arch-header {
     display: flex;
     justify-content: space-between;

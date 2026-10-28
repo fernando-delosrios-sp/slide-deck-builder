@@ -259,6 +259,48 @@ def generate_preview(spec_path, output_path=None):
                 ''')
             content_preview_html.append(f'<div class="mini-regions-grid">{"".join(r_items)}</div>')
 
+        # Two Content / Left & Right columns
+        left_col = content.get("left") or content.get("col1")
+        right_col = content.get("right") or content.get("col2")
+        if (left_col or right_col) and not comparison and not regions:
+            def render_mini_col(col_data):
+                if not col_data:
+                    return ""
+                if isinstance(col_data, str):
+                    return f'<p style="font-size:0.8rem; line-height:1.3;">{col_data[:70]}...</p>'
+                if isinstance(col_data, list):
+                    b_items = "".join([f"<li>{clean_bullet(b)}</li>" for b in col_data[:2]])
+                    return f'<ul class="mini-bullets">{b_items}</ul>'
+
+                parts = []
+                c_title = col_data.get("title", "")
+                c_badge = col_data.get("badge", "")
+                bullets = col_data.get("bullets", [])
+                img = col_data.get("image") or col_data.get("media_ref") or col_data.get("src")
+
+                if c_badge:
+                    parts.append(f'<span class="card-tag">{c_badge}</span>')
+                if c_title:
+                    parts.append(f'<strong>{c_title}</strong>')
+                if img:
+                    img_raw = img.get("src", "") if isinstance(img, dict) else img
+                    img_s = resolve_image_src(img_raw, spec_dir)
+                    if img_s:
+                        parts.append(f'<div class="mini-image-card"><img src="{img_s}" class="mini-image-thumb" /></div>')
+                if bullets:
+                    b_items = "".join([f"<li>{clean_bullet(b)}</li>" for b in bullets[:2]])
+                    parts.append(f'<ul class="mini-bullets">{b_items}</ul>')
+                return "".join(parts)
+
+            l_mini = render_mini_col(left_col)
+            r_mini = render_mini_col(right_col)
+            content_preview_html.append(f'''
+                <div class="mini-regions-grid">
+                    <div class="mini-content-card">{l_mini}</div>
+                    <div class="mini-content-card">{r_mini}</div>
+                </div>
+            ''')
+
         # Chart
         chart = content.get("chart")
         if chart:

@@ -87,12 +87,16 @@ def render_native_architecture_diagram(diagram, mermaid_code="", spec_dir="", sv
         return ""
     
     kind = diagram.get("kind", "") if isinstance(diagram, dict) else ""
-    diag_title = diagram.get("title", "Architecture Blueprint") if isinstance(diagram, dict) else "Architecture Blueprint"
+    has_custom_title = isinstance(diagram, dict) and bool(diagram.get("title"))
+    has_custom_badge = isinstance(diagram, dict) and bool(diagram.get("badge"))
+    show_header = has_custom_title or has_custom_badge
+    diag_title = diagram.get("title", "") if isinstance(diagram, dict) else ""
+
     
     # 0. High-Fidelity SVG Diagram Component (Standalone SVG file, inline SVG, or kind: svg)
     if kind == "svg" or (isinstance(diagram, dict) and (diagram.get("svg") or diagram.get("src") or diagram.get("file"))) or svg_code:
         svg_markup = ""
-        badge_text = "Architecture Blueprint"
+        badge_text = ""
         if isinstance(diagram, dict) and diagram.get("badge"):
             badge_text = diagram.get("badge")
         elif isinstance(diagram, dict) and diagram.get("kind") and diagram.get("kind") != "svg":
@@ -116,6 +120,7 @@ def render_native_architecture_diagram(diagram, mermaid_code="", spec_dir="", sv
             return jinja_env.get_template("diagrams/svg.html").render(
                 diag_title=diag_title,
                 badge_text=badge_text,
+                show_header=show_header,
                 svg_markup=svg_markup
             )
 
@@ -764,6 +769,115 @@ def build_deck(spec_path, output_path=None):
                         </div>
                     ''')
                 content_blocks.append(f'<div class="regions-container count-{len(regions)}">{"".join(r_cols)}</div>')
+
+            # Two Content / Left & Right Columns
+            left_col = content.get("left") or content.get("col1")
+            right_col = content.get("right") or content.get("col2")
+            if (left_col or right_col) and not comparison and not regions:
+                def render_col_content(col_data):
+                    if not col_data:
+                        return "", False, False
+                    if isinstance(col_data, str):
+                        return f'<p class="slide-body-text">{col_data}</p>', False, False
+                    if isinstance(col_data, list):
+                        b_items = "".join([f"<li>{clean_bullet(b)}</li>" for b in col_data])
+                        return f'<ul class="styled-bullets">{b_items}</ul>', False, True
+
+                    title = col_data.get("title", "")
+                    badge = col_data.get("badge", "")
+                    body = col_data.get("body", "")
+                    bullets = col_data.get("bullets", [])
+                    cards = col_data.get("cards", [])
+                    img = col_data.get("image") or col_data.get("media_ref") or col_data.get("src")
+
+                    parts = []
+                    if badge:
+                        parts.append(f'<span class="card-badge">{badge}</span>')
+                    if title:
+                        parts.append(f'<h3 class="card-title region-title">{title}</h3>')
+
+                    has_media = False
+                    if img:
+                        img_s = ""
+                        img_a = title or "Visual"
+                        img_c = ""
+                        if isinstance(img, dict):
+                            img_s = resolve_image_src(img.get("src", ""), spec_dir)
+                            img_a = img.get("alt", img_a)
+                            img_c = img.get("caption", "")
+                        elif isinstance(img, str):
+                            img_s = resolve_image_src(img, spec_dir)
+                            img_c = col_data.get("caption", "")
+
+                        if img_s:
+                            has_media = True
+                            c_tag = f'<div class="slide-image-caption">{img_c}</div>' if img_c else ''
+                            parts.append(f'''
+                                <div class="slide-image-wrapper">
+                                    <div class="slide-image-card"><img src="{img_s}" alt="{img_a}" class="slide-embedded-image" /></div>
+                                    {c_tag}
+                                </div>
+                            ''')
+
+                    if body:
+                        parts.append(f'<p class="slide-body-text">{body}</p>')
+
+                    has_bullets = False
+                    if bullets:
+                        has_bullets = True
+                        b_items = "".join([f"<li>{clean_bullet(b)}</li>" for b in bullets])
+                        parts.append(f'<ul class="styled-bullets">{b_items}</ul>')
+
+                    if cards:
+                        c_cards = []
+                        for c in cards:
+                            c_b = f'<span class="card-badge">{c.get("badge")}</span>' if c.get("badge") else ''
+                            c_g = ' glowing' if c.get("highlight") else ''
+                            c_i = c.get("icon")
+                            i_html = ""
+                            if c_i:
+                                svg_code = get_icon_svg(c_i, stroke_width=icon_stroke_width, stroke_color="currentColor", size=icon_size)
+                                if svg_code:
+                                    container_cls = " bare" if icon_container == "none" else (" circle" if icon_container == "circle" else "")
+                                    i_html = f'<div class="card-icon-container{container_cls}">{svg_code}</div>'
+                            t_row = f'<div class="card-header-row">{i_html if i_html else "<div></div>"}{c_b}</div>' if (i_html or c_b) else ''
+                            c_cards.append(f'''
+                                <div class="feature-card{c_g}">
+                                    {t_row}
+                                    <h3 class="card-title">{c.get("title", "")}</h3>
+                                    <p class="card-body">{c.get("body", "")}</p>
+                                </div>
+                            ''')
+                        parts.append(f'<div class="cards-grid count-{len(cards)}">{"".join(c_cards)}</div>')
+
+                    return "".join(parts), has_media, has_bullets
+
+                l_html, l_media, l_bullets = render_col_content(left_col)
+                r_html, r_media, r_bullets = render_col_content(right_col)
+
+                if l_media and not r_media:
+                    container_cls = "two-content-container media-left"
+                    l_cls = "two-content-col media-col"
+                    r_cls = "two-content-col text-col"
+                elif r_media and not l_media:
+                    container_cls = "two-content-container media-right"
+                    l_cls = "two-content-col text-col"
+                    r_cls = "two-content-col media-col"
+                else:
+                    container_cls = "two-content-container text-cols"
+                    l_cls = "two-content-col region-col"
+                    r_cls = "two-content-col region-col"
+
+                content_blocks.append(f'''
+                    <div class="{container_cls}">
+                        <div class="{l_cls}">
+                            {l_html}
+                        </div>
+                        <div class="{r_cls}">
+                            {r_html}
+                        </div>
+                    </div>
+                ''')
 
             # Diagram / Architecture Rendering
             diagram = content.get("diagram", {})
