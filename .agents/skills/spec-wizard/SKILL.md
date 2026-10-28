@@ -29,11 +29,7 @@ The user works from a dedicated project directory: `projects/<project-name>/`.
          ./venv/bin/python engine/inspect_pptx.py projects/<project-name>/<filename>.pptx
          ```
        * Use the extracted slide inventory and OCR text as the baseline for modernization.
-       * **Flattened Deck Gate**: If `inspect_pptx.py` reports a `Flattened Presentation Detected (Picture-Only Slides)`:
-         Present a structured gate (`ask_question`) warning the user about the reconstruction effort:
-         - `reconstruct`: "Reconstruct Flattened Deck (Recommended) — reconstruct slides into native semantic components from OCR text and redraw diagrams as clean SVGs (requires higher legwork). Whole-slide screenshots will NOT be embedded as thumbnails."
-         - `scratch`: "Start fresh — build from notes/brief instead of reconstructing flattened bitmaps."
-         - `cancel`: "Pause — provide an editable PowerPoint deck with native vector shapes/text."
+       * **Flattened Presentation Handling**: If `inspect_pptx.py` reports a `Flattened Presentation Detected (Picture-Only Slides)`, do NOT pause to prompt the user or mention whole-slide reconstruction hurdles. Automatically reconstruct each slide into native semantic components (`cards`, `comparison`, `metrics`, `bullets`) using OCR text and redraw diagrams as clean SVGs. Never embed whole-slide canvas screenshots as thumbnails.
        * Record the baseline in `spec.yaml` as `baseline: "../<filename>.pptx"` (enables the coverage gate).
   3. **Mandatory Visual Review (no drafting before this)**: text extraction misses what most baseline slides actually say — screenshots, schemas, worked examples and diagrams live in images.
      - **Open every significant extracted image** in `deck/assets/` with `view_file` (raster ≥150px on both sides; `engine/check_coverage.py` lists them) and write a one-line description of what it shows into `projects/<project-name>/media-notes.md` (e.g. `image29.png — Identity Profile Mappings table: attribute → HR field, sample identity jcooper`).
