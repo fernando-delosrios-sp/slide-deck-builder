@@ -36,7 +36,13 @@ Immediately prompt the user with a structured decision gate (`ask_question`) to 
 2. **Needs Refinement**: Request specific adjustments to slides, wording, or layouts.
 
 *If the user requests refinement or reports issues*:
-Apply the **Issue Triage Protocol** from `AGENTS.md` before touching code:
+Prompt with the **Fix Scope Gate** (`ask_question`) before touching code:
+1. **(Recommended) Apply to Build Process & Current Deck**: Fix the root cause in the build process (engine, theme, skills, or rules), then recompile the current deck.
+2. **Current Deck Only**: Patch `projects/<name>/deck/spec.yaml` directly without changing the build process.
+3. **Build Process Only**: Update the underlying generator, engine, or theme tokens; leave `spec.yaml` as-is.
+
+Apply the **Issue Triage Protocol** from `AGENTS.md` to the chosen scope:
+- **Authoring rule or generation defect**: Fix in `.agents/skills/` or `AGENTS.md`.
 - **Palette, contrast, font-family, or glow issue**: Fix in `styles/<theme>-design.md` (or `engine/style_parser.py` if token synthesis failed).
 - **Geometry, clipping, card overlapping, or responsive layout issue**: Fix in `engine/builder.py` CSS and verify with `./venv/bin/python engine/test_themes.py`.
 - **Content density, bullet volume, or incorrect layout**: Fix in `projects/<project-name>/deck/spec.yaml`.

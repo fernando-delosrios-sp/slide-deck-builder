@@ -23,6 +23,7 @@ Reach the file that owns the change:
   - **Exemplar Modernization Benchmark (`examples/Identity Model Components and Access Model/`)**: Canonical reference for high-fidelity modernization. Follow its architectural blueprint:
     - **SVG Diagram Template**: Use `viewBox="0 0 1000 520"`, dark card backdrop (`#070C16`, `rx="16"`, border `#415364`), theme gradient nodes (e.g. `#0033A1` to `#0B111E`), uppercase bold category badges (11px), node titles (18px), Lucide-styled node icons/glyphs, clean `<path>` connectors with dedicated `<marker>` arrowheads, and a bottom rounded banner (`height="65"`) stating the governing architectural principle.
     - **Arrow & Connector Color Uniformity Mandate**: Arrows and path connectors must have the exact same color across all their parts. An arrow's shaft (`stroke`) and its arrowhead (`marker-end` / `marker-start` `fill`) must match 100%. Creating an arrow with mismatched body and head colors (e.g., magenta line with cyan arrowhead) is strictly prohibited. When creating SVG diagrams, define dedicated markers for each accent color used (e.g. `marker-aqua` with `fill="#54C0E8"`, `marker-pink` with `fill="#D60EB5"`, `marker-green` with `fill="#93D500"`) and pair them strictly with paths sharing that stroke. Enforced automatically as an `ERROR` by `engine/check_coverage.py`.
+    - **Zero-Overlap & Corridor Routing Mandate**: Connectors, paths, and arrows must NEVER overlap, cut through, or intersect diagram nodes, cards, or text elements. When routing between non-adjacent or tiered entities, paths must use orthogonal dogleg routing through unobstructed corridors between elements with at least 15px clearance. Connector labels and cardinality badges (`1 .. N`) must be positioned along open path segments and never collide with node borders. Enforced automatically as a build-aborting `ERROR` by `engine/check_coverage.py`.
     - **Console Screenshot Walkthroughs**: For baseline UI screenshots, use `layout: "Picture with Caption"`, `role: "walkthrough"`, precise caption (`"[Product] Console: [Context] Interface"`), and a 1-2 sentence `content.body` summarizing what the interface configures.
     - **Procedural & Governance Card Archetypes**: Use `Four Tiles` with numbered card titles (`1. Step Name`, `2. Step Name`) and functional badges (`Connections`, `Policy`, `Data Import`) for sequence slides; use `Three Columns` with Lucide icons (`user`, `key`, `shield`) and uniform peer styling (never apply `highlight: true` to arbitrary peer pillars).
     - **Preserve Real Baseline Data**: Retain original sample identities, usernames, attributes, and correlation rules (e.g. `John Cooper / jcooper`, `Sterling Archer`, `attributes.department: Finance`). Never replace baseline data with generic placeholders.
@@ -104,10 +105,11 @@ Once the scope is agreed, reach the layer that owns the issue:
 1. **The Theme-Swap Test (Style vs. Engine)**: If you switch `theme:` in `spec.yaml` to another theme (e.g. `linear` vs `sailpoint`), does the issue persist?
    - If **YES**: It is an **Engine layout bug** (`engine/builder.py`) or a **Content overflow** (`spec.yaml`).
    - If **NO**: It is a **Style Token defect** (`styles/<theme>-design.md`).
-2. **The Geometry vs. Palette Rule**:
-   - Palette, contrast, brand color, font-family, or glow? → Fix in `styles/<theme>-design.md`. Never hardcode colors in `builder.py`.
-   - Grid fraction, column wrap, vertical clipping, or font size scaling? → Fix globally in `engine/builder.py`.
-   - Text density (400 words on a card)? → Fix in `spec.yaml` (split slide or switch layout).
+2. **The Geometry vs. Palette vs. Process Rule**:
+   - Authoring habit, bad generation pattern, icon sizing, or missing component rule? → Fix in Layer 0 (`.agents/skills/`, `AGENTS.md`).
+   - Palette, contrast, brand color, font-family, or glow? → Fix in Layer 2 (`styles/<theme>-design.md`). Never hardcode colors in `builder.py`.
+   - Grid fraction, column wrap, vertical clipping, or font size scaling? → Fix globally in Layer 3 (`engine/builder.py`).
+   - One-off wording or slide-specific density? → Fix in Layer 1 (`spec.yaml`).
 3. **Verify with Multi-Theme Test Harness**:
    - After editing `engine/builder.py`, ALWAYS run `./venv/bin/python engine/test_themes.py` to guarantee zero cross-theme regression.
 

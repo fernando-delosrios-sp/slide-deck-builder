@@ -95,6 +95,7 @@ Work through the agreed sections sequentially. For each section:
        - Node styling: Linear gradients (`idGrad`, `accGrad`, `accsGrad`), rounded rects (`rx="10-12"`), and colored strokes.
        - Node anatomy: Bold 11px uppercase category badges (`CORE ENTITY`, `TARGET APPLICATION`), 18px bold title, Lucide glyph/icon in circle badge, 11-12px description bullets.
        - Clean `<path>` connectors with matching `<marker id="...">` arrowheads. Arrowhead markers MUST have identical fill color to the connector path stroke (define distinct marker IDs like `arr-pink`, `arr-aqua` when arrows have different colors; never attach an aqua marker to a pink path).
+       - Zero-Overlap & Corridor Routing: Connectors and arrows must NEVER cut through or overlap diagram cards, nodes, pills, or text. Route paths orthogonally (dogleg routing) through open corridors with >= 15px clearance. Position badges strictly along open line segments, never overlapping node borders. Enforced by automated collision checks.
        - Architecture Takeaway Banner: Horizontal container at bottom (`y="425"`, `height="65"`) highlighting the core governance principle.
    - `notes`: speaker script and background notes.
    - **Console UI Screenshot Walkthrough Archetype**: When baseline slides show actual UI screens (e.g. IdentityNow console views):
@@ -138,6 +139,12 @@ Display a structured gate (`ask_question`) requiring user confirmation before an
 1. **Proceed to Build**: Ready to compile into full Reveal.js deck (`/deck-builder`).
 2. **Refine Section/Slides**: Iterate on specific slides, wording, or layout assignments.
 3. **Change Visual Theme**: Switch the style theme in `spec.yaml`.
+
+*If the user requests refinement or reports authoring defects*:
+Prompt with the **Fix Scope Gate** (`ask_question`) from `AGENTS.md` before editing files:
+1. **(Recommended) Apply to Build Process & Current Deck**: Update the authoring skill, rule in `AGENTS.md`, or theme, then re-run the preview.
+2. **Current Deck Only**: Edit `projects/<name>/deck/spec.yaml` directly without altering authoring rules.
+3. **Build Process Only**: Update authoring rules/skills for future runs; leave current `spec.yaml` intact.
 
 ## Completion Criterion
 `projects/<project-name>/deck/spec.yaml` is fully drafted and validated against `Schema.yaml`, `preview.html` is generated, and the user has approved the preview or initiated `/deck-builder`.
