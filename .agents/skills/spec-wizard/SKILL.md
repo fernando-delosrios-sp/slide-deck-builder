@@ -93,6 +93,7 @@ Work through the agreed sections sequentially. For each section:
        - Node anatomy: Bold 11px uppercase category badges (`CORE ENTITY`, `TARGET APPLICATION`), 18px bold title, Lucide glyph/icon in circle badge, 11-12px description bullets.
        - Clean `<path>` connectors with matching `<marker id="...">` arrowheads. Arrowhead markers MUST have identical fill color to the connector path stroke (define distinct marker IDs like `arr-pink`, `arr-aqua` when arrows have different colors; never attach an aqua marker to a pink path).
        - Zero-Overlap & Corridor Routing: Connectors and arrows must NEVER cut through or overlap diagram cards, nodes, pills, or text. Route paths orthogonally (dogleg routing) through open corridors with >= 15px clearance. Position badges strictly along open line segments, never overlapping node borders. Enforced by automated collision checks.
+       - Container Wrapping & Enclosure: Outer diagram column cards, grouped tier containers, and card backdrops MUST strictly enclose all child elements, cards, and text blocks with at least 15px internal bottom padding. Sizing must be calculated so that child y + height never exceeds parent y + height.
        - Architecture Takeaway Banner: Horizontal container at bottom (`y="425"`, `height="65"`) highlighting the core governance principle.
    - `notes`: speaker script and background notes.
    - **Console UI Screenshot Walkthrough Archetype**: When baseline slides show actual UI screens (e.g. IdentityNow console views):

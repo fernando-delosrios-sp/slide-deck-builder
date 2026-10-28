@@ -389,6 +389,37 @@ def main():
                         break
         return errs
 
+    # --- SVG container child enclosure check --------------------------
+    def check_svg_overflow(svg_content, source_label):
+        errs = []
+        xml_text = re.sub(r' xmlns="[^"]+"', '', svg_content)
+        try:
+            root = ET.fromstring(xml_text)
+        except Exception:
+            return []
+
+        for g in root.iter('g'):
+            child_rects = [e for e in g if e.tag == 'rect']
+            if len(child_rects) >= 2:
+                container = child_rects[0]
+                try:
+                    c_x = float(container.get('x', 0))
+                    c_y = float(container.get('y', 0))
+                    c_w = float(container.get('width', 0))
+                    c_h = float(container.get('height', 0))
+                    if c_w >= 150 and c_h >= 150:
+                        for child in child_rects[1:]:
+                            ch_y = float(child.get('y', 0))
+                            ch_h = float(child.get('height', 0))
+                            if ch_y + ch_h > c_y + c_h:
+                                errs.append(
+                                    f"{source_label}: child element (bottom={ch_y + ch_h:.0f}) overflows parent container (bottom={c_y + c_h:.0f}). "
+                                    "Child cards and blocks must be strictly enclosed within their parent container."
+                                )
+                except ValueError:
+                    pass
+        return errs
+
     spec_dir = os.path.dirname(os.path.abspath(spec_path))
     checked_svgs = set()
     for s in slides:
@@ -396,11 +427,13 @@ def main():
         if content.get("svg"):
             errors.extend(check_svg_arrows(content["svg"], f"slide {s.get('slide_number')} inline svg"))
             errors.extend(check_svg_collisions(content["svg"], f"slide {s.get('slide_number')} inline svg"))
+            errors.extend(check_svg_overflow(content["svg"], f"slide {s.get('slide_number')} inline svg"))
         diag = content.get("diagram", {})
         if isinstance(diag, dict):
             if diag.get("svg"):
                 errors.extend(check_svg_arrows(diag["svg"], f"slide {s.get('slide_number')} diagram.svg"))
                 errors.extend(check_svg_collisions(diag["svg"], f"slide {s.get('slide_number')} diagram.svg"))
+                errors.extend(check_svg_overflow(diag["svg"], f"slide {s.get('slide_number')} diagram.svg"))
             for k in ("src", "file"):
                 if diag.get(k) and isinstance(diag[k], str) and diag[k].endswith(".svg"):
                     p = diag[k] if os.path.isabs(diag[k]) else os.path.join(spec_dir, diag[k])
@@ -410,6 +443,7 @@ def main():
                             svg_data = f.read()
                             errors.extend(check_svg_arrows(svg_data, os.path.basename(p)))
                             errors.extend(check_svg_collisions(svg_data, os.path.basename(p)))
+                            errors.extend(check_svg_overflow(svg_data, os.path.basename(p)))
         img = content.get("image", {})
         if isinstance(img, dict) and img.get("src") and isinstance(img["src"], str) and img["src"].endswith(".svg"):
             p = img["src"] if os.path.isabs(img["src"]) else os.path.join(spec_dir, img["src"])
@@ -419,6 +453,7 @@ def main():
                     svg_data = f.read()
                     errors.extend(check_svg_arrows(svg_data, os.path.basename(p)))
                     errors.extend(check_svg_collisions(svg_data, os.path.basename(p)))
+                    errors.extend(check_svg_overflow(svg_data, os.path.basename(p)))
 
     # --- visual weight & peer highlight check -------------------------
     for s in slides:
