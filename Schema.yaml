@@ -104,7 +104,13 @@ properties:
               description: Bullet list points.
             body:
               type: string
-              description: Paragraph text or narrative copy.
+              description: Paragraph text or narrative copy. On Title Slides, acts as the 1-2 sentence executive abstract or synopsis beneath the title.
+            presenter:
+              type: string
+              description: Presenter name or authoring team for Title Slides (e.g. 'Enterprise IAM Architecture Team'). Renders in the bottom metadata bar.
+            date:
+              type: string
+              description: Presentation date or year for Title Slides (e.g. '2026', 'Q3 2026'). Renders in the bottom metadata bar.
             metrics:
               type: array
               items:
@@ -156,7 +162,7 @@ properties:
                 properties:
                   id:
                     type: string
-                    description: 'left', 'right', 'col1', 'col2', 'col3', 'sidebar', etc.
+                    description: "Region identifier (e.g. 'left', 'right', 'col1', 'col2', 'col3', 'sidebar', etc.)."
                   title:
                     type: string
                   kind:
@@ -308,6 +314,7 @@ properties:
                 Single visual asset (generated illustration, architectural diagram, or screenshot) embedded in the slide.
                 RULE: Icons must remain small (24px-48px). NEVER use an icon as a large picture or cover hero graphic.
                 When needing a picture to represent something bigger (e.g. cover slide or hero visual), generate one using generate_image.
+                Never recycle legacy slide master backgrounds or template stock photos as cover hero graphics (record those in baseline_cuts instead).
               required:
                 - src
               properties:

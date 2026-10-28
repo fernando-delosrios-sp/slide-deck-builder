@@ -93,7 +93,7 @@ def baseline_model(pptx_path):
                         has_canvas = True
 
             slide_media = media_map.get(idx, [])
-            if has_canvas and not texts and slide_media:
+            if has_canvas and not any(t.strip() for t in texts) and slide_media:
                 for m in slide_media:
                     canvas_media.add(m)
                     m_path = files.get(m)

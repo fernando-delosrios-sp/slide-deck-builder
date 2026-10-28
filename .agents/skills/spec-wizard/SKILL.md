@@ -49,14 +49,17 @@ Consult [Schema.yaml](../../../Schema.yaml) properties:
 - **Audience**: Primary audience (e.g. Executive Board, Security Architects, DevOps Engineers, Customers).
 - **Tone**: Voice and demeanor (e.g. authoritative, visionary, concise, urgent).
 - **Length**: Target size (`short`: 5-7 slides, `default`: 8-14 slides, `long`: 15+ slides).
+- **Presenter & Date**: Authoring team or speaker (e.g. 'Enterprise IAM Architecture Team') and publication date/year (e.g. '2026') for the cover slide metadata.
+- **Series / Eyebrow**: Domain or series eyebrow tag (e.g. 'SailPoint IdentityNow Architecture') for the cover badge.
 - **Theme / Style**: Visual kit from `styles/` (default: `sailpoint-corporate-2026-design`) or any standard **`DESIGN.md`** kit (e.g. Linear, Vercel, Stripe from `getdesign.md` or `awesome-design-md`, imported via `engine/import_theme.py`).
 - **Baseline Modernization Focus** (when modernizing an existing deck):
   - **Fidelity-First Modernization Mandate**: When starting from an existing presentation, the primary goal is **modernizing the existing slides faithfully**. Preserve the original slides' specific technical concepts, data examples, schemas, tables, diagrams, and presenter notes. Modernization means elevating visual design, typography, layout, and theme compliance—**NOT rewriting, over-interpreting, or abstracting away the domain specifics**.
   - **Consensuating Consolidations & Messaging Revisions**: The agent **MUST NOT unilaterally consolidate slides, drop slides, or alter core messaging**. If the agent identifies opportunities to prune, merge, or refine messaging, these recommendations **MUST be explicitly proposed and consensuated with the user** at a structured choice gate (`ask_question`). Without user approval, keep the baseline slides intact.
   - **Media Extraction & Slide Canvas Distinction**: `inspect_pptx.py` automatically extracts all embedded vector graphics (SVGs) and images to `projects/<project-name>/deck/assets/`. Extracted illustrations MUST be prioritized and linked in `spec.yaml` via `content.image`. However, full-slide canvas screenshots (flattened slides) MUST NOT be embedded—they must be reconstructed with native semantic components and SVG diagrams.
+  - **Slide Master Backgrounds & Cover Photos**: Master slide decorative graphics, layout backgrounds, and legacy template photos extracted by `inspect_pptx.py` (e.g. split stock photos or template banners) are presentation master template artifacts, NOT content illustrations. They MUST be triaged into `baseline_cuts` (e.g. `reason: "PPTX slide master cover graphic replaced by native theme dark gradient and dedicated generated hero visual"`) and MUST NEVER be embedded as `content.image` on Title Slides.
   - **Strict Diagram Preservation Mandate**: Any baseline slide detected with an architectural, relational, or process diagram (flowcharts, node connections, multi-tier stacks) **MUST** be preserved as a visual diagram in the modernized spec.
   - **Diagram Standard (Prohibition on Embedded Mermaid)**: Embedded Mermaid is prohibited as it renders poorly in presentation slides. Modernized diagrams MUST use **high-fidelity SVGs** (`diagram.svg`, `diagram.src`, or `content.svg`) or native semantic architecture components (`pipeline`, `convergence`, `cardinality`, `policy_flow`, `layered_stack`).
-  - **Icon Sizing Rule**: Icons are micro-visual accents (24px–48px). **Never blow up an icon to hero size**. When needing a picture to represent something bigger (e.g. for cover slides, split layouts, or visual metaphors), **generate one** using `generate_image`.
+  - **Icon Sizing Rule**: Icons are micro-visual accents (24px–48px). **Never blow up an icon to hero size**. When needing a picture to represent something bigger (e.g. for cover slides, split layouts, or visual metaphors), **generate one** using `generate_image`. Never recycle legacy master slide stock photos as cover heroes.
   - Preserved assets: Core technical proofs, data points, or diagrams that must stay.
   - Component elevations: Legacy bullet walls to convert into semantic components (`cards`, `metrics`, `comparison`, `diagram`, `svg`).
 
@@ -86,7 +89,29 @@ Work through the agreed sections sequentially. For each section:
    - `cards`: titled container cards with badge and Lucide icon (`icon: "shield-check"`, `"user-round"`, `"layers"`, `"database"`).
    - `comparison`: side-by-side before/after or contrast blocks.
    - `diagram`: high-fidelity SVG diagram (`svg`, `src`) or native architecture components (`pipeline`, `convergence`, `cardinality`, `policy_flow`, `layered_stack`). **Never use embedded Mermaid**.
+     * **SVG Architecture Template (Gold Standard)**: Follow the blueprint from `examples/Identity Model Components and Access Model`:
+       - ViewBox: `viewBox="0 0 1000 520"` with `width="100%" height="100%"`.
+       - Theme card backdrop: `<rect width="1000" height="520" rx="16" fill="#070C16" stroke="#415364" stroke-width="1.5"/>`.
+       - Node styling: Linear gradients (`idGrad`, `accGrad`, `accsGrad`), rounded rects (`rx="10-12"`), and colored strokes.
+       - Node anatomy: Bold 11px uppercase category badges (`CORE ENTITY`, `TARGET APPLICATION`), 18px bold title, Lucide glyph/icon in circle badge, 11-12px description bullets.
+       - Clean `<path>` connectors with `<marker id="arr">` arrowheads.
+       - Architecture Takeaway Banner: Horizontal container at bottom (`y="425"`, `height="65"`) highlighting the core governance principle.
    - `notes`: speaker script and background notes.
+   - **Console UI Screenshot Walkthrough Archetype**: When baseline slides show actual UI screens (e.g. IdentityNow console views):
+     * Always select `layout: "Picture with Caption"` and `role: "walkthrough"`.
+     * Embed high-res screenshot under `content.image.src`.
+     * Provide a precise title & subtitle, an executive caption (e.g. `"[Product] Console: [Context] Interface"`), and a 1-2 sentence `content.body` explaining what is configured.
+   - **Procedural Sequence & Governance Card Archetypes**:
+     * For multi-step administrative workflows (e.g. 4-step setup), use `layout: "Four Tiles"` with numbered card titles (`1. Create Source`, `2. Create Identity Profile`) and functional badges (`Connections`, `Identities`, `Policy`, `Data Import`).
+     * For foundational pillars, use `layout: "Three Columns"` with Lucide icons (`user`, `key`, `shield`) and selective `highlight: true` on primary entities.
+   - **Title Slide (Cover) Mandatory Anatomy**: Every presentation cover slide (`layout: "Title Slide"`, `role: "cover"`) MUST include:
+     * `badge`: Domain or series eyebrow tag (e.g. `SailPoint IdentityNow Architecture`), rendering as a top pill badge and populating `SERIES` in the footer.
+     * `title`: Main presentation title.
+     * `subtitle`: Architectural or domain scope subtitle.
+     * `content.body`: 1–2 sentence executive synopsis or abstract detailing what the deck delivers (prevents empty negative space).
+     * `content.presenter`: Authoring team or speaker (e.g. `Enterprise IAM Architecture Team`).
+     * `content.date`: Publication year or date (e.g. `'2026'`).
+     * `content.image`: High-presence hero visual custom-generated via `generate_image` (e.g. 3D isometric architecture, cybernetic core, glowing nodes). Never recycle legacy master slide stock photos.
    - **Theme Accent & Visual Weight Hierarchy**: When multiple elements on screen have the same weight (e.g. peer cards in a grid representing equal categories, peer steps, or equal metrics), do NOT mix and match accents. Use the most vivid accents (e.g. fuchsia / `accent-alt` glowing border) strictly to highlight items that have more relevance (e.g. standout metrics, critical warnings, winning options, or high-priority items), while using less vivid accents (e.g. electric aqua / `accent`, subtle theme borders) to decorate regular or peer items.
 5. **Provenance rule (modernizing)**: slide content must come from the baseline text, notes, or images. Do not add vendor/product names, examples, steps, or claims from general knowledge. If an addition truly helps, list it in the slide's `additions:` so it is shown to the user at the gate; undeclared additions are defects. Worked examples and sample data visible in baseline images (e.g. `E001 / Malory Archer`) are preferred over invented ones.
 6. **Keep the original visuals' information**: a baseline image is either embedded (`content.image`), faithfully reproduced as SVG with every label/value preserved and listed in `redrawn_media`, or approved as a `baseline_cuts` media entry. Summarising it into text cards counts as dropping it.
