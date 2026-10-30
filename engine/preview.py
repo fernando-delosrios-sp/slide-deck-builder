@@ -251,10 +251,16 @@ def generate_preview(spec_path, output_path=None):
             for r in regions:
                 r_title = r.get("title", "")
                 r_bullets = "".join([f"<li>{clean_bullet(b)}</li>" for b in r.get("bullets", [])[:2]])
+                r_cards = r.get("cards", [])
+                r_cards_html = ""
+                if r_cards:
+                    c_list = "".join([f'<div style="font-size:0.75rem; margin-top:0.25rem;">• <strong>{c.get("title", "")}</strong></div>' for c in r_cards[:2]])
+                    r_cards_html = f'<div class="mini-cards-sub">{c_list}</div>'
                 r_items.append(f'''
                     <div class="mini-content-card">
                         {f'<strong>{r_title}</strong>' if r_title else ''}
                         {f'<ul class="mini-bullets">{r_bullets}</ul>' if r_bullets else ''}
+                        {r_cards_html}
                     </div>
                 ''')
             content_preview_html.append(f'<div class="mini-regions-grid">{"".join(r_items)}</div>')

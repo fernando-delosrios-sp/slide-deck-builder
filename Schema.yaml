@@ -314,6 +314,7 @@ properties:
                 Single visual asset (generated illustration, architectural diagram, or screenshot) embedded in the slide.
                 RULE: Icons must remain small (24px-48px). NEVER use an icon as a large picture or cover hero graphic.
                 When needing a picture to represent something bigger (e.g. cover slide or hero visual), generate one using generate_image.
+                Hero visuals MUST be tailored specifically to the presentation's domain and technical narrative (avoid generic sci-fi glowing cubes or floating padlocks).
                 Never recycle legacy slide master backgrounds or template stock photos as cover hero graphics (record those in baseline_cuts instead).
               required:
                 - src

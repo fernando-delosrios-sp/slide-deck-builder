@@ -147,4 +147,6 @@ Official 2026 SailPoint corporate brand design. Optimized for dark mode presenta
 
 **Diagram Grammar:** Monoline nodes with 1.5px strokes in aqua or white over dark surfaces; straight connectors with neat arrowheads; glowing aqua node marking the focal point.
 
+**Imagery & Hero Visuals:** Tailored domain-specific visual metaphors rendered in editorial 3D architectural style. Deep cobalt (`#0033A1`) and carbon backdrop (`#0B111E`), directional electric aqua (`#54C0E8`) lighting, and refined physical-digital materials (matte dark carbon, brushed titanium, frosted glass, directional laser telemetry). Prohibit generic floating glowing cubes, clichéd neon circuit boards, or generic glowing padlocks. Every visual must represent the actual operational domain (e.g. global banking transit rails for SWIFT, clinical data networks for healthcare).
+
 **Mode:** dark

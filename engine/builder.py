@@ -741,6 +741,7 @@ def build_deck(spec_path, output_path=None):
             if regions:
                 r_cols = []
                 for r in regions:
+                    r_badge = f'<span class="card-badge">{r.get("badge")}</span>' if r.get("badge") else ''
                     r_title = f'<h3 class="region-title">{r.get("title")}</h3>' if r.get("title") else ''
                     r_body = f'<p class="region-body">{r.get("body")}</p>' if r.get("body") else ''
                     r_bullets = "".join([f"<li>{clean_bullet(b)}</li>" for b in r.get("bullets", [])])
@@ -753,19 +754,48 @@ def build_deck(spec_path, output_path=None):
                         if res_src:
                             reg_media = f'<div class="region-image-wrapper"><img src="{res_src}" alt="{r.get("title", "Visual")}" class="region-image" /></div>'
                     
+                    # Check if region has cards
+                    reg_cards_html = ""
+                    reg_cards = r.get("cards", [])
+                    if reg_cards:
+                        c_cards = []
+                        for c in reg_cards:
+                            c_b = f'<span class="card-badge">{c.get("badge")}</span>' if c.get("badge") else ''
+                            c_g = ' glowing' if c.get("highlight") else ''
+                            c_i = c.get("icon")
+                            i_html = ""
+                            if c_i:
+                                svg_code = get_icon_svg(c_i, stroke_width=icon_stroke_width, stroke_color="currentColor", size=icon_size)
+                                if svg_code:
+                                    container_cls = " bare" if icon_container == "none" else (" circle" if icon_container == "circle" else "")
+                                    i_html = f'<div class="card-icon-container{container_cls}">{svg_code}</div>'
+                            t_row = f'<div class="card-header-row">{i_html if i_html else "<div></div>"}{c_b}</div>' if (i_html or c_b) else ''
+                            c_cards.append(f'''
+                                <div class="feature-card{c_g}">
+                                    {t_row}
+                                    <h3 class="card-title">{c.get("title", "")}</h3>
+                                    <p class="card-body">{c.get("body", "")}</p>
+                                </div>
+                            ''')
+                        reg_cards_html = f'<div class="cards-grid count-{len(reg_cards)}">{"".join(c_cards)}</div>'
+
                     col_classes = ["region-col"]
                     if reg_media:
                         col_classes.append("has-media")
                     if r_bullets:
                         col_classes.append("has-bullets")
+                    if reg_cards:
+                        col_classes.append("has-cards")
                     col_cls = " ".join(col_classes)
 
                     r_cols.append(f'''
                         <div class="{col_cls}">
+                            {r_badge}
                             {r_title}
                             {reg_media}
                             {r_body}
                             {f'<ul class="styled-bullets">{r_bullets}</ul>' if r_bullets else ''}
+                            {reg_cards_html}
                         </div>
                     ''')
                 content_blocks.append(f'<div class="regions-container count-{len(regions)}">{"".join(r_cols)}</div>')
@@ -811,11 +841,21 @@ def build_deck(spec_path, output_path=None):
 
                         if img_s:
                             has_media = True
-                            c_tag = f'<div class="slide-image-caption">{img_c}</div>' if img_c else ''
                             parts.append(f'''
                                 <div class="slide-image-wrapper">
-                                    <div class="slide-image-card"><img src="{img_s}" alt="{img_a}" class="slide-embedded-image" /></div>
-                                    {c_tag}
+                                    <div class="console-mockup-frame">
+                                        <div class="console-titlebar">
+                                            <div class="console-dots">
+                                                <span class="console-dot dot-red"></span>
+                                                <span class="console-dot dot-yellow"></span>
+                                                <span class="console-dot dot-green"></span>
+                                            </div>
+                                            <span class="console-title-text">{img_c or img_a}</span>
+                                        </div>
+                                        <div class="console-body">
+                                            <img src="{img_s}" alt="{img_a}" class="slide-embedded-image" />
+                                        </div>
+                                    </div>
                                 </div>
                             ''')
 
@@ -863,6 +903,10 @@ def build_deck(spec_path, output_path=None):
                     container_cls = "two-content-container media-right"
                     l_cls = "two-content-col text-col"
                     r_cls = "two-content-col media-col"
+                elif l_media and r_media:
+                    container_cls = "two-content-container side-by-side-proof"
+                    l_cls = "two-content-col region-col proof-card proof-left"
+                    r_cls = "two-content-col region-col proof-card proof-right glowing"
                 else:
                     container_cls = "two-content-container text-cols"
                     l_cls = "two-content-col region-col"

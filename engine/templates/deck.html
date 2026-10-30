@@ -131,5 +131,83 @@
             window.dispatchEvent(new Event('resize'));
         });
     </script>
+
+    <!-- Image Lightbox Modal Overlay (Click-to-Zoom in Foreground) -->
+    <div id="image-lightbox-modal" class="image-lightbox-overlay" aria-hidden="true">
+        <div class="image-lightbox-backdrop"></div>
+        <div class="image-lightbox-content">
+            <button class="image-lightbox-close" aria-label="Close image" title="Close (Esc)">&times;</button>
+            <img id="image-lightbox-img" src="" alt="Enlarged view" />
+            <div id="image-lightbox-caption" class="image-lightbox-caption"></div>
+        </div>
+    </div>
+
+    <!-- Interactive Image Lightbox Controller -->
+    <script>
+        (function() {
+            const modal = document.getElementById('image-lightbox-modal');
+            if (!modal) return;
+            const modalImg = document.getElementById('image-lightbox-img');
+            const modalCaption = document.getElementById('image-lightbox-caption');
+            const closeBtn = modal.querySelector('.image-lightbox-close');
+            const backdrop = modal.querySelector('.image-lightbox-backdrop');
+
+            function openLightbox(src, alt, caption) {
+                if (!src) return;
+                modalImg.src = src;
+                modalImg.alt = alt || 'Enlarged image';
+                modalCaption.textContent = caption || alt || '';
+                modal.style.display = 'flex';
+                requestAnimationFrame(() => {
+                    modal.classList.add('active');
+                });
+                modal.setAttribute('aria-hidden', 'false');
+                if (window.Reveal) {
+                    window.Reveal.configure({ keyboard: false });
+                }
+            }
+
+            function closeLightbox() {
+                modal.classList.remove('active');
+                modal.setAttribute('aria-hidden', 'true');
+                setTimeout(() => {
+                    if (!modal.classList.contains('active')) {
+                        modal.style.display = 'none';
+                        modalImg.src = '';
+                        modalCaption.textContent = '';
+                    }
+                }, 250);
+                if (window.Reveal) {
+                    window.Reveal.configure({ keyboard: true });
+                }
+            }
+
+            document.addEventListener('click', function(e) {
+                // Match any embedded slide image (exclude logo or UI controls)
+                const targetImg = e.target.closest('.slide-embedded-image, .region-image, .picture-caption-img, .slide-image-card img, .slide-image-wrapper img, .cover-hero-image');
+                if (targetImg && targetImg.src && !modal.contains(targetImg)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    let caption = '';
+                    const captionEl = targetImg.closest('.slide-image-wrapper, .region-image-wrapper, .picture-side, .slide-split-media, .slide-center-media')?.querySelector('.slide-image-caption, .caption-text, figcaption');
+                    if (captionEl) {
+                        caption = captionEl.textContent.trim();
+                    }
+                    openLightbox(targetImg.src, targetImg.alt, caption);
+                }
+            });
+
+            if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+            if (backdrop) backdrop.addEventListener('click', closeLightbox);
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    closeLightbox();
+                }
+            });
+        })();
+    </script>
 </body>
 </html>

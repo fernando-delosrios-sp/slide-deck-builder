@@ -69,7 +69,7 @@ h1, h2, h3, h4, h5 {
     border: 1px solid var(--deck-accent);
     padding: 4px 14px;
     border-radius: 9999px;
-    margin-bottom: 0.85rem;
+    margin-bottom: 1.15rem !important;
 }
 
 /* Title Slide Layout */
@@ -851,7 +851,7 @@ h1, h2, h3, h4, h5 {
     border: 1px solid var(--deck-accent);
     padding: 3px 10px;
     border-radius: 6px;
-    margin-bottom: 0;
+    margin-bottom: 0.85rem !important;
     text-transform: uppercase;
 }
 .card-badge.accent-alt {
@@ -892,11 +892,11 @@ h1, h2, h3, h4, h5 {
 .two-content-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2.5rem;
-    align-items: center;
+    gap: 2.25rem;
+    align-items: stretch;
     flex: 1;
     min-height: 0;
-    max-height: 720px;
+    max-height: 100%;
     box-sizing: border-box;
 }
 .two-content-container.media-left {
@@ -906,15 +906,20 @@ h1, h2, h3, h4, h5 {
     grid-template-columns: 0.85fr 1.15fr;
 }
 .two-content-container.text-cols {
-    align-items: stretch;
+    align-items: start;
     gap: 2rem;
+}
+.two-content-container.text-cols .two-content-col {
+    height: auto;
+    max-height: none;
 }
 .two-content-col {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 0;
-    max-height: 720px;
+    height: 100%;
+    max-height: 100%;
     box-sizing: border-box;
 }
 .two-content-col.media-col {
@@ -957,6 +962,213 @@ h1, h2, h3, h4, h5 {
     gap: 0.85rem;
 }
 
+/* Side-by-Side Proof Layout (Flashy Executive Architecture) */
+.two-content-container.side-by-side-proof {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.25rem;
+    align-items: stretch;
+    flex: 1;
+    min-height: 0;
+    max-height: 100%;
+    box-sizing: border-box;
+}
+
+.proof-card {
+    background: linear-gradient(155deg, rgba(11, 17, 30, 0.98) 0%, rgba(1, 28, 72, 0.45) 100%) !important;
+    border: 1.5px solid rgba(84, 192, 232, 0.35) !important;
+    border-radius: 20px !important;
+    padding: 1.6rem 1.85rem !important;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+.proof-card.proof-right.glowing {
+    border-color: #D60EB5 !important;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55), 0 0 35px rgba(214, 14, 181, 0.3), inset 0 1px 0 rgba(214, 14, 181, 0.4) !important;
+}
+
+.proof-card .card-badge {
+    font-size: 0.8rem !important;
+    letter-spacing: 0.08em !important;
+    padding: 4px 12px !important;
+    border-radius: 9999px !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.proof-card.proof-right .card-badge {
+    color: #D60EB5 !important;
+    border-color: #D60EB5 !important;
+    background: rgba(214, 14, 181, 0.15) !important;
+}
+
+.proof-card .region-title {
+    font-size: 1.45rem !important;
+    font-weight: 700 !important;
+    color: #FFFFFF !important;
+    margin: 0.2rem 0 0.5rem 0 !important;
+    line-height: 1.25 !important;
+}
+
+/* Realistic Console Mockup Window */
+.console-mockup-frame {
+    width: 100%;
+    border-radius: 12px;
+    background: #070C16;
+    border: 1px solid rgba(84, 192, 232, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    margin: 0.35rem 0 0.75rem 0;
+    flex-shrink: 0;
+}
+
+.proof-card.proof-right .console-mockup-frame {
+    border-color: rgba(214, 14, 181, 0.35);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 18px rgba(214, 14, 181, 0.15);
+}
+
+.console-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    background: rgba(1, 28, 72, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.console-dots {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.console-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot-red { background: #FF5F56; }
+.dot-yellow { background: #FFBD2E; }
+.dot-green { background: #27C93F; }
+
+.console-title-text {
+    font-size: 0.78rem;
+    color: #DAE1E9;
+    font-weight: 500;
+    margin-left: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.console-body {
+    width: 100%;
+    background: #0B111E;
+    display: block;
+    line-height: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.console-body img,
+.console-mockup-frame .slide-embedded-image {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 310px !important;
+    object-fit: cover !important;
+    object-position: top center !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    cursor: zoom-in;
+}
+
+.reveal .proof-card .styled-bullets,
+.proof-card .styled-bullets {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.55rem !important;
+    margin: 0.2rem 0 0 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    width: 100% !important;
+}
+
+.reveal .proof-card .styled-bullets li,
+.proof-card .styled-bullets li {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 0.85rem !important;
+    background: rgba(1, 28, 72, 0.4) !important;
+    border: 1px solid rgba(84, 192, 232, 0.22) !important;
+    border-radius: 10px !important;
+    padding: 0.6rem 0.95rem !important;
+    font-size: 0.95rem !important;
+    color: #FFFFFF !important;
+    line-height: 1.4 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+    transition: all 0.2s ease;
+}
+
+.reveal .proof-card.proof-right .styled-bullets li,
+.proof-card.proof-right .styled-bullets li {
+    border-color: rgba(214, 14, 181, 0.28) !important;
+    background: rgba(214, 14, 181, 0.08) !important;
+}
+
+.reveal .proof-card .styled-bullets li:hover,
+.proof-card .styled-bullets li:hover {
+    border-color: var(--deck-accent) !important;
+    background: rgba(84, 192, 232, 0.15) !important;
+}
+
+.reveal .proof-card.proof-right .styled-bullets li:hover,
+.proof-card.proof-right .styled-bullets li:hover {
+    border-color: #D60EB5 !important;
+    background: rgba(214, 14, 181, 0.16) !important;
+}
+
+.reveal .proof-card .styled-bullets li:before,
+.proof-card .styled-bullets li:before {
+    content: "✓" !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 50% !important;
+    background: rgba(84, 192, 232, 0.2) !important;
+    color: #54C0E8 !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    margin-right: 0.75rem !important;
+}
+
+.reveal .proof-card.proof-right .styled-bullets li:before,
+.proof-card.proof-right .styled-bullets li:before {
+    background: rgba(214, 14, 181, 0.25) !important;
+    color: #D60EB5 !important;
+}
+
 /* Regions / Multi-column Layouts (Full Slide) */
 .regions-container {
     display: grid;
@@ -972,7 +1184,7 @@ h1, h2, h3, h4, h5 {
     background: {{ card_bg_css }};
     border: 1px solid var(--deck-card-border);
     border-radius: 18px;
-    padding: 1.5rem 1.75rem;
+    padding: 1.25rem 1.5rem;
     box-shadow: {{ card_shadow }};
     display: flex;
     flex-direction: column;
@@ -984,10 +1196,53 @@ h1, h2, h3, h4, h5 {
 }
 .region-title {
     font-size: 1.45rem !important;
-    font-weight: 600 !important;
-    color: var(--deck-accent) !important;
-    margin-bottom: 0.65rem !important;
+    font-weight: 700 !important;
+    color: #FFFFFF !important;
+    margin-top: 0 !important;
+    margin-bottom: 0.75rem !important;
     flex-shrink: 0;
+}
+
+.two-content-col .cards-grid,
+.region-col .cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.15rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    margin-top: 0.5rem !important;
+}
+
+.two-content-col .cards-grid .feature-card,
+.region-col .cards-grid .feature-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.25rem 1.45rem !important;
+    min-height: auto !important;
+}
+
+.two-content-col.region-col .styled-bullets,
+.reveal .two-content-col.region-col .styled-bullets {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.85rem !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+.two-content-col.region-col .styled-bullets li,
+.reveal .two-content-col.region-col .styled-bullets li {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 0.85rem 1.25rem !important;
+    font-size: 1.05rem !important;
+    line-height: 1.45 !important;
+    margin: 0 !important;
+    min-height: auto !important;
 }
 .region-image-wrapper {
     width: 100%;
@@ -1053,7 +1308,10 @@ h1, h2, h3, h4, h5 {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
     min-height: auto !important;
     margin: 0 !important;
-    display: block !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .reveal .comparison-card .styled-bullets li:hover,
@@ -1773,6 +2031,129 @@ html.export-pdf * {
     box-shadow: none !important;
     text-shadow: none !important;
     filter: none !important;
+}
+
+/* Interactive Click-to-Zoom / Lightbox Foreground Modal */
+.slide-embedded-image,
+.region-image,
+.picture-caption-img,
+.slide-image-card img,
+.slide-image-wrapper img,
+.cover-hero-image {
+    cursor: zoom-in;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.slide-embedded-image:hover,
+.region-image:hover,
+.picture-caption-img:hover,
+.slide-image-card img:hover,
+.slide-image-wrapper img:hover,
+.cover-hero-image:hover {
+    filter: brightness(1.06);
+}
+
+.image-lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.image-lightbox-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.image-lightbox-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(4, 8, 16, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: zoom-out;
+}
+
+.image-lightbox-content {
+    position: relative;
+    z-index: 2;
+    max-width: 92vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0.95);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.image-lightbox-overlay.active .image-lightbox-content {
+    transform: scale(1);
+}
+
+.image-lightbox-content img {
+    max-width: 90vw;
+    max-height: 82vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(84, 192, 232, 0.25);
+    border: 1px solid rgba(84, 192, 232, 0.4);
+    background: #0B111E;
+}
+
+.image-lightbox-caption {
+    margin-top: 14px;
+    color: #DAE1E9;
+    font-family: inherit;
+    font-size: 1.15rem;
+    font-weight: 500;
+    text-align: center;
+    max-width: 80vw;
+    line-height: 1.4;
+}
+
+.image-lightbox-close {
+    position: absolute;
+    top: -24px;
+    right: -24px;
+    width: 44px;
+    height: 44px;
+    background: #0B111E;
+    color: #FFFFFF;
+    border: 1px solid rgba(84, 192, 232, 0.4);
+    border-radius: 50%;
+    font-size: 26px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+.image-lightbox-close:hover {
+    background: #54C0E8;
+    color: #070C16;
+    transform: scale(1.1);
+}
+
+@media print {
+    .image-lightbox-overlay {
+        display: none !important;
+    }
 }
 
 
